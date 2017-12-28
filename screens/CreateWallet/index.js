@@ -17,7 +17,7 @@ import filledCircle from './images/filledCircle.png';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#000',
+    backgroundColor: '#0C0B0C',
     flex: 1,
     justifyContent: 'space-between',
     paddingHorizontal: 15,

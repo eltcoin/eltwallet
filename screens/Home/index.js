@@ -7,7 +7,7 @@ import logo from './images/logo.png';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#000',
+    backgroundColor: '#0C0B0C',
     flex: 1,
     paddingBottom: 20,
     paddingHorizontal: 15,
