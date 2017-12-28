@@ -1,4 +1,5 @@
+import Header from './Header';
 import PrimaryButton from './PrimaryButton';
 import SecondaryButton from './SecondaryButton';
 
-export { PrimaryButton, SecondaryButton };
+export { Header, PrimaryButton, SecondaryButton };

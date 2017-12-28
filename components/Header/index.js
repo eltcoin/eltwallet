@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: '#fff',
-    fontSize: 30,
+    fontSize: 27,
   },
   headerArrow: {
     height: 22,

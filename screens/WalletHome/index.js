@@ -1,27 +1,31 @@
 import React, { Component } from 'react';
 import {
   AsyncStorage,
-  FlatList,
   Image,
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import abi from 'ethereumjs-abi';
-import moment from 'moment';
-import settings from './images/settings.png';
+import TransactionsList from './components/TransactionsList';
+import settingsIcon from './images/settings.png';
+import sendIcon from './images/send.png';
+import qrcodeIcon from './images/qrcode.png';
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     backgroundColor: '#0C0B0C',
     flex: 1,
+    justifyContent: 'space-between',
     paddingTop: 40,
   },
   coinName: {
     color: '#fff',
     fontSize: 18,
     letterSpacing: 3,
+    textAlign: 'center',
   },
   balanceRow: {
     alignItems: 'center',
@@ -54,41 +58,15 @@ const styles = StyleSheet.create({
   listContainer: {
     width: '100%',
   },
-  list: {
-    borderColor: '#372F49',
-    borderTopWidth: 1,
-  },
-  itemContainer: {
-    borderBottomWidth: 1,
-    borderColor: '#372F49',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
-    paddingVertical: 30,
-  },
-  itemTitle: {
-    color: '#fff',
-    fontSize: 20,
-  },
-  itemStatus: {
-    color: '#aaa',
-    fontSize: 15,
-    paddingTop: 5,
-  },
-  itemAmount: {
-    color: '#fff',
-    fontSize: 20,
-    textAlign: 'right',
-  },
-  itemTimestamp: {
-    color: '#aaa',
-    fontSize: 15,
-    paddingTop: 5,
-    textAlign: 'right',
-  },
 });
 
 export default class WalletHome extends Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
   state = {
     currentBalance: 0,
     selectedToken: {
@@ -100,11 +78,16 @@ export default class WalletHome extends Component {
     tokenOperations: [],
   };
 
-  async componentDidMount() {
-    await this.fetchWalletAddress();
-    this.fetchBalance();
-    this.fetchTransactions();
+  componentDidMount() {
+    this.fetchWalletAddress().then(() => {
+      this.fetchBalance();
+      this.fetchTransactions();
+    });
   }
+
+  onReceivePress = () => {
+    this.props.navigation.navigate('Receive');
+  };
 
   fetchWalletAddress = async () => {
     // const walletAddress = await AsyncStorage.getItem('@ELTWALLET:address');
@@ -146,10 +129,9 @@ export default class WalletHome extends Component {
         .then(response => response.json())
         .then(data => {
           this.setState({
-            currentBalance: (
+            currentBalance:
               parseInt(data.result, 16) /
-              10 ** this.state.selectedToken.decimals
-            ).toFixed(2),
+              10 ** this.state.selectedToken.decimals,
           });
         });
     } catch (error) {
@@ -184,43 +166,68 @@ export default class WalletHome extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.coinName}>{this.state.selectedToken.name}</Text>
-        <View style={styles.balanceRow}>
-          <View style={styles.balanceContainer}>
-            <Text style={styles.balance}>{this.state.currentBalance}</Text>
-            <Text style={styles.coinSymbol}>ELT</Text>
+        <View style={{}}>
+          <Text style={styles.coinName}>{this.state.selectedToken.name}</Text>
+          <View style={styles.balanceRow}>
+            <View style={styles.balanceContainer}>
+              <Text style={styles.balance}>
+                {this.state.currentBalance.toFixed(2)}
+              </Text>
+              <Text style={styles.coinSymbol}>ELT</Text>
+            </View>
+            <Image source={settingsIcon} style={styles.settingsIcon} />
           </View>
-          <Image source={settings} style={styles.settingsIcon} />
-        </View>
-        <View style={styles.listContainer}>
-          <FlatList
-            style={styles.list}
-            data={this.state.tokenOperations}
-            keyExtractor={item => item.transactionHash}
-            renderItem={({ item }) => (
-              <View style={styles.itemContainer}>
-                <View>
-                  <Text style={styles.itemTitle}>
-                    {item.from === this.state.walletAddress
-                      ? 'Send ELT'
-                      : 'Received ELT'}
-                  </Text>
-                  <Text style={styles.itemStatus}>Completed</Text>
-                </View>
-                <View>
-                  <Text style={styles.itemAmount}>
-                    {`${(
-                      item.value /
-                      10 ** this.state.selectedToken.decimals
-                    ).toFixed(2)} ${this.state.selectedToken.symbol}`}
-                  </Text>
-                  <Text style={styles.itemTimestamp}>
-                    {moment(item.timestamp * 1000).fromNow()}
-                  </Text>
-                </View>
-              </View>
+          <View style={styles.listContainer}>
+            {this.state.walletAddress && (
+              <TransactionsList
+                tokenOperations={this.state.tokenOperations}
+                walletAddress={this.state.walletAddress}
+                selectedToken={this.state.selectedToken}
+              />
             )}
-          />
+          </View>
+        </View>
+
+        <View
+          style={{
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            width: '100%',
+            alignItems: 'center',
+            borderTopColor: '#3C3749',
+            borderTopWidth: 0.5,
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              alignItems: 'center',
+              borderRightColor: '#3C3749',
+              borderRightWidth: 0.5,
+              flexGrow: 1,
+              justifyContent: 'center',
+              paddingVertical: 15,
+            }}
+          >
+            <View style={{ alignItems: 'center' }}>
+              <Image style={{ height: 18, width: 18 }} source={sendIcon} />
+              <Text style={{ color: '#9D9D9D', paddingTop: 5 }}>Send</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.onReceivePress}
+            style={{
+              flexGrow: 1,
+              alignItems: 'center',
+              borderLeftColor: '#3C3749',
+              borderLeftWidth: 0.5,
+              paddingVertical: 15,
+            }}
+          >
+            <View style={{ alignItems: 'center' }}>
+              <Image style={{ height: 18, width: 18 }} source={qrcodeIcon} />
+              <Text style={{ color: '#9D9D9D', paddingTop: 5 }}>Receive</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     );

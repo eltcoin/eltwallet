@@ -43,7 +43,7 @@ export default class Home extends Component {
           index: 0,
           actions: [
             NavigationActions.navigate({
-              routeName: 'WalletHome',
+              routeName: 'Wallet',
             }),
           ],
         }),

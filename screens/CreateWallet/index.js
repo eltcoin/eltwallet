@@ -11,7 +11,8 @@ import {
 import { NavigationActions } from 'react-navigation';
 import range from 'lodash/range';
 import EthereumJsWallet from 'ethereumjs-wallet';
-import { Header, Keyboard } from './components';
+import { Header } from '../../components';
+import Keyboard from './components/Keyboard';
 import emptyCircle from './images/emptyCircle.png';
 import filledCircle from './images/filledCircle.png';
 
@@ -104,7 +105,7 @@ export default class CreateWallet extends Component {
               index: 0,
               actions: [
                 NavigationActions.navigate({
-                  routeName: 'WalletHome',
+                  routeName: 'Wallet',
                 }),
               ],
             }),
