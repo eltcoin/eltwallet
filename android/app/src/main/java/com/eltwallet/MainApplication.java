@@ -3,6 +3,7 @@ package com.eltwallet;
 import com.reactnativenavigation.NavigationApplication;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.bitgo.randombytes.RandomBytesPackage;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactPackage;
 
 import java.util.Arrays;
@@ -16,7 +17,11 @@ public class MainApplication extends NavigationApplication {
   }
 
   protected List<ReactPackage> getPackages() {
-    return Arrays.<ReactPackage>asList(new LinearGradientPackage(), new RandomBytesPackage());
+    return Arrays.<ReactPackage>asList(
+      new LinearGradientPackage(),
+      new RandomBytesPackage(),
+      new RCTCameraPackage()
+    );
   }
 
   @Override

@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Alert,
-  AsyncStorage,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 import range from 'lodash/range';
-import EthereumJsWallet from 'ethereumjs-wallet';
+import WalletUtils from '../../utils/wallet';
 import { GradientBackground, Header } from '../../components';
 import Keyboard from './components/Keyboard';
 import emptyCircle from './images/emptyCircle.png';
@@ -83,15 +76,6 @@ export default class CreateWallet extends Component {
     );
   };
 
-  generateWallet = async () => {
-    const wallet = EthereumJsWallet.generate();
-
-    await AsyncStorage.multiSet([
-      ['@ELTWALLET:address', wallet.getAddressString()],
-      ['@ELTWALLET:privateKey', wallet.getPrivateKeyString()],
-    ]);
-  };
-
   updateConfirmationPinCode = n => {
     this.setState(
       {
@@ -102,7 +86,7 @@ export default class CreateWallet extends Component {
           this.state.confirmationPinCode.length === 4 &&
           this.state.pinCode === this.state.confirmationPinCode
         ) {
-          await this.generateWallet();
+          await WalletUtils.generateWallet();
 
           this.props.navigator.resetTo({
             screen: 'WalletHome',

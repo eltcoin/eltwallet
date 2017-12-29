@@ -25,7 +25,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.eltwallet"
@@ -67,6 +67,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-camera')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-randombytes')
     compile project(':react-native-navigation')

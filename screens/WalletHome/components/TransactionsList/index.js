@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 const styles = StyleSheet.create({
-  list: {
-    borderColor: '#372F49',
-    borderTopWidth: 1,
-  },
   itemContainer: {
     borderBottomWidth: 1,
     borderColor: '#372F49',
@@ -46,7 +42,12 @@ const styles = StyleSheet.create({
 
 export default class TransactionsList extends Component {
   static propTypes = {
-    tokenOperations: PropTypes.arrayOf(
+    onRefresh: PropTypes.func.isRequired,
+    refreshing: PropTypes.bool.isRequired,
+    selectedToken: PropTypes.shape({
+      symbol: PropTypes.string.isRequired,
+    }).isRequired,
+    transactions: PropTypes.arrayOf(
       PropTypes.shape({
         transactionHash: PropTypes.string.isRequired,
         from: PropTypes.string.isRequired,
@@ -55,34 +56,35 @@ export default class TransactionsList extends Component {
       }),
     ).isRequired,
     walletAddress: PropTypes.string.isRequired,
-    selectedToken: PropTypes.shape({
-      decimals: PropTypes.number.isRequired,
-      symbol: PropTypes.string.isRequired,
-    }).isRequired,
   };
 
   render() {
-    const { tokenOperations, walletAddress, selectedToken } = this.props;
+    const {
+      onRefresh,
+      refreshing,
+      selectedToken,
+      transactions,
+      walletAddress,
+    } = this.props;
 
-    if (tokenOperations.length) {
+    if (transactions.length) {
       return (
         <FlatList
-          style={styles.list}
-          data={tokenOperations}
+          data={transactions}
           keyExtractor={item => item.transactionHash}
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
               <View>
                 <Text style={styles.itemTitle}>
-                  {item.from === walletAddress ? 'Send ELT' : 'Received ELT'}
+                  {item.from === walletAddress
+                    ? `Send ${selectedToken.symbol}`
+                    : `Received ${selectedToken.symbol}`}
                 </Text>
                 <Text style={styles.itemStatus}>Completed</Text>
               </View>
               <View>
                 <Text style={styles.itemAmount}>
-                  {`${(
-                    item.value / Math.pow(10, selectedToken.decimals)
-                  ).toFixed(2)} ${selectedToken.symbol}`}
+                  {`${item.value} ${selectedToken.symbol}`}
                 </Text>
                 <Text style={styles.itemTimestamp}>
                   {moment(item.timestamp * 1000).fromNow()}
@@ -90,6 +92,8 @@ export default class TransactionsList extends Component {
               </View>
             </View>
           )}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
         />
       );
     }

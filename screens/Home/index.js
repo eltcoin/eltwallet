@@ -65,11 +65,20 @@ export default class Home extends Component {
               onPress={() =>
                 this.props.navigator.push({
                   screen: 'CreateWallet',
+                  animationType: 'slide-horizontal',
                 })
               }
               text="Create wallet"
             />
-            <SecondaryButton onPress={() => {}} text="Recover wallet" />
+            <SecondaryButton
+              onPress={() =>
+                this.props.navigator.push({
+                  screen: 'RecoverWallet',
+                  animationType: 'slide-horizontal',
+                })
+              }
+              text="Recover wallet"
+            />
           </View>
         </View>
       </GradientBackground>

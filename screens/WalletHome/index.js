@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import {
-  AsyncStorage,
   Image,
+  Picker,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import abi from 'ethereumjs-abi';
 import { GradientBackground } from '../../components';
 import TransactionsList from './components/TransactionsList';
+import switchIcon from './images/switch.png';
 import settingsIcon from './images/settings.png';
 import sendIcon from './images/send.png';
 import qrcodeIcon from './images/qrcode.png';
+import { availableTokens } from '../../utils/constants';
+import WalletUtils from '../../utils/wallet';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,6 +23,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     paddingTop: 40,
+  },
+  topContainer: {
+    flex: 1,
   },
   coinName: {
     color: '#fff',
@@ -52,12 +57,23 @@ const styles = StyleSheet.create({
     letterSpacing: 3,
     paddingBottom: 3,
   },
+  iconsContainer: {
+    flexDirection: 'row',
+  },
+  switchIcon: {
+    height: 24,
+    marginRight: 20,
+    marginTop: 1,
+    width: 24,
+  },
   settingsIcon: {
     height: 24,
     width: 24,
   },
   listContainer: {
-    width: '100%',
+    borderColor: '#372F49',
+    borderTopWidth: 1,
+    flex: 1,
   },
 });
 
@@ -71,24 +87,21 @@ export default class WalletHome extends Component {
   static navigatorStyle = {
     navBarHidden: true,
     statusBarTextColorScheme: 'light',
+    pickerEnabled: false,
   };
 
   state = {
+    availableTokens,
     currentBalance: 0,
-    selectedToken: {
-      address: '0x44197a4c44d6a059297caf6be4f7e172bd56caaf',
-      decimals: 8,
-      name: 'ELTCOIN',
-      symbol: 'ELT',
-    },
-    tokenOperations: [],
+    refreshingTransactions: false,
+    selectedToken: availableTokens[0],
+    transactions: [],
   };
 
   componentDidMount() {
-    this.fetchWalletAddress().then(() => {
-      this.fetchBalance();
-      this.fetchTransactions();
-    });
+    this.fetchWalletAddress();
+    this.fetchBalance();
+    this.fetchTransactions();
   }
 
   onReceivePress = () => {
@@ -103,97 +116,107 @@ export default class WalletHome extends Component {
     });
   };
 
+  onTokenChange = tokenName => {
+    const selectedToken = this.state.availableTokens.find(
+      token => token.name === tokenName,
+    );
+
+    this.setState(
+      {
+        selectedToken,
+        currentBalance: 0,
+        transactions: [],
+      },
+      () => {
+        this.fetchBalance();
+        this.fetchTransactions();
+      },
+    );
+  };
+
   fetchWalletAddress = async () => {
-    const walletAddress = await AsyncStorage.getItem('@ELTWALLET:address');
+    const wallet = await WalletUtils.getWallet();
 
     this.setState({
-      walletAddress,
+      walletAddress: wallet.getAddressString(),
     });
   };
 
-  fetchBalance = () => {
-    try {
-      fetch('https://api.myetherapi.com/eth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: '1',
-          jsonrpc: '2.0',
-          method: 'eth_call',
-          params: [
-            {
-              to: this.state.selectedToken.address,
-              data: `0x${abi
-                .simpleEncode(
-                  'balanceOf(address):(uint256)',
-                  this.state.walletAddress,
-                )
-                .toString('hex')}`,
-            },
-            'pending',
-          ],
-        }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            currentBalance:
-              parseInt(data.result, 16) /
-              Math.pow(10, this.state.selectedToken.decimals),
-          });
-        });
-    } catch (error) {
-      this.setState({
-        isErrorState: true,
-      });
-    }
+  fetchBalance = async () => {
+    const currentBalance = await WalletUtils.getBalance(
+      this.state.selectedToken,
+    );
+
+    this.setState({
+      currentBalance,
+    });
   };
 
-  fetchTransactions = () => {
-    try {
-      fetch(
-        `https://api.ethplorer.io/getAddressHistory/${
-          this.state.walletAddress
-        }?apiKey=freekey&token=${
-          this.state.selectedToken.address
-        }&type=transfer`,
-      )
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            tokenOperations: data.operations || [],
-          });
-        });
-    } catch (error) {
-      this.setState({
-        isErrorState: true,
-      });
-    }
+  fetchTransactions = async () => {
+    this.setState({
+      refreshingTransactions: true,
+    });
+
+    const transactions = await WalletUtils.getTransactions(
+      this.state.selectedToken,
+    );
+
+    this.setState({
+      refreshingTransactions: false,
+      transactions,
+    });
   };
 
   render() {
     return (
       <GradientBackground>
         <View style={styles.container}>
-          <View style={{}}>
+          <View style={styles.topContainer}>
             <Text style={styles.coinName}>{this.state.selectedToken.name}</Text>
             <View style={styles.balanceRow}>
               <View style={styles.balanceContainer}>
                 <Text style={styles.balance}>
                   {this.state.currentBalance.toFixed(2)}
                 </Text>
-                <Text style={styles.coinSymbol}>ELT</Text>
+                <Text style={styles.coinSymbol}>
+                  {this.state.selectedToken.symbol}
+                </Text>
               </View>
-              <Image source={settingsIcon} style={styles.settingsIcon} />
+              <View style={styles.iconsContainer}>
+                <TouchableOpacity>
+                  <Image source={switchIcon} style={styles.switchIcon} />
+                  <Picker
+                    onValueChange={this.onTokenChange}
+                    selectedValue={this.state.selectedToken.name}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      width: 1000,
+                      height: 1000,
+                    }}
+                  >
+                    {this.state.availableTokens.map(token => (
+                      <Picker.Item
+                        label={token.name}
+                        value={token.name}
+                        key={token.symbol}
+                      />
+                    ))}
+                  </Picker>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Image source={settingsIcon} style={styles.settingsIcon} />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={styles.listContainer}>
               {this.state.walletAddress && (
                 <TransactionsList
-                  tokenOperations={this.state.tokenOperations}
-                  walletAddress={this.state.walletAddress}
                   selectedToken={this.state.selectedToken}
+                  transactions={this.state.transactions}
+                  walletAddress={this.state.walletAddress}
+                  onRefresh={this.fetchTransactions}
+                  refreshing={this.state.refreshingTransactions}
                 />
               )}
             </View>
@@ -205,7 +228,7 @@ export default class WalletHome extends Component {
               width: '100%',
               alignItems: 'center',
               borderTopColor: '#3C3749',
-              borderTopWidth: 0.5,
+              borderTopWidth: 1,
             }}
           >
             <TouchableOpacity
