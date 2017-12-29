@@ -8,7 +8,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 import range from 'lodash/range';
 import EthereumJsWallet from 'ethereumjs-wallet';
 import { GradientBackground, Header } from '../../components';
@@ -44,10 +43,15 @@ const styles = StyleSheet.create({
 
 export default class CreateWallet extends Component {
   static propTypes = {
-    navigation: PropTypes.shape({
-      dispatch: PropTypes.func.isRequired,
-      goBack: PropTypes.func.isRequired,
+    navigator: PropTypes.shape({
+      pop: PropTypes.func.isRequired,
+      resetTo: PropTypes.func.isRequired,
     }).isRequired,
+  };
+
+  static navigatorStyle = {
+    navBarHidden: true,
+    statusBarTextColorScheme: 'light',
   };
 
   state = {
@@ -100,16 +104,9 @@ export default class CreateWallet extends Component {
         ) {
           await this.generateWallet();
 
-          this.props.navigation.dispatch(
-            NavigationActions.reset({
-              index: 0,
-              actions: [
-                NavigationActions.navigate({
-                  routeName: 'Wallet',
-                }),
-              ],
-            }),
-          );
+          this.props.navigator.resetTo({
+            screen: 'WalletHome',
+          });
         } else if (this.state.confirmationPinCode.length === 4) {
           this.setState(
             {
@@ -135,7 +132,7 @@ export default class CreateWallet extends Component {
       <GradientBackground>
         <View style={styles.container}>
           <Header
-            onBackPress={() => this.props.navigation.goBack()}
+            onBackPress={() => this.props.navigator.pop()}
             title={this.state.isConfirmation ? 'Repeat PIN' : 'Create PIN'}
           />
           <Text style={styles.explanatoryText}>

@@ -36,10 +36,14 @@ const styles = StyleSheet.create({
 
 export default class WalletReceive extends Component {
   static propTypes = {
-    navigation: PropTypes.shape({
-      dispatch: PropTypes.func.isRequired,
-      goBack: PropTypes.func.isRequired,
+    navigator: PropTypes.shape({
+      pop: PropTypes.func.isRequired,
     }).isRequired,
+  };
+
+  static navigatorStyle = {
+    navBarHidden: true,
+    statusBarTextColorScheme: 'light',
   };
 
   state = {
@@ -63,7 +67,7 @@ export default class WalletReceive extends Component {
       <GradientBackground>
         <View style={styles.container}>
           <Header
-            onBackPress={() => this.props.navigation.goBack()}
+            onBackPress={() => this.props.navigator.pop()}
             title="Receive"
           />
           <View style={styles.qrcodeContainer}>

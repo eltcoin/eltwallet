@@ -1,5 +1,22 @@
-import { AppRegistry } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import './shim';
-import App from './App';
+import {
+  CreateWallet,
+  Home,
+  WalletHome,
+  WalletReceive,
+  WalletSend,
+} from './screens';
 
-AppRegistry.registerComponent('eltwallet', () => App);
+Navigation.registerComponent('CreateWallet', () => CreateWallet);
+Navigation.registerComponent('Home', () => Home);
+Navigation.registerComponent('WalletHome', () => WalletHome);
+Navigation.registerComponent('WalletReceive', () => WalletReceive);
+Navigation.registerComponent('WalletSend', () => WalletSend);
+
+Navigation.startSingleScreenApp({
+  screen: {
+    title: 'Home',
+    screen: 'Home',
+  },
+});

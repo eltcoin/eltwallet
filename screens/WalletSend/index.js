@@ -51,10 +51,14 @@ const styles = StyleSheet.create({
 
 export default class WalletSend extends Component {
   static propTypes = {
-    navigation: PropTypes.shape({
-      dispatch: PropTypes.func.isRequired,
-      goBack: PropTypes.func.isRequired,
+    navigator: PropTypes.shape({
+      pop: PropTypes.func.isRequired,
     }).isRequired,
+  };
+
+  static navigatorStyle = {
+    navBarHidden: true,
+    statusBarTextColorScheme: 'light',
   };
 
   state = {
@@ -80,10 +84,7 @@ export default class WalletSend extends Component {
     return (
       <GradientBackground>
         <View style={styles.container}>
-          <Header
-            onBackPress={() => this.props.navigation.goBack()}
-            title="Send"
-          />
+          <Header onBackPress={() => this.props.navigator.pop()} title="Send" />
           <View>
             <View style={styles.formElement}>
               <Text style={styles.formLabel}>To</Text>

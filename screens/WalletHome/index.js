@@ -63,9 +63,14 @@ const styles = StyleSheet.create({
 
 export default class WalletHome extends Component {
   static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
+    navigator: PropTypes.shape({
+      push: PropTypes.func.isRequired,
     }).isRequired,
+  };
+
+  static navigatorStyle = {
+    navBarHidden: true,
+    statusBarTextColorScheme: 'light',
   };
 
   state = {
@@ -87,11 +92,15 @@ export default class WalletHome extends Component {
   }
 
   onReceivePress = () => {
-    this.props.navigation.navigate('Receive');
+    this.props.navigator.push({
+      screen: 'WalletReceive',
+    });
   };
 
   onSendPress = () => {
-    this.props.navigation.navigate('Send');
+    this.props.navigator.push({
+      screen: 'WalletSend',
+    });
   };
 
   fetchWalletAddress = async () => {
@@ -132,7 +141,7 @@ export default class WalletHome extends Component {
           this.setState({
             currentBalance:
               parseInt(data.result, 16) /
-              10 ** this.state.selectedToken.decimals,
+              Math.pow(10, this.state.selectedToken.decimals),
           });
         });
     } catch (error) {

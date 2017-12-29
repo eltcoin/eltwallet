@@ -80,9 +80,9 @@ export default class TransactionsList extends Component {
               </View>
               <View>
                 <Text style={styles.itemAmount}>
-                  {`${(item.value / 10 ** selectedToken.decimals).toFixed(2)} ${
-                    selectedToken.symbol
-                  }`}
+                  {`${(
+                    item.value / Math.pow(10, selectedToken.decimals)
+                  ).toFixed(2)} ${selectedToken.symbol}`}
                 </Text>
                 <Text style={styles.itemTimestamp}>
                   {moment(item.timestamp * 1000).fromNow()}

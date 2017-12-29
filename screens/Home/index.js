@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AsyncStorage, Image, StyleSheet, View } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 import {
   GradientBackground,
   PrimaryButton,
@@ -32,26 +31,25 @@ const styles = StyleSheet.create({
 
 export default class Home extends Component {
   static propTypes = {
-    navigation: PropTypes.shape({
-      dispatch: PropTypes.func.isRequired,
-      navigate: PropTypes.func.isRequired,
+    navigator: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+      resetTo: PropTypes.func.isRequired,
     }).isRequired,
+  };
+
+  static navigatorStyle = {
+    navBarHidden: true,
+    statusBarTextColorScheme: 'light',
+    statusBarTextColorSchemeSingleScreen: 'light',
   };
 
   async componentDidMount() {
     const walletAddress = await AsyncStorage.getItem('@ELTWALLET:address');
 
     if (walletAddress) {
-      this.props.navigation.dispatch(
-        NavigationActions.reset({
-          index: 0,
-          actions: [
-            NavigationActions.navigate({
-              routeName: 'Wallet',
-            }),
-          ],
-        }),
-      );
+      this.props.navigator.resetTo({
+        screen: 'WalletHome',
+      });
     }
   }
 
@@ -64,7 +62,11 @@ export default class Home extends Component {
           </View>
           <View style={styles.buttonsContainer}>
             <PrimaryButton
-              onPress={() => this.props.navigation.navigate('CreateWallet')}
+              onPress={() =>
+                this.props.navigator.push({
+                  screen: 'CreateWallet',
+                })
+              }
               text="Create wallet"
             />
             <SecondaryButton onPress={() => {}} text="Recover wallet" />
