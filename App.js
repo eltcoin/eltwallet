@@ -3,7 +3,13 @@ import { StatusBar, StyleSheet, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 import './shim';
-import { CreateWallet, Home, WalletHome, WalletReceive } from './screens';
+import {
+  CreateWallet,
+  Home,
+  WalletHome,
+  WalletReceive,
+  WalletSend,
+} from './screens';
 
 const styles = StyleSheet.create({
   view: {
@@ -18,6 +24,9 @@ const WalletNavigator = StackNavigator(
     },
     Receive: {
       screen: WalletReceive,
+    },
+    Send: {
+      screen: WalletSend,
     },
   },
   {

@@ -89,15 +89,15 @@ export default class WalletHome extends Component {
     this.props.navigation.navigate('Receive');
   };
 
-  fetchWalletAddress = async () => {
-    // const walletAddress = await AsyncStorage.getItem('@ELTWALLET:address');
+  onSendPress = () => {
+    this.props.navigation.navigate('Send');
+  };
 
-    // this.setState({
-    //   walletAddress,
-    // });
+  fetchWalletAddress = async () => {
+    const walletAddress = await AsyncStorage.getItem('@ELTWALLET:address');
 
     this.setState({
-      walletAddress: '0xe82a5495707c327b726e8b1427f1bee5edbe93cc',
+      walletAddress,
     });
   };
 
@@ -199,6 +199,7 @@ export default class WalletHome extends Component {
           }}
         >
           <TouchableOpacity
+            onPress={this.onSendPress}
             style={{
               alignItems: 'center',
               borderRightColor: '#3C3749',

@@ -9,24 +9,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#0C0B0C',
     flex: 1,
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
     paddingVertical: 15,
   },
   qrcodeContainer: {
+    paddingHorizontal: 15,
     alignItems: 'center',
     width: '100%',
   },
   addressTitle: {
+    paddingHorizontal: 15,
     color: '#fff',
     textAlign: 'center',
     paddingBottom: 20,
     fontSize: 18,
   },
   walletAddress: {
-    color: '#D8D8D8',
+    paddingHorizontal: 15,
+    color: '#9d9d9d',
     textAlign: 'center',
   },
-  buttonsContainer: {
+  buttonContainer: {
+    paddingHorizontal: 15,
     paddingTop: 40,
   },
 });

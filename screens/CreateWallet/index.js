@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    paddingVertical: 15,
   },
   explanatoryText: {
     color: '#fff',
@@ -34,6 +33,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
+    paddingVertical: 15,
   },
   dot: {
     height: 20,
