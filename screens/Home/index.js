@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { AsyncStorage, Image, StyleSheet, View } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-import { PrimaryButton, SecondaryButton } from '../../components';
+import {
+  GradientBackground,
+  PrimaryButton,
+  SecondaryButton,
+} from '../../components';
 import logo from './images/logo.png';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0C0B0C',
+    backgroundColor: 'transparent',
     flex: 1,
     paddingBottom: 20,
     paddingHorizontal: 15,
@@ -53,18 +57,20 @@ export default class Home extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image source={logo} style={styles.logo} resizeMode="contain" />
+      <GradientBackground>
+        <View style={styles.container}>
+          <View style={styles.logoContainer}>
+            <Image source={logo} style={styles.logo} resizeMode="contain" />
+          </View>
+          <View style={styles.buttonsContainer}>
+            <PrimaryButton
+              onPress={() => this.props.navigation.navigate('CreateWallet')}
+              text="Create wallet"
+            />
+            <SecondaryButton onPress={() => {}} text="Recover wallet" />
+          </View>
         </View>
-        <View style={styles.buttonsContainer}>
-          <PrimaryButton
-            onPress={() => this.props.navigation.navigate('CreateWallet')}
-            text="Create wallet"
-          />
-          <SecondaryButton onPress={() => {}} text="Recover wallet" />
-        </View>
-      </View>
+      </GradientBackground>
     );
   }
 }

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { AsyncStorage, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import QRCode from 'react-native-qrcode';
-import { Header, SecondaryButton } from '../../components';
+import { GradientBackground, Header, SecondaryButton } from '../../components';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0C0B0C',
+    backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
     paddingVertical: 15,
@@ -60,22 +60,24 @@ export default class WalletReceive extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Header
-          onBackPress={() => this.props.navigation.goBack()}
-          title="Receive"
-        />
-        <View style={styles.qrcodeContainer}>
-          <QRCode value={this.state.walletAddress} size={150} />
+      <GradientBackground>
+        <View style={styles.container}>
+          <Header
+            onBackPress={() => this.props.navigation.goBack()}
+            title="Receive"
+          />
+          <View style={styles.qrcodeContainer}>
+            <QRCode value={this.state.walletAddress} size={150} />
+          </View>
+          <View>
+            <Text style={styles.addressTitle}>Address</Text>
+            <Text style={styles.walletAddress}>{this.state.walletAddress}</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <SecondaryButton onPress={() => {}} text="Wallet actions" />
+          </View>
         </View>
-        <View>
-          <Text style={styles.addressTitle}>Address</Text>
-          <Text style={styles.walletAddress}>{this.state.walletAddress}</Text>
-        </View>
-        <View style={styles.buttonContainer}>
-          <SecondaryButton onPress={() => {}} text="Wallet actions" />
-        </View>
-      </View>
+      </GradientBackground>
     );
   }
 }

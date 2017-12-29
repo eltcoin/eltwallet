@@ -36,6 +36,12 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     textAlign: 'right',
   },
+  emptyListText: {
+    color: '#aaa',
+    textAlign: 'center',
+    fontSize: 20,
+    paddingTop: 20,
+  },
 });
 
 export default class TransactionsList extends Component {
@@ -58,32 +64,36 @@ export default class TransactionsList extends Component {
   render() {
     const { tokenOperations, walletAddress, selectedToken } = this.props;
 
-    return (
-      <FlatList
-        style={styles.list}
-        data={tokenOperations}
-        keyExtractor={item => item.transactionHash}
-        renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <View>
-              <Text style={styles.itemTitle}>
-                {item.from === walletAddress ? 'Send ELT' : 'Received ELT'}
-              </Text>
-              <Text style={styles.itemStatus}>Completed</Text>
+    if (tokenOperations.length) {
+      return (
+        <FlatList
+          style={styles.list}
+          data={tokenOperations}
+          keyExtractor={item => item.transactionHash}
+          renderItem={({ item }) => (
+            <View style={styles.itemContainer}>
+              <View>
+                <Text style={styles.itemTitle}>
+                  {item.from === walletAddress ? 'Send ELT' : 'Received ELT'}
+                </Text>
+                <Text style={styles.itemStatus}>Completed</Text>
+              </View>
+              <View>
+                <Text style={styles.itemAmount}>
+                  {`${(item.value / 10 ** selectedToken.decimals).toFixed(2)} ${
+                    selectedToken.symbol
+                  }`}
+                </Text>
+                <Text style={styles.itemTimestamp}>
+                  {moment(item.timestamp * 1000).fromNow()}
+                </Text>
+              </View>
             </View>
-            <View>
-              <Text style={styles.itemAmount}>
-                {`${(item.value / 10 ** selectedToken.decimals).toFixed(2)} ${
-                  selectedToken.symbol
-                }`}
-              </Text>
-              <Text style={styles.itemTimestamp}>
-                {moment(item.timestamp * 1000).fromNow()}
-              </Text>
-            </View>
-          </View>
-        )}
-      />
-    );
+          )}
+        />
+      );
+    }
+
+    return <Text style={styles.emptyListText}>No operations to show</Text>;
   }
 }

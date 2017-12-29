@@ -11,14 +11,14 @@ import {
 import { NavigationActions } from 'react-navigation';
 import range from 'lodash/range';
 import EthereumJsWallet from 'ethereumjs-wallet';
-import { Header } from '../../components';
+import { GradientBackground, Header } from '../../components';
 import Keyboard from './components/Keyboard';
 import emptyCircle from './images/emptyCircle.png';
 import filledCircle from './images/filledCircle.png';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0C0B0C',
+    backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
     paddingHorizontal: 15,
@@ -132,26 +132,28 @@ export default class CreateWallet extends Component {
       : this.state.pinCode;
 
     return (
-      <View style={styles.container}>
-        <Header
-          onBackPress={() => this.props.navigation.goBack()}
-          title={this.state.isConfirmation ? 'Repeat PIN' : 'Create PIN'}
-        />
-        <Text style={styles.explanatoryText}>
-          {this.state.isConfirmation
-            ? "Just to make sure it's correct"
-            : "This PIN will be used to access your ELTWALLET. If you forget it, you won't be able to access your ELT."}
-        </Text>
-        <View style={styles.dotsContainer}>
-          {range(0, pinCode.length).map(n => (
-            <Image source={filledCircle} style={styles.dot} key={n} />
-          ))}
-          {range(0, 4 - pinCode.length).map(n => (
-            <Image source={emptyCircle} style={styles.dot} key={n} />
-          ))}
+      <GradientBackground>
+        <View style={styles.container}>
+          <Header
+            onBackPress={() => this.props.navigation.goBack()}
+            title={this.state.isConfirmation ? 'Repeat PIN' : 'Create PIN'}
+          />
+          <Text style={styles.explanatoryText}>
+            {this.state.isConfirmation
+              ? "Just to make sure it's correct"
+              : "This PIN will be used to access your ELTWALLET. If you forget it, you won't be able to access your ELT."}
+          </Text>
+          <View style={styles.dotsContainer}>
+            {range(0, pinCode.length).map(n => (
+              <Image source={filledCircle} style={styles.dot} key={n} />
+            ))}
+            {range(0, 4 - pinCode.length).map(n => (
+              <Image source={emptyCircle} style={styles.dot} key={n} />
+            ))}
+          </View>
+          <Keyboard onKeyPress={this.onKeyPress} />
         </View>
-        <Keyboard onKeyPress={this.onKeyPress} />
-      </View>
+      </GradientBackground>
     );
   }
 }

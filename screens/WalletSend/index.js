@@ -8,12 +8,12 @@ import {
   View,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { Header, SecondaryButton } from '../../components';
+import { GradientBackground, Header, SecondaryButton } from '../../components';
 import cameraIcon from './images/camera.png';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0C0B0C',
+    backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
     paddingVertical: 15,
@@ -78,58 +78,59 @@ export default class WalletSend extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Header
-          onBackPress={() => this.props.navigation.goBack()}
-          title="Send"
-        />
-        <View>
-          <View style={styles.formElement}>
-            <Text style={styles.formLabel}>To</Text>
-            <View style={styles.formInputRow}>
-              <TextInput
-                onChangeText={address => this.setState({ address })}
-                placeholder="Address"
-                placeholderTextColor="#9d9d9d"
-                selectionColor="#4D00FF"
-                style={styles.formInput}
-                value={this.state.address}
-              />
-              <Image source={cameraIcon} style={styles.cameraIcon} />
+      <GradientBackground>
+        <View style={styles.container}>
+          <Header
+            onBackPress={() => this.props.navigation.goBack()}
+            title="Send"
+          />
+          <View>
+            <View style={styles.formElement}>
+              <Text style={styles.formLabel}>To</Text>
+              <View style={styles.formInputRow}>
+                <TextInput
+                  onChangeText={address => this.setState({ address })}
+                  placeholder="Address"
+                  placeholderTextColor="#9d9d9d"
+                  selectionColor="#4D00FF"
+                  style={styles.formInput}
+                  value={this.state.address}
+                />
+                <Image source={cameraIcon} style={styles.cameraIcon} />
+              </View>
+            </View>
+            <View style={styles.formElement}>
+              <Text style={styles.formLabel}>Amount</Text>
+              <View style={styles.formInputRow}>
+                <TextInput
+                  onChangeText={amount => this.setState({ amount })}
+                  placeholder="1000"
+                  placeholderTextColor="#9d9d9d"
+                  selectionColor="#4D00FF"
+                  style={styles.formInput}
+                  value={this.state.amount}
+                />
+              </View>
+            </View>
+            <View style={styles.formElement}>
+              <Text style={styles.formLabel}>Gas limit</Text>
+              <View style={styles.formInputRow}>
+                <TextInput
+                  onChangeText={gasLimit => this.setState({ gasLimit })}
+                  placeholder="20000"
+                  placeholderTextColor="#9d9d9d"
+                  selectionColor="#4D00FF"
+                  style={styles.formInput}
+                  value={this.state.gasLimit}
+                />
+              </View>
             </View>
           </View>
-          <View style={styles.formElement}>
-            <Text style={styles.formLabel}>Amount</Text>
-            <View style={styles.formInputRow}>
-              <TextInput
-                onChangeText={amount => this.setState({ amount })}
-                placeholder="1000"
-                placeholderTextColor="#9d9d9d"
-                selectionColor="#4D00FF"
-                style={styles.formInput}
-                value={this.state.amount}
-              />
-            </View>
-          </View>
-          <View style={styles.formElement}>
-            <Text style={styles.formLabel}>Gas limit</Text>
-            <View style={styles.formInputRow}>
-              <TextInput
-                onChangeText={gasLimit => this.setState({ gasLimit })}
-                placeholder="20000"
-                placeholderTextColor="#9d9d9d"
-                selectionColor="#4D00FF"
-                style={styles.formInput}
-                value={this.state.gasLimit}
-              />
-            </View>
+          <View style={styles.buttonContainer}>
+            <SecondaryButton onPress={() => {}} text="Send" />
           </View>
         </View>
-
-        <View style={styles.buttonContainer}>
-          <SecondaryButton onPress={() => {}} text="Send" />
-        </View>
-      </View>
+      </GradientBackground>
     );
   }
 }
