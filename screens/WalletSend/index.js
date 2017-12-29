@@ -36,12 +36,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     flexGrow: 1,
     fontSize: 25,
-    height: 40,
+    height: 50,
   },
   cameraIcon: {
-    height: 22,
+    height: 23,
     marginRight: 5,
-    width: 29,
+    width: 30,
   },
   buttonContainer: {
     paddingHorizontal: 15,
@@ -90,11 +90,13 @@ export default class WalletSend extends Component {
               <Text style={styles.formLabel}>To</Text>
               <View style={styles.formInputRow}>
                 <TextInput
+                  autoCorrect={false}
                   onChangeText={address => this.setState({ address })}
                   placeholder="Address"
                   placeholderTextColor="#9d9d9d"
                   selectionColor="#4D00FF"
                   style={styles.formInput}
+                  underlineColorAndroid="transparent"
                   value={this.state.address}
                 />
                 <Image source={cameraIcon} style={styles.cameraIcon} />
@@ -104,11 +106,14 @@ export default class WalletSend extends Component {
               <Text style={styles.formLabel}>Amount</Text>
               <View style={styles.formInputRow}>
                 <TextInput
+                  autoCorrect={false}
+                  keyboardType="numeric"
                   onChangeText={amount => this.setState({ amount })}
                   placeholder="1000"
                   placeholderTextColor="#9d9d9d"
                   selectionColor="#4D00FF"
                   style={styles.formInput}
+                  underlineColorAndroid="transparent"
                   value={this.state.amount}
                 />
               </View>
@@ -117,11 +122,14 @@ export default class WalletSend extends Component {
               <Text style={styles.formLabel}>Gas limit</Text>
               <View style={styles.formInputRow}>
                 <TextInput
+                  autoCorrect={false}
+                  keyboardType="numeric"
                   onChangeText={gasLimit => this.setState({ gasLimit })}
                   placeholder="20000"
                   placeholderTextColor="#9d9d9d"
                   selectionColor="#4D00FF"
                   style={styles.formInput}
+                  underlineColorAndroid="transparent"
                   value={this.state.gasLimit}
                 />
               </View>
