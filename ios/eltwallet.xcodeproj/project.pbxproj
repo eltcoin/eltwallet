@@ -41,6 +41,7 @@
 		7B2B1F6B12194BB9A9A4BB43 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A88575A48CF46A8892040A7 /* libReactNativeNavigation.a */; };
 		C5398A70892246A0BC904BE5 /* libRCTBEEPickerManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E5D4BAE02844D3DAF8DCEEF /* libRCTBEEPickerManager.a */; };
 		1983EEA359934EBF94C3E796 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7E2A1B79E0246B9BD2B84D0 /* libRCTCamera.a */; };
+		DBFAC2C55A8C48039A569513 /* Varela Round.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1DCF7D0FF88B4C79BE5F1BEF /* Varela Round.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -320,6 +321,7 @@
 		1E5D4BAE02844D3DAF8DCEEF /* libRCTBEEPickerManager.a */ = {isa = PBXFileReference; name = "libRCTBEEPickerManager.a"; path = "libRCTBEEPickerManager.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		0CA081432DFE4BBA998C8283 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; name = "RCTCamera.xcodeproj"; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		D7E2A1B79E0246B9BD2B84D0 /* libRCTCamera.a */ = {isa = PBXFileReference; name = "libRCTCamera.a"; path = "libRCTCamera.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		1DCF7D0FF88B4C79BE5F1BEF /* Varela Round.otf */ = {isa = PBXFileReference; name = "Varela Round.otf"; path = "../assets/fonts/Varela Round.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -548,6 +550,7 @@
 				00E356EF1AD99517003FC87E /* eltwalletTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				CD76C9491FF5B7E4003869F7 /* Recovered References */,
+				39F9E24719A44FEBA065C9E8 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -599,6 +602,15 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		39F9E24719A44FEBA065C9E8 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				1DCF7D0FF88B4C79BE5F1BEF /* Varela Round.otf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -1022,6 +1034,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				DBFAC2C55A8C48039A569513 /* Varela Round.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

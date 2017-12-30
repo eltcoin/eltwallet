@@ -18,6 +18,7 @@ export default class TokenPicker extends Component {
       name: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
     }).isRequired,
+    onAddNewToken: PropTypes.func.isRequired,
     onTokenChange: PropTypes.func.isRequired,
   };
 
@@ -30,6 +31,11 @@ export default class TokenPicker extends Component {
   }
 
   onTokenChange = tokenName => {
+    if (tokenName === 'newToken') {
+      this.props.onAddNewToken();
+      return;
+    }
+
     const selectedToken = this.state.availableTokens.find(
       token => token.name === tokenName,
     );
@@ -61,6 +67,7 @@ export default class TokenPicker extends Component {
             key={token.symbol}
           />
         ))}
+        <Picker.Item label="Add custom token" value="newToken" />
       </Picker>
     );
   }

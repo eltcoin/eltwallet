@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Image, StyleSheet, Text, View } from 'react-native';
-import range from 'lodash/range';
+import { Alert, StyleSheet, View, AsyncStorage } from 'react-native';
 import WalletUtils from '../../utils/wallet';
-import { GradientBackground, Header } from '../../components';
-import Keyboard from './components/Keyboard';
-import emptyCircle from './images/emptyCircle.png';
-import filledCircle from './images/filledCircle.png';
+import {
+  GradientBackground,
+  Header,
+  PinIndicator,
+  PinKeyboard,
+  Text,
+} from '../../components';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,10 +38,15 @@ const styles = StyleSheet.create({
 
 export default class CreateWallet extends Component {
   static propTypes = {
+    editMode: PropTypes.bool,
     navigator: PropTypes.shape({
       pop: PropTypes.func.isRequired,
       resetTo: PropTypes.func.isRequired,
     }).isRequired,
+  };
+
+  static defaultProps = {
+    editMode: false,
   };
 
   static navigatorStyle = {
@@ -86,7 +93,11 @@ export default class CreateWallet extends Component {
           this.state.confirmationPinCode.length === 4 &&
           this.state.pinCode === this.state.confirmationPinCode
         ) {
-          await WalletUtils.generateWallet();
+          if (!this.props.editMode) {
+            await WalletUtils.generateWallet();
+          }
+
+          await AsyncStorage.setItem('@ELTWALLET:pinCode', this.state.pinCode);
 
           this.props.navigator.resetTo({
             screen: 'WalletHome',
@@ -112,27 +123,22 @@ export default class CreateWallet extends Component {
       ? this.state.confirmationPinCode
       : this.state.pinCode;
 
+    const originalTitle = this.props.editMode ? 'Change PIN' : 'Create PIN';
+
     return (
       <GradientBackground>
         <View style={styles.container}>
           <Header
             onBackPress={() => this.props.navigator.pop()}
-            title={this.state.isConfirmation ? 'Repeat PIN' : 'Create PIN'}
+            title={this.state.isConfirmation ? 'Repeat PIN' : originalTitle}
           />
           <Text style={styles.explanatoryText}>
             {this.state.isConfirmation
               ? "Just to make sure it's correct"
               : "This PIN will be used to access your ELTWALLET. If you forget it, you won't be able to access your ELT."}
           </Text>
-          <View style={styles.dotsContainer}>
-            {range(0, pinCode.length).map(n => (
-              <Image source={filledCircle} style={styles.dot} key={n} />
-            ))}
-            {range(0, 4 - pinCode.length).map(n => (
-              <Image source={emptyCircle} style={styles.dot} key={n} />
-            ))}
-          </View>
-          <Keyboard onKeyPress={this.onKeyPress} />
+          <PinIndicator length={pinCode.length} />
+          <PinKeyboard onKeyPress={this.onKeyPress} />
         </View>
       </GradientBackground>
     );

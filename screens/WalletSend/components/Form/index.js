@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import {
   Image,
   StyleSheet,
-  Text,
   TextInput,
   View,
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { TokenPicker } from '../../../../components';
+import { Text, TokenPicker } from '../../../../components';
 import cameraIcon from './images/camera.png';
 import arrowIcon from './images/arrow.png';
 
@@ -17,22 +16,23 @@ const styles = StyleSheet.create({
     borderBottomColor: '#3a3a3a',
     borderBottomWidth: 1,
     paddingHorizontal: 15,
-    paddingTop: 10,
+    paddingTop: 30,
+    paddingBottom: 15,
   },
   formLabel: {
     color: '#9d9d9d',
+    paddingLeft: 4,
   },
   formInputRow: {
     alignItems: 'center',
     flexDirection: 'row',
-    paddingVertical: 10,
   },
   formInput: {
     color: '#fff',
     flex: 1,
     flexGrow: 1,
+    fontFamily: 'Varela Round',
     fontSize: 25,
-    height: 50,
   },
   cameraIcon: {
     height: 23,
@@ -57,6 +57,7 @@ export default class WalletSend extends Component {
   static propTypes = {
     address: PropTypes.string.isRequired,
     amount: PropTypes.string.isRequired,
+    onAddNewToken: PropTypes.func.isRequired,
     onAddressChange: PropTypes.func.isRequired,
     onAmountChange: PropTypes.func.isRequired,
     onCameraPress: PropTypes.func.isRequired,
@@ -71,6 +72,7 @@ export default class WalletSend extends Component {
     const {
       address,
       amount,
+      onAddNewToken,
       onAddressChange,
       onAmountChange,
       onCameraPress,
@@ -116,6 +118,7 @@ export default class WalletSend extends Component {
               <Text style={styles.tokenSymbol}>{selectedToken.symbol}</Text>
               <Image source={arrowIcon} style={styles.arrowIcon} />
               <TokenPicker
+                onAddNewToken={onAddNewToken}
                 onTokenChange={onTokenChange}
                 selectedToken={selectedToken}
               />

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { Text } from '../../../../components';
 
 const styles = StyleSheet.create({
   itemContainer: {
@@ -20,6 +21,14 @@ const styles = StyleSheet.create({
     color: '#aaa',
     fontSize: 15,
     paddingTop: 5,
+  },
+  itemAmountContainer: {
+    flexDirection: 'row',
+  },
+  itemAmountSymbol: {
+    color: '#4D00FF',
+    fontSize: 20,
+    paddingRight: 5,
   },
   itemAmount: {
     color: '#fff',
@@ -72,7 +81,7 @@ export default class TransactionsList extends Component {
         data={transactions}
         keyExtractor={item => item.transactionHash}
         ListEmptyComponent={
-          <Text style={styles.emptyListText}>No operations to show</Text>
+          <Text style={styles.emptyListText}>No transactions to show</Text>
         }
         onRefresh={onRefresh}
         refreshing={refreshing}
@@ -87,9 +96,14 @@ export default class TransactionsList extends Component {
               <Text style={styles.itemStatus}>Completed</Text>
             </View>
             <View>
-              <Text style={styles.itemAmount}>
-                {`${item.value} ${selectedToken.symbol}`}
-              </Text>
+              <View style={styles.itemAmountContainer}>
+                <Text style={styles.itemAmountSymbol}>
+                  {item.from === walletAddress ? '-' : '+'}
+                </Text>
+                <Text style={styles.itemAmount}>
+                  {`${item.value} ${selectedToken.symbol}`}
+                </Text>
+              </View>
               <Text style={styles.itemTimestamp}>
                 {moment(item.timestamp * 1000).fromNow()}
               </Text>

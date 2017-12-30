@@ -4,11 +4,15 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  Text,
   TextInput,
   View,
 } from 'react-native';
-import { GradientBackground, Header, SecondaryButton } from '../../components';
+import {
+  GradientBackground,
+  Header,
+  SecondaryButton,
+  Text,
+} from '../../components';
 import WalletUtils from '../../utils/wallet';
 import cameraIcon from './images/camera.png';
 
@@ -23,22 +27,23 @@ const styles = StyleSheet.create({
     borderBottomColor: '#3a3a3a',
     borderBottomWidth: 1,
     paddingHorizontal: 15,
-    paddingTop: 10,
+    paddingTop: 30,
+    paddingBottom: 15,
   },
   formLabel: {
     color: '#9d9d9d',
+    paddingLeft: 4,
   },
   formInputRow: {
     alignItems: 'center',
     flexDirection: 'row',
-    paddingVertical: 10,
   },
   formInput: {
     color: '#fff',
+    flex: 1,
     flexGrow: 1,
+    fontFamily: 'Varela Round',
     fontSize: 25,
-    height: 50,
-    width: '90%',
   },
   cameraIcon: {
     height: 23,
@@ -110,7 +115,7 @@ export default class CreateWallet extends Component {
                 <TextInput
                   autoCorrect={false}
                   onChangeText={privateKey => this.setState({ privateKey })}
-                  placeholder="Address"
+                  placeholder="0x..."
                   placeholderTextColor="#9d9d9d"
                   selectionColor="#4D00FF"
                   style={styles.formInput}

@@ -48,7 +48,7 @@ export default class Home extends Component {
 
     if (walletAddress) {
       this.props.navigator.resetTo({
-        screen: 'WalletHome',
+        screen: 'PinCode',
       });
     }
   }

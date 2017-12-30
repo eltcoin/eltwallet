@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import chunk from 'lodash/chunk';
 import range from 'lodash/range';
+import Text from '../Text';
 
 const styles = StyleSheet.create({
   keyboardRow: {
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Keyboard extends Component {
+export default class PinKeyboard extends Component {
   static propTypes = {
     onKeyPress: PropTypes.func.isRequired,
   };

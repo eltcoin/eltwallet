@@ -29,7 +29,14 @@ export default class Settings extends Component {
   menuOptions = [
     {
       title: 'Change PIN',
-      onPress: () => {},
+      onPress: () => {
+        this.props.navigator.push({
+          screen: 'CreateWallet',
+          passProps: {
+            editMode: true,
+          },
+        });
+      },
     },
     {
       title: 'ELTCOIN Website',

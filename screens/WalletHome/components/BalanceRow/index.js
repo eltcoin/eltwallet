@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { TokenPicker } from '../../../../components';
+import { Text, TokenPicker } from '../../../../components';
 import switchIcon from './images/switch.png';
 import settingsIcon from './images/settings.png';
 
@@ -21,14 +21,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 30,
     letterSpacing: 3,
+    paddingRight: 5,
   },
   coinSymbol: {
     alignSelf: 'flex-end',
     color: '#fff',
     fontSize: 15,
-    fontWeight: '200',
     letterSpacing: 3,
-    paddingBottom: 3,
+    paddingBottom: 4,
   },
   iconsContainer: {
     flexDirection: 'row',
@@ -58,6 +58,7 @@ export default class BalanceRow extends Component {
       name: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
     }).isRequired,
+    onAddNewToken: PropTypes.func.isRequired,
     onTokenChange: PropTypes.func.isRequired,
     onSettingsIconPress: PropTypes.func.isRequired,
   };
@@ -66,6 +67,7 @@ export default class BalanceRow extends Component {
     const {
       currentBalance,
       selectedToken,
+      onAddNewToken,
       onTokenChange,
       onSettingsIconPress,
     } = this.props;
@@ -73,8 +75,12 @@ export default class BalanceRow extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.balanceContainer}>
-          <Text style={styles.balance}>{currentBalance.toFixed(2)}</Text>
-          <Text style={styles.coinSymbol}>{selectedToken.symbol}</Text>
+          <Text style={styles.balance} letterSpacing={1}>
+            {currentBalance.toFixed(2)}
+          </Text>
+          <Text style={styles.coinSymbol} letterSpacing={2}>
+            {selectedToken.symbol}
+          </Text>
         </View>
         <View style={styles.iconsContainer}>
           <TouchableOpacity>
@@ -82,6 +88,7 @@ export default class BalanceRow extends Component {
             <TokenPicker
               selectedToken={selectedToken}
               onTokenChange={onTokenChange}
+              onAddNewToken={onAddNewToken}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={onSettingsIconPress}>

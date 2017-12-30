@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
-import { AsyncStorage, Clipboard, StyleSheet, Text, View } from 'react-native';
+import { AsyncStorage, Clipboard, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { GradientBackground, Header, SecondaryButton } from '../../components';
+import {
+  GradientBackground,
+  Header,
+  SecondaryButton,
+  Text,
+} from '../../components';
 
 const styles = StyleSheet.create({
   container: {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import { Text } from '../../../../components';
 import sendIcon from './images/send.png';
 import qrcodeIcon from './images/qrcode.png';
 

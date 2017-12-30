@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { AppState, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { GradientBackground, Loader } from '../../components';
+import { GradientBackground, Loader, Text } from '../../components';
 import { BalanceRow, Footer, TransactionsList } from './components';
 import StorageUtils from '../../utils/storage';
 import WalletUtils from '../../utils/wallet';
@@ -22,9 +22,15 @@ const styles = StyleSheet.create({
     letterSpacing: 3,
     textAlign: 'center',
   },
+  bannerContainer: {
+    backgroundColor: '#372F49',
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+  },
+  bannerText: {
+    color: '#9D9D9D',
+  },
   listContainer: {
-    borderColor: '#372F49',
-    borderTopWidth: 1,
     flex: 1,
   },
 });
@@ -33,6 +39,7 @@ export default class WalletHome extends Component {
   static propTypes = {
     navigator: PropTypes.shape({
       push: PropTypes.func.isRequired,
+      resetTo: PropTypes.func.isRequired,
     }).isRequired,
   };
 
@@ -51,11 +58,16 @@ export default class WalletHome extends Component {
   };
 
   componentDidMount() {
+    this.addEventListeners();
     this.fetchWalletAddress();
     this.fetchDefaultToken().then(() => {
       this.fetchBalance();
       this.fetchTransactions();
     });
+  }
+
+  componentWillUnmount() {
+    this.removeEventListeners();
   }
 
   onTokenChange = selectedToken => {
@@ -72,6 +84,20 @@ export default class WalletHome extends Component {
         },
       );
     }
+  };
+
+  handleAppStateChange = () => {
+    this.props.navigator.resetTo({
+      screen: 'PinCode',
+    });
+  };
+
+  addEventListeners = () => {
+    AppState.addEventListener('change', this.handleAppStateChange);
+  };
+
+  removeEventListeners = () => {
+    AppState.removeEventListener('change', this.handleAppStateChange);
   };
 
   fetchDefaultToken = async () => {
@@ -124,13 +150,22 @@ export default class WalletHome extends Component {
             <Loader />
           ) : (
             <View style={styles.topContainer}>
-              <Text style={styles.coinName}>
+              <Text style={styles.coinName} letterSpacing={2}>
                 {this.state.selectedToken.name}
               </Text>
               <BalanceRow
                 currentBalance={this.state.currentBalance}
                 selectedToken={this.state.selectedToken}
                 onTokenChange={this.onTokenChange}
+                onAddNewToken={() =>
+                  this.props.navigator.push({
+                    screen: 'AddToken',
+                    animationType: 'slide-horizontal',
+                    passProps: {
+                      onTokenChange: this.onTokenChange,
+                    },
+                  })
+                }
                 onSettingsIconPress={() =>
                   this.props.navigator.push({
                     screen: 'Settings',
@@ -138,6 +173,11 @@ export default class WalletHome extends Component {
                   })
                 }
               />
+              <View style={styles.bannerContainer}>
+                <Text style={styles.bannerText}>
+                  Showing recent {this.state.selectedToken.name} transactions
+                </Text>
+              </View>
               <View style={styles.listContainer}>
                 {this.state.walletAddress && (
                   <TransactionsList

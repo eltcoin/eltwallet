@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import { AsyncStorage, StyleSheet, Text, View } from 'react-native';
+import { AsyncStorage, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import QRCode from 'react-native-qrcode';
-import { GradientBackground, Header, SecondaryButton } from '../../components';
+import {
+  GradientBackground,
+  Header,
+  SecondaryButton,
+  Text,
+} from '../../components';
 
 const styles = StyleSheet.create({
   container: {
