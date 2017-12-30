@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "lint": "eslint .",
+    "precommit": "lint-staged",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest",
-    "precommit": "lint-staged"
+    "test": "jest"
   },
   "dependencies": {
     "assert": "^1.4.1",
@@ -49,17 +50,15 @@
   "jest": {
     "preset": "react-native"
   },
+  "eslintIgnore": ["shim.js"],
   "eslintConfig": {
-    "extends": [
-      "airbnb",
-      "prettier",
-      "prettier/react"
-    ],
+    "extends": ["airbnb", "prettier", "prettier/react"],
     "parser": "babel-eslint",
     "rules": {
       "react/jsx-filename-extension": "0",
       "react/prefer-stateless-function": "0",
-      "react/no-array-index-key": "0"
+      "react/no-array-index-key": "0",
+      "no-restricted-properties": 0
     },
     "globals": {
       "fetch": true

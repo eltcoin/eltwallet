@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +29,7 @@ export default class SecondaryButton extends Component {
 
   render() {
     return (
-      <TouchableOpacity
+      <TouchableHighlight
         activeOpacity={0.8}
         onPress={this.props.onPress}
         disabled={this.props.disabled}
@@ -40,7 +40,7 @@ export default class SecondaryButton extends Component {
         <View style={styles.container}>
           <Text style={styles.text}>{this.props.text}</Text>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     );
   }
 }

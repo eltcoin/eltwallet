@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { AsyncStorage, StyleSheet, Text, View } from 'react-native';
+import { AsyncStorage, Clipboard, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
-import QRCode from 'react-native-qrcode';
 import { GradientBackground, Header, SecondaryButton } from '../../components';
 
 const styles = StyleSheet.create({
@@ -11,19 +10,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 15,
   },
-  qrcodeContainer: {
-    paddingHorizontal: 15,
-    alignItems: 'center',
-    width: '100%',
-  },
-  addressTitle: {
+  privateKeyTitle: {
     paddingHorizontal: 15,
     color: '#fff',
     textAlign: 'center',
     paddingBottom: 20,
     fontSize: 18,
   },
-  walletAddress: {
+  privateKey: {
     paddingHorizontal: 15,
     color: '#9d9d9d',
     textAlign: 'center',
@@ -34,11 +28,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class WalletReceive extends Component {
+export default class PrivateKey extends Component {
   static propTypes = {
     navigator: PropTypes.shape({
       pop: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
     }).isRequired,
   };
 
@@ -48,18 +41,18 @@ export default class WalletReceive extends Component {
   };
 
   state = {
-    walletAddress: '',
+    privateKey: '',
   };
 
   componentDidMount() {
-    this.fetchWalletAddress();
+    this.fetchPrivateKey();
   }
 
-  fetchWalletAddress = async () => {
-    const walletAddress = await AsyncStorage.getItem('@ELTWALLET:address');
+  fetchPrivateKey = async () => {
+    const privateKey = await AsyncStorage.getItem('@ELTWALLET:privateKey');
 
     this.setState({
-      walletAddress,
+      privateKey,
     });
   };
 
@@ -69,24 +62,18 @@ export default class WalletReceive extends Component {
         <View style={styles.container}>
           <Header
             onBackPress={() => this.props.navigator.pop()}
-            title="Receive"
+            title="Private key"
           />
-          <View style={styles.qrcodeContainer}>
-            <QRCode value={this.state.walletAddress} size={150} />
-          </View>
           <View>
-            <Text style={styles.addressTitle}>Address</Text>
-            <Text style={styles.walletAddress}>{this.state.walletAddress}</Text>
+            <Text style={styles.privateKeyTitle}>Private key</Text>
+            <Text style={styles.privateKey}>{this.state.privateKey}</Text>
           </View>
           <View style={styles.buttonContainer}>
             <SecondaryButton
               onPress={() => {
-                this.props.navigator.push({
-                  screen: 'WalletOptions',
-                  animationType: 'slide-horizontal',
-                });
+                Clipboard.setString(this.state.privateKey);
               }}
-              text="Wallet actions"
+              text="Copy to clipboard"
             />
           </View>
         </View>

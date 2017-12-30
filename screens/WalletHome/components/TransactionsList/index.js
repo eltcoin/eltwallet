@@ -67,37 +67,36 @@ export default class TransactionsList extends Component {
       walletAddress,
     } = this.props;
 
-    if (transactions.length) {
-      return (
-        <FlatList
-          data={transactions}
-          keyExtractor={item => item.transactionHash}
-          renderItem={({ item }) => (
-            <View style={styles.itemContainer}>
-              <View>
-                <Text style={styles.itemTitle}>
-                  {item.from === walletAddress
-                    ? `Send ${selectedToken.symbol}`
-                    : `Received ${selectedToken.symbol}`}
-                </Text>
-                <Text style={styles.itemStatus}>Completed</Text>
-              </View>
-              <View>
-                <Text style={styles.itemAmount}>
-                  {`${item.value} ${selectedToken.symbol}`}
-                </Text>
-                <Text style={styles.itemTimestamp}>
-                  {moment(item.timestamp * 1000).fromNow()}
-                </Text>
-              </View>
+    return (
+      <FlatList
+        data={transactions}
+        keyExtractor={item => item.transactionHash}
+        ListEmptyComponent={
+          <Text style={styles.emptyListText}>No operations to show</Text>
+        }
+        onRefresh={onRefresh}
+        refreshing={refreshing}
+        renderItem={({ item }) => (
+          <View style={styles.itemContainer}>
+            <View>
+              <Text style={styles.itemTitle}>
+                {item.from === walletAddress
+                  ? `Send ${selectedToken.symbol}`
+                  : `Received ${selectedToken.symbol}`}
+              </Text>
+              <Text style={styles.itemStatus}>Completed</Text>
             </View>
-          )}
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-        />
-      );
-    }
-
-    return <Text style={styles.emptyListText}>No operations to show</Text>;
+            <View>
+              <Text style={styles.itemAmount}>
+                {`${item.value} ${selectedToken.symbol}`}
+              </Text>
+              <Text style={styles.itemTimestamp}>
+                {moment(item.timestamp * 1000).fromNow()}
+              </Text>
+            </View>
+          </View>
+        )}
+      />
+    );
   }
 }
