@@ -31,6 +31,7 @@ export default class AddToken extends Component {
 
   static navigatorStyle = {
     navBarHidden: true,
+    statusBarColor: 'transparent',
     statusBarTextColorScheme: 'light',
   };
 

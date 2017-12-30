@@ -23,6 +23,7 @@ export default class Settings extends Component {
 
   static navigatorStyle = {
     navBarHidden: true,
+    statusBarColor: 'transparent',
     statusBarTextColorScheme: 'light',
   };
 

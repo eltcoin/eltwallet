@@ -42,6 +42,7 @@ export default class PrivateKey extends Component {
 
   static navigatorStyle = {
     navBarHidden: true,
+    statusBarColor: 'transparent',
     statusBarTextColorScheme: 'light',
   };
 

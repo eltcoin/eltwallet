@@ -37,6 +37,7 @@ export default class PinCode extends Component {
 
   static navigatorStyle = {
     navBarHidden: true,
+    statusBarColor: 'transparent',
     statusBarTextColorScheme: 'light',
   };
 

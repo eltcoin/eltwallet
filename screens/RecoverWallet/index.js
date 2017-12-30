@@ -68,6 +68,7 @@ export default class CreateWallet extends Component {
 
   static navigatorStyle = {
     navBarHidden: true,
+    statusBarColor: 'transparent',
     statusBarTextColorScheme: 'light',
   };
 

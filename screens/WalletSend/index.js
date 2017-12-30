@@ -38,6 +38,7 @@ export default class WalletSend extends Component {
   static navigatorStyle = {
     navBarHidden: true,
     statusBarTextColorScheme: 'light',
+    statusBarColor: 'transparent',
   };
 
   state = {

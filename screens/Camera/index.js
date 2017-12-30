@@ -19,8 +19,8 @@ export default class Home extends Component {
 
   static navigatorStyle = {
     navBarHidden: true,
+    statusBarColor: 'transparent',
     statusBarTextColorScheme: 'light',
-    statusBarTextColorSchemeSingleScreen: 'light',
   };
 
   onBarCodeRead = e => {

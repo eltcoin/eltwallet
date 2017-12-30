@@ -23,6 +23,7 @@ export default class WalletActions extends Component {
   static navigatorStyle = {
     navBarHidden: true,
     statusBarTextColorScheme: 'light',
+    statusBarColor: 'transparent',
   };
 
   menuOptions = [

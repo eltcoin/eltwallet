@@ -28,8 +28,8 @@ export default class PrimaryButton extends Component {
     return (
       <TouchableOpacity activeOpacity={0.8} onPress={this.props.onPress}>
         <LinearGradient
-          colors={['#CC2779', '#A11AA6', '#4D00FF']}
-          locations={[0, 0.33, 1]}
+          colors={['#7f0fc9', '#4d00ff']}
+          locations={[0, 1]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           style={styles.container}
