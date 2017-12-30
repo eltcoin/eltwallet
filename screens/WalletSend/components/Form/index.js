@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   Image,
+  Platform,
   StyleSheet,
   TextInput,
   View,
@@ -16,12 +17,13 @@ const styles = StyleSheet.create({
     borderBottomColor: '#3a3a3a',
     borderBottomWidth: 1,
     paddingHorizontal: 15,
-    paddingTop: 30,
+    paddingTop: Platform.OS === 'ios' ? 20 : 30,
     paddingBottom: 15,
   },
   formLabel: {
     color: '#9d9d9d',
-    paddingLeft: 4,
+    paddingLeft: Platform.OS === 'ios' ? 0 : 4,
+    paddingBottom: Platform.OS === 'ios' ? 10 : 0,
   },
   formInputRow: {
     alignItems: 'center',

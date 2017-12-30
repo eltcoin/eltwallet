@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Text from '../Text';
 import arrow from './images/arrow.png';
 
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
-    paddingTop: 30,
+    paddingTop: Platform.OS === 'ios' ? 40 : 30,
     paddingHorizontal: 15,
   },
   centeredContainer: {
