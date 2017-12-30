@@ -13,6 +13,7 @@ import {
   SecondaryButton,
   Text,
 } from '../../components';
+import AnalyticsUtils from '../../utils/analytics';
 import WalletUtils from '../../utils/wallet';
 import cameraIcon from './images/camera.png';
 
@@ -78,6 +79,8 @@ export default class CreateWallet extends Component {
 
   onBarCodeRead = privateKey => {
     this.props.navigator.dismissModal();
+
+    AnalyticsUtils.trackEvent('Read private key QR code');
 
     this.setState({
       privateKey,

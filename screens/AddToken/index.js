@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { GradientBackground, Header, SecondaryButton } from '../../components';
 import Form from './components/Form';
+import AnalyticsUtils from '../../utils/analytics';
 import StorageUtils from '../../utils/storage';
 
 const styles = StyleSheet.create({
@@ -44,6 +45,10 @@ export default class AddToken extends Component {
 
   onBarCodeRead = contractAddress => {
     this.props.navigator.dismissModal();
+
+    AnalyticsUtils.trackEvent('Read ERC20 contract QR code', {
+      contractAddress,
+    });
 
     this.setState(
       {

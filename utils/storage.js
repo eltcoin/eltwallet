@@ -1,7 +1,44 @@
 import { AsyncStorage } from 'react-native';
+import AnalyticsUtils from './analytics';
 import { defaultTokens } from './constants';
 
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+
+  return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+}
+
 export default class StorageUtils {
+  static async getAnalyticsUserId() {
+    const userId = await AsyncStorage.getItem('@ELTWALLET:address');
+
+    if (userId) {
+      return {
+        userId,
+      };
+    }
+
+    let anonymousId = await AsyncStorage.getItem('@ELTWALLET:anonymousId');
+
+    if (anonymousId) {
+      return {
+        anonymousId,
+      };
+    }
+
+    anonymousId = guid();
+
+    await AsyncStorage.setItem('@ELTWALLET:anonymousId', anonymousId);
+
+    return {
+      anonymousId,
+    };
+  }
+
   static async getAvailableTokens() {
     const tokens = await AsyncStorage.getItem('@ELTWALLET:availableTokens');
 
@@ -23,6 +60,13 @@ export default class StorageUtils {
     ).then(JSON.parse);
 
     tokens.push(token);
+
+    AnalyticsUtils.trackEvent('Add custom token', {
+      contractAddress: token.contractAddress,
+      decimals: token.decimals,
+      name: token.name,
+      symbol: token.symbol,
+    });
 
     return AsyncStorage.setItem(
       '@ELTWALLET:availableTokens',

@@ -5,6 +5,7 @@ import ProviderEngine from 'web3-provider-engine';
 import WalletSubprovider from 'web3-provider-engine/subproviders/wallet';
 import Web3Subprovider from 'web3-provider-engine/subproviders/web3';
 import { erc20Abi } from './constants';
+import AnalyticsUtils from './analytics';
 
 export default class WalletUtils {
   /**
@@ -26,6 +27,10 @@ export default class WalletUtils {
   static generateWallet() {
     const wallet = EthereumJsWallet.generate();
 
+    AnalyticsUtils.trackEvent('Generate wallet', {
+      walletAddress: wallet.getAddressString(),
+    });
+
     return this.storeWallet(wallet);
   }
 
@@ -38,6 +43,10 @@ export default class WalletUtils {
     const wallet = EthereumJsWallet.fromPrivateKey(
       Buffer.from(privateKey, 'hex'),
     );
+
+    AnalyticsUtils.trackEvent('Import wallet', {
+      walletAddress: wallet.getAddressString(),
+    });
 
     return this.storeWallet(wallet);
   }
@@ -160,12 +169,18 @@ export default class WalletUtils {
     const web3 = new Web3(this.getWeb3HTTPProvider());
 
     return new Promise((resolve, reject) => {
-      web3.eth.getBalance(walletAddress, (error, balance) => {
+      web3.eth.getBalance(walletAddress, (error, weiBalance) => {
         if (error) {
           reject(error);
         }
 
-        resolve(balance / Math.pow(10, 18));
+        const balance = weiBalance / Math.pow(10, 18);
+
+        AnalyticsUtils.trackEvent('Get ETH balance', {
+          balance,
+        });
+
+        resolve(balance);
       });
     });
   }
@@ -187,12 +202,19 @@ export default class WalletUtils {
       web3.eth
         .contract(erc20Abi)
         .at(contractAddress)
-        .balanceOf(walletAddress, (errror, balance) => {
-          if (errror) {
-            reject(errror);
+        .balanceOf(walletAddress, (error, decimalsBalance) => {
+          if (error) {
+            reject(error);
           }
 
-          resolve(balance / Math.pow(10, decimals));
+          const balance = decimalsBalance / Math.pow(10, decimals);
+
+          AnalyticsUtils.trackEvent('Get ERC20 balance', {
+            balance,
+            contractAddress,
+          });
+
+          resolve(balance);
         });
     });
   }
@@ -230,6 +252,10 @@ export default class WalletUtils {
   static async sendETHTransaction(toAddress, amount) {
     const web3 = await this.getWeb3Instance();
 
+    AnalyticsUtils.trackEvent('Send ETH transaction', {
+      value: amount,
+    });
+
     return new Promise((resolve, reject) => {
       web3.eth.sendTransaction(
         {
@@ -260,6 +286,11 @@ export default class WalletUtils {
     amount,
   ) {
     const web3 = await this.getWeb3Instance();
+
+    AnalyticsUtils.trackEvent('Send ERC20 transaction', {
+      contractAddress,
+      value: amount,
+    });
 
     return new Promise((resolve, reject) => {
       web3.eth

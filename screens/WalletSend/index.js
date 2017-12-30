@@ -8,6 +8,7 @@ import {
   Loader,
 } from '../../components';
 import Form from './components/Form';
+import AnalyticsUtils from '../../utils/analytics';
 import StorageUtils from '../../utils/storage';
 import WalletUtils from '../../utils/wallet';
 
@@ -58,6 +59,8 @@ export default class WalletSend extends Component {
 
   onBarCodeRead = address => {
     this.props.navigator.dismissModal();
+
+    AnalyticsUtils.trackEvent('Read send address QR code');
 
     this.setState({
       address,
