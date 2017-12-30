@@ -24,6 +24,7 @@
     "react-native-navigation": "^1.1.323",
     "react-native-qrcode": "^0.2.6",
     "react-native-randombytes": "^3.0.0",
+    "react-native-sentry": "^0.32.0",
     "readable-stream": "^1.0.33",
     "stream-browserify": "^1.0.0",
     "vm-browserify": "0.0.4",
@@ -48,14 +49,22 @@
     "rn-nodeify": "^8.3.0"
   },
   "rnpm": {
-    "assets": ["./assets/fonts/"]
+    "assets": [
+      "./assets/fonts/"
+    ]
   },
   "jest": {
     "preset": "react-native"
   },
-  "eslintIgnore": ["shim.js"],
+  "eslintIgnore": [
+    "shim.js"
+  ],
   "eslintConfig": {
-    "extends": ["airbnb", "prettier", "prettier/react"],
+    "extends": [
+      "airbnb",
+      "prettier",
+      "prettier/react"
+    ],
     "parser": "babel-eslint",
     "rules": {
       "react/jsx-filename-extension": "0",

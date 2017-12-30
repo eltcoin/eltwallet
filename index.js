@@ -1,9 +1,9 @@
 import { Navigation } from 'react-native-navigation';
+import { Sentry } from 'react-native-sentry';
 import './shim';
 import {
   AddToken,
   Camera,
-  ChangePin,
   CreateWallet,
   Home,
   PinCode,
@@ -16,9 +16,12 @@ import {
   WalletSend,
 } from './screens';
 
+Sentry.config(
+  'https://0c7d72d067e34a6bb432bdc9a91c58a5:f84ff22cb0224a428aaee5937f7c435b@sentry.io/265240',
+).install();
+
 Navigation.registerComponent('AddToken', () => AddToken);
 Navigation.registerComponent('Camera', () => Camera);
-Navigation.registerComponent('ChangePin', () => ChangePin);
 Navigation.registerComponent('CreateWallet', () => CreateWallet);
 Navigation.registerComponent('Home', () => Home);
 Navigation.registerComponent('PinCode', () => PinCode);

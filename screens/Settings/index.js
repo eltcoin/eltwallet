@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingVertical: 15,
+    paddingBottom: 15,
   },
 });
 
@@ -33,6 +33,7 @@ export default class Settings extends Component {
       onPress: () => {
         this.props.navigator.push({
           screen: 'CreateWallet',
+          animationType: 'slide-horizontal',
           passProps: {
             editMode: true,
           },

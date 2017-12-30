@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingVertical: 15,
+    paddingBottom: 15,
   },
   buttonContainer: {
     paddingHorizontal: 15,

@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
+    paddingBottom: 15,
   },
   dotsContainer: {
     alignItems: 'center',

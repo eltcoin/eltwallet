@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
-    paddingVertical: 15,
+    paddingBottom: 15,
   },
   formElement: {
     borderBottomColor: '#3a3a3a',
