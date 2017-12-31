@@ -41,12 +41,15 @@ export default class CreateWallet extends Component {
     editMode: PropTypes.bool,
     navigator: PropTypes.shape({
       pop: PropTypes.func.isRequired,
+      push: PropTypes.func.isRequired,
       resetTo: PropTypes.func.isRequired,
     }).isRequired,
+    recoverMode: PropTypes.bool,
   };
 
   static defaultProps = {
     editMode: false,
+    recoverMode: false,
   };
 
   static navigatorStyle = {
@@ -95,11 +98,17 @@ export default class CreateWallet extends Component {
           this.state.confirmationPinCode.length === 4 &&
           this.state.pinCode === this.state.confirmationPinCode
         ) {
-          if (!this.props.editMode) {
+          await AsyncStorage.setItem('@ELTWALLET:pinCode', this.state.pinCode);
+
+          if (this.props.recoverMode) {
+            this.props.navigator.push({
+              screen: 'RecoverWallet',
+              animationType: 'slide-horizontal',
+            });
+            return;
+          } else if (!this.props.editMode) {
             await WalletUtils.generateWallet();
           }
-
-          await AsyncStorage.setItem('@ELTWALLET:pinCode', this.state.pinCode);
 
           this.props.navigator.resetTo({
             screen: 'WalletHome',

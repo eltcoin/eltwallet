@@ -74,8 +74,11 @@ export default class Home extends Component {
             <SecondaryButton
               onPress={() =>
                 this.props.navigator.push({
-                  screen: 'RecoverWallet',
+                  screen: 'CreateWallet',
                   animationType: 'slide-horizontal',
+                  passProps: {
+                    recoverMode: true,
+                  },
                 })
               }
               text="Recover wallet"

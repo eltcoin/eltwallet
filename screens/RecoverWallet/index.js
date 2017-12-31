@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   View,
+  Alert,
 } from 'react-native';
 import {
   GradientBackground,
@@ -98,7 +99,12 @@ export default class CreateWallet extends Component {
   };
 
   importWallet = async () => {
-    await WalletUtils.restoreWallet(this.state.privateKey);
+    try {
+      WalletUtils.restoreWallet(this.state.privateKey);
+    } catch (error) {
+      Alert.alert('Your private key is invalid. Please try again.');
+      return;
+    }
 
     this.props.navigator.resetTo({
       screen: 'WalletHome',
