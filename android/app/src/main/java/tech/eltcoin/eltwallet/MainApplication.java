@@ -1,4 +1,4 @@
-package com.eltwallet;
+package tech.eltcoin.eltwallet;
 
 import com.reactnativenavigation.NavigationApplication;
 import com.BV.LinearGradient.LinearGradientPackage;

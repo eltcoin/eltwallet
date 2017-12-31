@@ -71,6 +71,10 @@ export default class WalletHome extends Component {
     this.removeEventListeners();
   }
 
+  onTokenAdd = () => {
+    this.forceUpdate();
+  };
+
   onTokenChange = selectedToken => {
     if (selectedToken.symbol !== this.state.selectedToken.symbol) {
       this.setState(
@@ -163,6 +167,7 @@ export default class WalletHome extends Component {
                     screen: 'AddToken',
                     animationType: 'slide-horizontal',
                     passProps: {
+                      onTokenAdd: this.onTokenAdd,
                       onTokenChange: this.onTokenChange,
                     },
                   })

@@ -30,6 +30,10 @@ export default class TokenPicker extends Component {
     this.fetchAvailableTokens();
   }
 
+  componentDidUpdate() {
+    this.fetchAvailableTokens();
+  }
+
   onTokenChange = tokenName => {
     if (tokenName === 'newToken') {
       this.props.onAddNewToken();

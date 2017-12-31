@@ -77,6 +77,10 @@ export default class WalletSend extends Component {
     });
   };
 
+  onTokenAdd = () => {
+    this.forceUpdate();
+  };
+
   onTokenChange = selectedToken => {
     this.setState({
       selectedToken,
@@ -135,6 +139,7 @@ export default class WalletSend extends Component {
                   screen: 'AddToken',
                   animationType: 'slide-horizontal',
                   passProps: {
+                    onTokenAdd: this.onTokenAdd,
                     onTokenChange: this.onTokenChange,
                   },
                 })

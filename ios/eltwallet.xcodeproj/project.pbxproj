@@ -1386,6 +1386,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = tech.eltcoin.eltwallet;
 				PRODUCT_NAME = eltwallet;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1412,6 +1413,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = tech.eltcoin.eltwallet;
 				PRODUCT_NAME = eltwallet;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

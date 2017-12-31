@@ -1,4 +1,4 @@
-package com.eltwallet;
+package tech.eltcoin.eltwallet;
 
 import com.reactnativenavigation.controllers.SplashActivity;
 

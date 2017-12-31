@@ -27,6 +27,7 @@ export default class AddToken extends Component {
       push: PropTypes.func.isRequired,
       showModal: PropTypes.func.isRequired,
     }).isRequired,
+    onTokenAdd: PropTypes.func.isRequired,
     onTokenChange: PropTypes.func.isRequired,
   };
 
@@ -94,6 +95,7 @@ export default class AddToken extends Component {
     await StorageUtils.addToken(token);
 
     this.props.onTokenChange(token);
+    this.props.onTokenAdd(token);
 
     StorageUtils.setDefaultToken(token);
 
