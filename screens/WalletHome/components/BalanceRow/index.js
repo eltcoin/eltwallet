@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ActionSheetIOS,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { Text, TokenPicker } from '../../../../components';
+import StorageUtils from '../../../../utils/storage';
 import switchIcon from './images/switch.png';
 import settingsIcon from './images/settings.png';
 
@@ -63,6 +71,48 @@ export default class BalanceRow extends Component {
     onSettingsIconPress: PropTypes.func.isRequired,
   };
 
+  state = {
+    availableTokens: [],
+  };
+
+  componentDidMount() {
+    if (Platform.OS === 'ios') {
+      this.fetchAvailableTokens();
+    }
+  }
+
+  onTokenChange = index => {
+    if (index === this.state.availableTokens.length) {
+      this.props.onAddNewToken();
+      return;
+    }
+
+    const selectedToken = this.state.availableTokens[index];
+
+    this.props.onTokenChange(selectedToken);
+
+    StorageUtils.setDefaultToken(selectedToken);
+  };
+
+  async fetchAvailableTokens() {
+    const availableTokens = await StorageUtils.getAvailableTokens();
+
+    this.setState({
+      availableTokens,
+    });
+  }
+
+  showActionSheet = () => {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: this.state.availableTokens
+          .map(token => token.name)
+          .concat(['Add new token']),
+      },
+      this.onTokenChange,
+    );
+  };
+
   render() {
     const {
       currentBalance,
@@ -83,13 +133,17 @@ export default class BalanceRow extends Component {
           </Text>
         </View>
         <View style={styles.iconsContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={Platform.OS === 'ios' ? this.showActionSheet : null}
+          >
             <Image source={switchIcon} style={styles.switchIcon} />
-            <TokenPicker
-              selectedToken={selectedToken}
-              onTokenChange={onTokenChange}
-              onAddNewToken={onAddNewToken}
-            />
+            {Platform.OS === 'ios' ? null : (
+              <TokenPicker
+                onAddNewToken={onAddNewToken}
+                onTokenChange={onTokenChange}
+                selectedToken={selectedToken}
+              />
+            )}
           </TouchableOpacity>
           <TouchableOpacity onPress={onSettingsIconPress}>
             <Image source={settingsIcon} style={styles.settingsIcon} />

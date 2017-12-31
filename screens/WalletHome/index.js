@@ -45,6 +45,7 @@ export default class WalletHome extends Component {
 
   static navigatorStyle = {
     navBarHidden: true,
+    screenBackgroundColor: '#181724',
     statusBarColor: 'transparent',
     statusBarTextColorScheme: 'light',
   };

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  ActionSheetIOS,
   Image,
   Platform,
   StyleSheet,
@@ -8,6 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import StorageUtils from '../../../../utils/storage';
 import { Text, TokenPicker } from '../../../../components';
 import cameraIcon from './images/camera.png';
 import arrowIcon from './images/arrow.png';
@@ -70,6 +72,48 @@ export default class WalletSend extends Component {
     }).isRequired,
   };
 
+  state = {
+    availableTokens: [],
+  };
+
+  componentDidMount() {
+    if (Platform.OS === 'ios') {
+      this.fetchAvailableTokens();
+    }
+  }
+
+  onTokenChange = index => {
+    if (index === this.state.availableTokens.length) {
+      this.props.onAddNewToken();
+      return;
+    }
+
+    const selectedToken = this.state.availableTokens[index];
+
+    this.props.onTokenChange(selectedToken);
+
+    StorageUtils.setDefaultToken(selectedToken);
+  };
+
+  async fetchAvailableTokens() {
+    const availableTokens = await StorageUtils.getAvailableTokens();
+
+    this.setState({
+      availableTokens,
+    });
+  }
+
+  showActionSheet = () => {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: this.state.availableTokens
+          .map(token => token.name)
+          .concat(['Add new token']),
+      },
+      this.onTokenChange,
+    );
+  };
+
   render() {
     const {
       address,
@@ -116,14 +160,19 @@ export default class WalletSend extends Component {
               underlineColorAndroid="transparent"
               value={amount}
             />
-            <TouchableOpacity style={styles.tokenPicker}>
+            <TouchableOpacity
+              onPress={Platform.OS === 'ios' ? this.showActionSheet : null}
+              style={styles.tokenPicker}
+            >
               <Text style={styles.tokenSymbol}>{selectedToken.symbol}</Text>
               <Image source={arrowIcon} style={styles.arrowIcon} />
-              <TokenPicker
-                onAddNewToken={onAddNewToken}
-                onTokenChange={onTokenChange}
-                selectedToken={selectedToken}
-              />
+              {Platform.OS === 'ios' ? null : (
+                <TokenPicker
+                  onAddNewToken={onAddNewToken}
+                  onTokenChange={onTokenChange}
+                  selectedToken={selectedToken}
+                />
+              )}
             </TouchableOpacity>
           </View>
         </View>
