@@ -46,6 +46,12 @@ export default class PinCode extends Component {
     pinCode: '',
   };
 
+  onBackPress = () => {
+    this.setState({
+      pinCode: this.state.pinCode.slice(0, -1),
+    });
+  };
+
   onKeyPress = n => {
     this.updatePinCode(n);
   };
@@ -84,7 +90,11 @@ export default class PinCode extends Component {
         <View style={styles.container}>
           <Header title="Enter Pin" />
           <PinIndicator length={this.state.pinCode.length} />
-          <PinKeyboard onKeyPress={this.onKeyPress} />
+          <PinKeyboard
+            onBackPress={this.onBackPress}
+            onKeyPress={this.onKeyPress}
+            showBackButton={this.state.pinCode.length > 0}
+          />
         </View>
       </GradientBackground>
     );

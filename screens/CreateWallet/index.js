@@ -69,6 +69,18 @@ export default class CreateWallet extends Component {
     isConfirmation: false,
   };
 
+  onBackPress = () => {
+    if (!this.state.isConfirmation) {
+      this.setState({
+        pinCode: this.state.pinCode.slice(0, -1),
+      });
+    } else {
+      this.setState({
+        confirmationPinCode: this.state.confirmationPinCode.slice(0, -1),
+      });
+    }
+  };
+
   onKeyPress = n => {
     if (!this.state.isConfirmation) {
       this.updatePinCode(n);
@@ -156,7 +168,11 @@ export default class CreateWallet extends Component {
           </View>
 
           <PinIndicator length={pinCode.length} />
-          <PinKeyboard onKeyPress={this.onKeyPress} />
+          <PinKeyboard
+            onBackPress={this.onBackPress}
+            onKeyPress={this.onKeyPress}
+            showBackButton={pinCode.length > 0}
+          />
         </View>
       </GradientBackground>
     );
