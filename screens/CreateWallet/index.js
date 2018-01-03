@@ -17,10 +17,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingBottom: 15,
   },
+  explanatoryTextContainer: {
+    height: 80,
+    justifyContent: 'center',
+    paddingHorizontal: 50,
+  },
   explanatoryText: {
     color: '#fff',
-    paddingHorizontal: 50,
-    paddingVertical: 30,
+    fontSize: 13,
     textAlign: 'center',
   },
   dotsContainer: {
@@ -143,11 +147,14 @@ export default class CreateWallet extends Component {
             onBackPress={() => this.props.navigator.pop()}
             title={this.state.isConfirmation ? 'Repeat PIN' : originalTitle}
           />
-          <Text style={styles.explanatoryText}>
-            {this.state.isConfirmation
-              ? "Just to make sure it's correct"
-              : "This PIN will be used to access your ELTWALLET. If you forget it, you won't be able to access your ELT."}
-          </Text>
+          <View style={styles.explanatoryTextContainer}>
+            <Text style={styles.explanatoryText}>
+              {this.state.isConfirmation
+                ? "Just to make sure it's correct"
+                : "This PIN will be used to access your ELTWALLET. If you forget it, you won't be able to access your ELT."}
+            </Text>
+          </View>
+
           <PinIndicator length={pinCode.length} />
           <PinKeyboard onKeyPress={this.onKeyPress} />
         </View>
