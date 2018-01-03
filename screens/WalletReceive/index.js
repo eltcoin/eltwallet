@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AsyncStorage, StyleSheet, View } from 'react-native';
+import { AsyncStorage, Clipboard, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import QRCode from 'react-native-qrcode';
 import {
@@ -88,12 +88,9 @@ export default class WalletReceive extends Component {
           <View style={styles.buttonContainer}>
             <SecondaryButton
               onPress={() => {
-                this.props.navigator.push({
-                  screen: 'WalletOptions',
-                  animationType: 'slide-horizontal',
-                });
+                Clipboard.setString(this.state.walletAddress);
               }}
-              text="Wallet actions"
+              text="Copy to clipboard"
             />
           </View>
         </View>

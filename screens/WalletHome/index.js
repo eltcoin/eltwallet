@@ -103,12 +103,7 @@ export default class WalletHome extends Component {
   onCallToActionPress = () => {
     this.props.navigator.push({
       animationType: 'slide-horizontal',
-      screen: 'WalletReceive',
-    });
-
-    this.props.navigator.push({
-      animationType: 'slide-horizontal',
-      screen: 'WalletOptions',
+      screen: 'Settings',
     });
 
     this.props.navigator.push({

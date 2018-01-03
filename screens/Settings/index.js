@@ -42,6 +42,15 @@ export default class Settings extends Component {
       },
     },
     {
+      title: 'View private key',
+      onPress: () => {
+        this.props.navigator.push({
+          screen: 'PrivateKey',
+          animationType: 'slide-horizontal',
+        });
+      },
+    },
+    {
       title: 'ELTCOIN Website',
       onPress: () => {
         Linking.openURL('https://www.eltcoin.tech');

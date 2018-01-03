@@ -7,7 +7,6 @@ import PrivateKey from './PrivateKey';
 import RecoverWallet from './RecoverWallet';
 import Settings from './Settings';
 import WalletHome from './WalletHome';
-import WalletOptions from './WalletOptions';
 import WalletReceive from './WalletReceive';
 import WalletSend from './WalletSend';
 
@@ -21,7 +20,6 @@ export {
   RecoverWallet,
   Settings,
   WalletHome,
-  WalletOptions,
   WalletReceive,
   WalletSend,
 };
