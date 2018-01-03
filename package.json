@@ -23,10 +23,10 @@
     "react-native-crypto": "^2.1.1",
     "react-native-keyboard-aware-scroll-view": "^0.4.1",
     "react-native-linear-gradient": "^2.4.0",
-    "react-native-navigation": "^1.1.323",
+    "react-native-navigation": "^1.1.331",
     "react-native-qrcode": "^0.2.6",
     "react-native-randombytes": "^3.0.0",
-    "react-native-sensitive-info": "^5.1.0",
+    "react-native-sensitive-info": "^5.2.0",
     "react-native-sentry": "^0.32.0",
     "react-redux": "^5.0.6",
     "readable-stream": "^1.0.33",
@@ -50,19 +50,14 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.5.1",
     "husky": "^0.14.3",
-    "jest": "22.0.4",
     "lint-staged": "^6.0.0",
     "prettier": "^1.9.2",
-    "react-test-renderer": "16.0.0",
     "rn-nodeify": "^8.3.0"
   },
   "rnpm": {
     "assets": [
       "./assets/fonts/"
     ]
-  },
-  "jest": {
-    "preset": "react-native"
   },
   "eslintIgnore": [
     "shim.js"
