@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import { AppState, StyleSheet, View } from 'react-native';
+import { Alert, AppState, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { GradientBackground, Loader, Text } from '../../components';
-import { BalanceRow, Footer, TransactionsList } from './components';
+import {
+  BalanceRow,
+  CallToAction,
+  Footer,
+  TransactionsList,
+} from './components';
 import StorageUtils from '../../utils/storage';
 import WalletUtils from '../../utils/wallet';
 
@@ -21,6 +26,29 @@ const styles = StyleSheet.create({
     fontSize: 18,
     letterSpacing: 3,
     textAlign: 'center',
+  },
+  ctaContainer: {
+    backgroundColor: '#000',
+    borderRadius: 8,
+    margin: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+  },
+  ctaCrossIcon: {
+    height: 12,
+    position: 'absolute',
+    right: 10,
+    top: 10,
+    width: 12,
+    zIndex: 1,
+  },
+  ctaTitle: {
+    color: '#fff',
+  },
+  ctaSubtitle: {
+    color: '#9D9D9D',
+    fontSize: 12,
+    marginTop: 5,
   },
   bannerContainer: {
     backgroundColor: '#372F49',
@@ -55,11 +83,13 @@ export default class WalletHome extends Component {
     isLoading: true,
     refreshingTransactions: false,
     selectedToken: null,
+    showCallToAction: false,
     transactions: [],
   };
 
   componentDidMount() {
     this.addEventListeners();
+    this.fetchShowCallToAction();
     this.fetchWalletAddress();
     this.fetchDefaultToken().then(() => {
       this.onRefresh();
@@ -69,6 +99,42 @@ export default class WalletHome extends Component {
   componentWillUnmount() {
     this.removeEventListeners();
   }
+
+  onCallToActionPress = () => {
+    this.props.navigator.push({
+      animationType: 'slide-horizontal',
+      screen: 'WalletReceive',
+    });
+
+    this.props.navigator.push({
+      animationType: 'slide-horizontal',
+      screen: 'WalletOptions',
+    });
+
+    this.props.navigator.push({
+      animationType: 'slide-horizontal',
+      screen: 'PrivateKey',
+    });
+  };
+
+  onCallToActionDismiss = () => {
+    Alert.alert(
+      'Backup your wallet',
+      "Make sure you've backed up your wallet private key. It can't be recovered if you lose it.",
+      [
+        { text: 'Ask me later' },
+        {
+          text: 'OK',
+          onPress: async () => {
+            await StorageUtils.setShowCallToAction();
+            this.setState({
+              showCallToAction: false,
+            });
+          },
+        },
+      ],
+    );
+  };
 
   onTokenAdd = () => {
     this.forceUpdate();
@@ -106,6 +172,14 @@ export default class WalletHome extends Component {
 
   removeEventListeners = () => {
     AppState.removeEventListener('change', this.handleAppStateChange);
+  };
+
+  fetchShowCallToAction = async () => {
+    const showCallToAction = await StorageUtils.getShowCallToAction();
+
+    this.setState({
+      showCallToAction,
+    });
   };
 
   fetchDefaultToken = async () => {
@@ -182,6 +256,12 @@ export default class WalletHome extends Component {
                   })
                 }
               />
+              {this.state.showCallToAction && (
+                <CallToAction
+                  onDismiss={this.onCallToActionDismiss}
+                  onPress={this.onCallToActionPress}
+                />
+              )}
               <View style={styles.bannerContainer}>
                 <Text style={styles.bannerText}>
                   Showing recent {this.state.selectedToken.name} transactions
@@ -200,7 +280,6 @@ export default class WalletHome extends Component {
               </View>
             </View>
           )}
-
           <Footer
             onReceivePress={() =>
               this.props.navigator.push({

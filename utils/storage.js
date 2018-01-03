@@ -39,6 +39,18 @@ export default class StorageUtils {
     };
   }
 
+  static async getShowCallToAction() {
+    const showCallToAction = await AsyncStorage.getItem(
+      '@ELTWALLET:showCallToAction',
+    );
+
+    return showCallToAction === null;
+  }
+
+  static setShowCallToAction() {
+    AsyncStorage.setItem('@ELTWALLET:showCallToAction', 'true');
+  }
+
   static async getAvailableTokens() {
     const tokens = await AsyncStorage.getItem('@ELTWALLET:availableTokens');
 
