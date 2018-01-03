@@ -63,10 +63,9 @@ const styles = StyleSheet.create({
 export default class CreateWallet extends Component {
   static propTypes = {
     navigator: PropTypes.shape({
-      dismissModal: PropTypes.func.isRequired,
       pop: PropTypes.func.isRequired,
+      push: PropTypes.func.isRequired,
       resetTo: PropTypes.func.isRequired,
-      showModal: PropTypes.func.isRequired,
     }).isRequired,
   };
 
@@ -82,7 +81,7 @@ export default class CreateWallet extends Component {
   };
 
   onBarCodeRead = privateKey => {
-    this.props.navigator.dismissModal();
+    this.props.navigator.pop();
 
     AnalyticsUtils.trackEvent('Read private key QR code');
 
@@ -92,11 +91,12 @@ export default class CreateWallet extends Component {
   };
 
   onCameraPress = () => {
-    this.props.navigator.showModal({
-      screen: 'Camera',
+    this.props.navigator.push({
+      animationType: 'slide-horizontal',
       passProps: {
         onBarCodeRead: this.onBarCodeRead,
       },
+      screen: 'Camera',
     });
   };
 

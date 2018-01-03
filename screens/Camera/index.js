@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import Camera from 'react-native-camera';
+import { Header } from '../../components';
 
 const styles = StyleSheet.create({
   container: {
@@ -9,17 +10,21 @@ const styles = StyleSheet.create({
   },
   preview: {
     flex: 1,
+    marginTop: 15,
   },
 });
 
 export default class Home extends Component {
   static propTypes = {
+    navigator: PropTypes.shape({
+      pop: PropTypes.func.isRequired,
+    }).isRequired,
     onBarCodeRead: PropTypes.func.isRequired,
   };
 
   static navigatorStyle = {
     navBarHidden: true,
-    screenBackgroundColor: '#181724',
+    screenBackgroundColor: '#000',
     statusBarColor: 'transparent',
     statusBarTextColorScheme: 'light',
   };
@@ -31,6 +36,10 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Header
+          title="Scan QR code"
+          onBackPress={() => this.props.navigator.pop()}
+        />
         <Camera onBarCodeRead={this.onBarCodeRead} style={styles.preview} />
       </View>
     );

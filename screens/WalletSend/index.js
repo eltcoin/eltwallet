@@ -28,10 +28,8 @@ const styles = StyleSheet.create({
 export default class WalletSend extends Component {
   static propTypes = {
     navigator: PropTypes.shape({
-      dismissModal: PropTypes.func.isRequired,
       pop: PropTypes.func.isRequired,
       push: PropTypes.func.isRequired,
-      showModal: PropTypes.func.isRequired,
     }).isRequired,
     onTokenChange: PropTypes.func.isRequired,
   };
@@ -59,7 +57,7 @@ export default class WalletSend extends Component {
   }
 
   onBarCodeRead = address => {
-    this.props.navigator.dismissModal();
+    this.props.navigator.pop();
 
     AnalyticsUtils.trackEvent('Read send address QR code');
 
@@ -69,11 +67,12 @@ export default class WalletSend extends Component {
   };
 
   onCameraPress = () => {
-    this.props.navigator.showModal({
-      screen: 'Camera',
+    this.props.navigator.push({
+      animationType: 'slide-horizontal',
       passProps: {
         onBarCodeRead: this.onBarCodeRead,
       },
+      screen: 'Camera',
     });
   };
 

@@ -22,10 +22,8 @@ const styles = StyleSheet.create({
 export default class AddToken extends Component {
   static propTypes = {
     navigator: PropTypes.shape({
-      dismissModal: PropTypes.func.isRequired,
       pop: PropTypes.func.isRequired,
       push: PropTypes.func.isRequired,
-      showModal: PropTypes.func.isRequired,
     }).isRequired,
     onTokenAdd: PropTypes.func.isRequired,
     onTokenChange: PropTypes.func.isRequired,
@@ -46,7 +44,7 @@ export default class AddToken extends Component {
   };
 
   onBarCodeRead = contractAddress => {
-    this.props.navigator.dismissModal();
+    this.props.navigator.pop();
 
     AnalyticsUtils.trackEvent('Read ERC20 contract QR code', {
       contractAddress,
@@ -73,11 +71,12 @@ export default class AddToken extends Component {
   };
 
   onCameraPress = () => {
-    this.props.navigator.showModal({
-      screen: 'Camera',
+    this.props.navigator.push({
+      animationType: 'slide-horizontal',
       passProps: {
         onBarCodeRead: this.onBarCodeRead,
       },
+      screen: 'Camera',
     });
   };
 
