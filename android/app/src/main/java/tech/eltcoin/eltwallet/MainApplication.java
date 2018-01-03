@@ -4,6 +4,7 @@ import com.reactnativenavigation.NavigationApplication;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.bitgo.randombytes.RandomBytesPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import br.com.classapp.RNSensitiveInfo.RNSensitiveInfoPackage;
 import com.facebook.react.ReactPackage;
 
 import java.util.Arrays;
@@ -20,7 +21,8 @@ public class MainApplication extends NavigationApplication {
     return Arrays.<ReactPackage>asList(
       new LinearGradientPackage(),
       new RandomBytesPackage(),
-      new RCTCameraPackage()
+      new RCTCameraPackage(),
+      new RNSensitiveInfoPackage()
     );
   }
 
