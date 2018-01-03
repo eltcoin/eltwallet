@@ -130,6 +130,7 @@ export default class CreateWallet extends Component {
                   onChangeText={privateKey => this.setState({ privateKey })}
                   placeholder="0x..."
                   placeholderTextColor="#9d9d9d"
+                  returnKeyType="done"
                   selectionColor="#4D00FF"
                   style={styles.formInput}
                   underlineColorAndroid="transparent"

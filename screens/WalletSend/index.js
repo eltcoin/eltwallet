@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Alert } from 'react-native';
 import PropTypes from 'prop-types';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
   GradientBackground,
   Header,
@@ -125,7 +126,10 @@ export default class WalletSend extends Component {
   render() {
     return (
       <GradientBackground>
-        <View style={styles.container}>
+        <KeyboardAwareScrollView
+          contentContainerStyle={styles.container}
+          scrollEnabled={false}
+        >
           <Header onBackPress={() => this.props.navigator.pop()} title="Send" />
           {this.state.isLoading ? (
             <Loader />
@@ -157,7 +161,7 @@ export default class WalletSend extends Component {
               text="Send"
             />
           </View>
-        </View>
+        </KeyboardAwareScrollView>
       </GradientBackground>
     );
   }

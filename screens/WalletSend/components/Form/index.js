@@ -134,8 +134,15 @@ export default class WalletSend extends Component {
             <TextInput
               autoCorrect={false}
               onChangeText={onAddressChange}
-              placeholder="Address"
+              placeholder="0x..."
               placeholderTextColor="#9d9d9d"
+              onSubmitEditing={() => {
+                this.amountInput.focus();
+              }}
+              ref={input => {
+                this.addressInput = input;
+              }}
+              returnKeyType="next"
               selectionColor="#4D00FF"
               style={styles.formInput}
               underlineColorAndroid="transparent"
@@ -155,6 +162,10 @@ export default class WalletSend extends Component {
               onChangeText={onAmountChange}
               placeholder="1000"
               placeholderTextColor="#9d9d9d"
+              ref={input => {
+                this.amountInput = input;
+              }}
+              returnKeyType="done"
               selectionColor="#4D00FF"
               style={styles.formInput}
               underlineColorAndroid="transparent"

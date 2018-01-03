@@ -75,8 +75,15 @@ export default class Form extends Component {
             <TextInput
               autoCorrect={false}
               onChangeText={onContractAddressChange}
+              onSubmitEditing={() => {
+                this.nameInput.focus();
+              }}
               placeholder="0x..."
               placeholderTextColor="#9d9d9d"
+              ref={input => {
+                this.addressInput = input;
+              }}
+              returnKeyType="next"
               selectionColor="#4D00FF"
               style={styles.formInput}
               underlineColorAndroid="transparent"
@@ -93,8 +100,15 @@ export default class Form extends Component {
             <TextInput
               autoCorrect={false}
               onChangeText={onNameChange}
+              onSubmitEditing={() => {
+                this.symbolInput.focus();
+              }}
               placeholder="ELTCOIN"
               placeholderTextColor="#9d9d9d"
+              ref={input => {
+                this.nameInput = input;
+              }}
+              returnKeyType="next"
               selectionColor="#4D00FF"
               style={styles.formInput}
               underlineColorAndroid="transparent"
@@ -108,8 +122,15 @@ export default class Form extends Component {
             <TextInput
               autoCorrect={false}
               onChangeText={onSymbolChange}
+              onSubmitEditing={() => {
+                this.decimalsInput.focus();
+              }}
               placeholder="ELT"
               placeholderTextColor="#9d9d9d"
+              ref={input => {
+                this.symbolInput = input;
+              }}
+              returnKeyType="next"
               selectionColor="#4D00FF"
               style={styles.formInput}
               underlineColorAndroid="transparent"
@@ -126,6 +147,10 @@ export default class Form extends Component {
               onChangeText={onDecimalsChange}
               placeholder="18"
               placeholderTextColor="#9d9d9d"
+              ref={input => {
+                this.decimalsInput = input;
+              }}
+              returnKeyType="done"
               selectionColor="#4D00FF"
               style={styles.formInput}
               underlineColorAndroid="transparent"
