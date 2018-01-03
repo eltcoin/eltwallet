@@ -38,7 +38,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We need to access your camera in order to scan QR codes.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Varela Round.otf</string>
