@@ -62,8 +62,7 @@ export default class WalletHome extends Component {
     this.addEventListeners();
     this.fetchWalletAddress();
     this.fetchDefaultToken().then(() => {
-      this.fetchBalance();
-      this.fetchTransactions();
+      this.onRefresh();
     });
   }
 
@@ -84,11 +83,15 @@ export default class WalletHome extends Component {
           transactions: [],
         },
         () => {
-          this.fetchBalance();
-          this.fetchTransactions();
+          this.onRefresh();
         },
       );
     }
+  };
+
+  onRefresh = () => {
+    this.fetchBalance();
+    this.fetchTransactions();
   };
 
   handleAppStateChange = () => {
@@ -190,7 +193,7 @@ export default class WalletHome extends Component {
                     selectedToken={this.state.selectedToken}
                     transactions={this.state.transactions}
                     walletAddress={this.state.walletAddress}
-                    onRefresh={this.fetchTransactions}
+                    onRefresh={this.onRefresh}
                     refreshing={this.state.refreshingTransactions}
                   />
                 )}
