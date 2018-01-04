@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
 import { GradientBackground, Header, SecondaryButton } from '../../components';
 import Form from './components/Form';
@@ -98,10 +97,7 @@ class AddToken extends Component {
   render() {
     return (
       <GradientBackground>
-        <KeyboardAwareScrollView
-          contentContainerStyle={styles.container}
-          scrollEnabled={false}
-        >
+        <View style={styles.container}>
           <Header
             onBackPress={() => this.props.navigator.pop()}
             title="Add token"
@@ -120,7 +116,6 @@ class AddToken extends Component {
             onCameraPress={this.onCameraPress}
             symbol={this.state.symbol}
           />
-
           <View style={styles.buttonContainer}>
             <SecondaryButton
               onPress={this.addToken}
@@ -132,7 +127,7 @@ class AddToken extends Component {
               text="Add"
             />
           </View>
-        </KeyboardAwareScrollView>
+        </View>
       </GradientBackground>
     );
   }

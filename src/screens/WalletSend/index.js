@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
 import { GradientBackground, Header, SecondaryButton } from '../../components';
 import Form from './components/Form';
@@ -94,10 +93,7 @@ class WalletSend extends Component {
   render() {
     return (
       <GradientBackground>
-        <KeyboardAwareScrollView
-          contentContainerStyle={styles.container}
-          scrollEnabled={false}
-        >
+        <View style={styles.container}>
           <Header onBackPress={() => this.props.navigator.pop()} title="Send" />
           <Form
             address={this.state.address}
@@ -120,7 +116,7 @@ class WalletSend extends Component {
               text="Send"
             />
           </View>
-        </KeyboardAwareScrollView>
+        </View>
       </GradientBackground>
     );
   }

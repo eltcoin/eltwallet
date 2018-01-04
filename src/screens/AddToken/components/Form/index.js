@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import {
   Image,
   Platform,
+  ScrollView,
   StyleSheet,
   TextInput,
   View,
   TouchableOpacity,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
 import cameraIcon from './images/camera.png';
@@ -67,8 +69,16 @@ export default class Form extends Component {
       symbol,
     } = this.props;
 
+    const ScrollContainer =
+      Platform.OS === 'ios' ? KeyboardAwareScrollView : ScrollView;
+
     return (
-      <View>
+      <ScrollContainer
+        contentContainerStyle={{
+          flex: Platform.OS === 'ios' ? 1 : null,
+          justifyContent: 'center',
+        }}
+      >
         <View style={styles.formElement}>
           <Text style={styles.formLabel}>Contract address</Text>
           <View style={styles.formInputRow}>
@@ -158,7 +168,7 @@ export default class Form extends Component {
             />
           </View>
         </View>
-      </View>
+      </ScrollContainer>
     );
   }
 }

@@ -3,12 +3,14 @@ import {
   ActionSheetIOS,
   Image,
   Platform,
+  ScrollView,
   StyleSheet,
   TextInput,
   View,
   TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import PropTypes from 'prop-types';
 import { Text, TokenPicker } from '../../../../components';
 import { SET_DEFAULT_TOKEN } from '../../../../config/actionTypes';
@@ -111,8 +113,16 @@ class Form extends Component {
       selectedToken,
     } = this.props;
 
+    const ScrollContainer =
+      Platform.OS === 'ios' ? KeyboardAwareScrollView : ScrollView;
+
     return (
-      <View>
+      <ScrollContainer
+        contentContainerStyle={{
+          flex: 1,
+          justifyContent: 'center',
+        }}
+      >
         <View style={styles.formElement}>
           <Text style={styles.formLabel}>To</Text>
           <View style={styles.formInputRow}>
@@ -171,7 +181,7 @@ class Form extends Component {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </ScrollContainer>
     );
   }
 }
