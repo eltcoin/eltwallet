@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Alert, Linking, StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Header, Menu } from '../../components';
+import { LOGOUT } from '../../config/actionTypes';
+import { getPersistor } from '../../config/store';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,8 +15,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Settings extends Component {
+class Settings extends Component {
   static propTypes = {
+    logout: PropTypes.func.isRequired,
     navigator: PropTypes.shape({
       pop: PropTypes.func.isRequired,
       push: PropTypes.func.isRequired,
@@ -71,11 +75,10 @@ export default class Settings extends Component {
             {
               text: 'OK',
               onPress: async () => {
+                await this.props.logout();
+
                 this.props.navigator.resetTo({
                   screen: 'Home',
-                  passProps: {
-                    logout: true,
-                  },
                 });
               },
             },
@@ -100,3 +103,12 @@ export default class Settings extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  logout: async () => {
+    dispatch({ type: LOGOUT });
+    await getPersistor(null).flush();
+  },
+});
+
+export default connect(null, mapDispatchToProps)(Settings);

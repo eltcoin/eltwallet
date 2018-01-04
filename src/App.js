@@ -1,9 +1,8 @@
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import { Sentry } from 'react-native-sentry';
-import { persistStore } from 'redux-persist';
 import registerScreens from './screens';
-import store from './config/store';
+import { getPersistor, store } from './config/store';
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.config(
@@ -15,7 +14,7 @@ export default class App {
   static start() {
     registerScreens(store, Provider);
 
-    persistStore(store, null, () => {
+    getPersistor(() => {
       Navigation.startSingleScreenApp({
         screen: {
           title: 'Home',

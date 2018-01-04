@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import ProviderEngine from 'web3-provider-engine';
 import WalletSubprovider from 'web3-provider-engine/subproviders/wallet';
 import Web3Subprovider from 'web3-provider-engine/subproviders/web3';
-import store from '../config/store';
+import { store } from '../config/store';
 import { SET_WALLET_ADDRESS, SET_PRIVATE_KEY } from '../config/actionTypes';
 import AnalyticsUtils from './analytics';
 import { erc20Abi } from './constants';

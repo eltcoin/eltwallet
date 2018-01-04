@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import Analytics from 'analytics-react-native';
-import store from '../config/store';
+import { store } from '../config/store';
 
 const analytics = new Analytics('RFVONRbwMfe12Asdr0hgywhxsqgxyaaO');
 

@@ -7,7 +7,6 @@ import {
   PrimaryButton,
   SecondaryButton,
 } from '../../components';
-import { LOGOUT } from '../../config/actionTypes';
 import logo from './images/logo.png';
 
 const styles = StyleSheet.create({
@@ -33,8 +32,6 @@ const styles = StyleSheet.create({
 
 class Home extends Component {
   static propTypes = {
-    clearStore: PropTypes.func.isRequired,
-    logout: PropTypes.bool,
     navigator: PropTypes.shape({
       push: PropTypes.func.isRequired,
       resetTo: PropTypes.func.isRequired,
@@ -43,7 +40,6 @@ class Home extends Component {
   };
 
   static defaultProps = {
-    logout: false,
     walletAddress: '',
   };
 
@@ -55,9 +51,7 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    if (this.props.logout) {
-      this.props.clearStore();
-    } else if (this.props.walletAddress) {
+    if (this.props.walletAddress) {
       this.props.navigator.resetTo({
         screen: 'PinCode',
       });
@@ -104,8 +98,4 @@ const mapStateToProps = state => ({
   walletAddress: state.walletAddress,
 });
 
-const mapDispatchToProps = dispatch => ({
-  clearStore: () => dispatch({ type: LOGOUT }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps)(Home);
