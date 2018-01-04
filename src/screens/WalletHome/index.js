@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, AppState, StyleSheet, View } from 'react-native';
+import { AppState, Alert, StyleSheet, View, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Text } from '../../components';
@@ -68,6 +68,7 @@ class WalletHome extends Component {
 
   state = {
     currentBalance: 0,
+    lockTimeout: null,
     refreshingTransactions: false,
     transactions: [],
   };
@@ -131,10 +132,24 @@ class WalletHome extends Component {
     this.fetchTransactions();
   };
 
-  handleAppStateChange = () => {
-    this.props.navigator.resetTo({
-      screen: 'PinCode',
-    });
+  handleAppStateChange = newState => {
+    if (Platform.OS === 'ios' && newState === 'inactive') {
+      const lockTimeout = setTimeout(() => {
+        this.props.navigator.resetTo({
+          screen: 'PinCode',
+        });
+      }, 5000);
+
+      this.setState({
+        lockTimeout,
+      });
+    } else if (Platform.OS === 'ios' && newState === 'active') {
+      clearTimeout(this.state.lockTimeout);
+    } else if (Platform.OS === 'android' && newState === 'active') {
+      this.props.navigator.resetTo({
+        screen: 'PinCode',
+      });
+    }
   };
 
   addEventListeners = () => {

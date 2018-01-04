@@ -48,6 +48,12 @@ class PinCode extends Component {
     pinCode: '',
   };
 
+  onAuthSuccess = () => {
+    this.props.navigator.resetTo({
+      screen: 'WalletHome',
+    });
+  };
+
   onBackPress = () => {
     this.setState({
       pinCode: this.state.pinCode.slice(0, -1),
@@ -66,9 +72,7 @@ class PinCode extends Component {
       () => {
         if (this.state.pinCode.length === 4) {
           if (this.state.pinCode === this.props.pinCode) {
-            this.props.navigator.resetTo({
-              screen: 'WalletHome',
-            });
+            this.onAuthSuccess();
           } else {
             this.setState(
               {
@@ -93,6 +97,7 @@ class PinCode extends Component {
           <PinKeyboard
             onBackPress={this.onBackPress}
             onKeyPress={this.onKeyPress}
+            onAuthSuccess={this.onAuthSuccess}
             showBackButton={this.state.pinCode.length > 0}
           />
         </View>

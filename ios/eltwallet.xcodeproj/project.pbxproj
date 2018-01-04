@@ -42,6 +42,7 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		DBFAC2C55A8C48039A569513 /* Varela Round.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1DCF7D0FF88B4C79BE5F1BEF /* Varela Round.otf */; };
 		4D68751481F1479099090196 /* libRNSensitiveInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA14258B4314457B47544F3 /* libRNSensitiveInfo.a */; };
+		53BE65D2DAD84E4B9357AB23 /* libTouchID.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19A0B0D9249846DDBCCA9A1A /* libTouchID.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -378,6 +379,8 @@
 		D7E2A1B79E0246B9BD2B84D0 /* libRCTCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTCamera.a; sourceTree = "<group>"; };
 		8F05035D98B44A8EB9770642 /* RNSensitiveInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNSensitiveInfo.xcodeproj"; path = "../node_modules/react-native-sensitive-info/ios/RNSensitiveInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		3CA14258B4314457B47544F3 /* libRNSensitiveInfo.a */ = {isa = PBXFileReference; name = "libRNSensitiveInfo.a"; path = "libRNSensitiveInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		6AF35175D5AA43AF88E0C067 /* TouchID.xcodeproj */ = {isa = PBXFileReference; name = "TouchID.xcodeproj"; path = "../node_modules/react-native-touch-id/TouchID.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		19A0B0D9249846DDBCCA9A1A /* libTouchID.a */ = {isa = PBXFileReference; name = "libTouchID.a"; path = "libTouchID.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -411,6 +414,7 @@
 				7B2B1F6B12194BB9A9A4BB43 /* libReactNativeNavigation.a in Frameworks */,
 				1983EEA359934EBF94C3E796 /* libRCTCamera.a in Frameworks */,
 				4D68751481F1479099090196 /* libRNSensitiveInfo.a in Frameworks */,
+				53BE65D2DAD84E4B9357AB23 /* libTouchID.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,6 +603,7 @@
 				11A4AEA769294D3AB449098D /* ReactNativeNavigation.xcodeproj */,
 				0CA081432DFE4BBA998C8283 /* RCTCamera.xcodeproj */,
 				8F05035D98B44A8EB9770642 /* RNSensitiveInfo.xcodeproj */,
+				6AF35175D5AA43AF88E0C067 /* TouchID.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1330,12 +1335,14 @@
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 					"$(SRCROOT)/../node_modules/react-native-sensitive-info/ios/RNSensitiveInfo/**",
+					"$(SRCROOT)/../node_modules/react-native-touch-id",
 				);
 				INFOPLIST_FILE = eltwalletTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1359,12 +1366,14 @@
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 					"$(SRCROOT)/../node_modules/react-native-sensitive-info/ios/RNSensitiveInfo/**",
+					"$(SRCROOT)/../node_modules/react-native-touch-id",
 				);
 				INFOPLIST_FILE = eltwalletTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1391,6 +1400,7 @@
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 					"$(SRCROOT)/../node_modules/react-native-sensitive-info/ios/RNSensitiveInfo/**",
+					"$(SRCROOT)/../node_modules/react-native-touch-id",
 				);
 				INFOPLIST_FILE = eltwallet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1419,6 +1429,7 @@
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 					"$(SRCROOT)/../node_modules/react-native-sensitive-info/ios/RNSensitiveInfo/**",
+					"$(SRCROOT)/../node_modules/react-native-touch-id",
 				);
 				INFOPLIST_FILE = eltwallet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1452,11 +1463,13 @@
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 					"$(SRCROOT)/../node_modules/react-native-sensitive-info/ios/RNSensitiveInfo/**",
+					"$(SRCROOT)/../node_modules/react-native-touch-id",
 				);
 				INFOPLIST_FILE = "eltwallet-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1490,11 +1503,13 @@
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 					"$(SRCROOT)/../node_modules/react-native-sensitive-info/ios/RNSensitiveInfo/**",
+					"$(SRCROOT)/../node_modules/react-native-touch-id",
 				);
 				INFOPLIST_FILE = "eltwallet-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1525,6 +1540,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.eltwallet-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1549,6 +1565,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.eltwallet-tvOSTests";

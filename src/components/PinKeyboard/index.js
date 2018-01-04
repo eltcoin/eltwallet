@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import chunk from 'lodash/chunk';
 import range from 'lodash/range';
 import Text from '../Text';
-import arrow from './images/arrow.png';
+import BackButton from './components/BackButton';
 
 const styles = StyleSheet.create({
   keyboardRow: {
@@ -15,30 +15,27 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingVertical: 20,
   },
-  arrowKey: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  textPlaceholder: {
+    color: 'transparent',
+    fontSize: 40,
   },
   keyboardText: {
     color: '#fff',
     fontSize: 40,
     textAlign: 'center',
   },
-  textPlaceholder: {
-    color: 'transparent',
-    fontSize: 40,
-  },
-  arrowIcon: {
-    height: 24,
-    width: 24,
-  },
 });
 
 export default class PinKeyboard extends Component {
   static propTypes = {
+    onAuthSuccess: PropTypes.func,
     onBackPress: PropTypes.func.isRequired,
     onKeyPress: PropTypes.func.isRequired,
     showBackButton: PropTypes.bool.isRequired,
+  };
+
+  static defaultProps = {
+    onAuthSuccess: null,
   };
 
   render() {
@@ -71,20 +68,11 @@ export default class PinKeyboard extends Component {
           >
             <Text style={styles.keyboardText}>0</Text>
           </TouchableOpacity>
-          {this.props.showBackButton ? (
-            <TouchableOpacity
-              style={[styles.keyboardKey, styles.arrowKey]}
-              onPress={() => {
-                this.props.onBackPress();
-              }}
-            >
-              <Image source={arrow} style={styles.arrowIcon} />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity style={styles.keyboardKey}>
-              <Text style={styles.textPlaceholder}>0</Text>
-            </TouchableOpacity>
-          )}
+          <BackButton
+            onAuthSuccess={this.props.onAuthSuccess}
+            onBackPress={this.props.onBackPress}
+            showBackButton={this.props.showBackButton}
+          />
         </View>
       </View>
     );

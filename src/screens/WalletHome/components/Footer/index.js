@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     borderTopColor: '#3C3749',
-    borderTopWidth: 1,
+    borderTopWidth: 2,
     flexDirection: 'row',
     width: '100%',
   },
@@ -28,10 +28,10 @@ const styles = StyleSheet.create({
     width: '50%',
   },
   sendButton: {
-    borderRightWidth: 0.5,
+    borderRightWidth: 1,
   },
   receiveButton: {
-    borderLeftWidth: 0.5,
+    borderLeftWidth: 1,
   },
 });
 
