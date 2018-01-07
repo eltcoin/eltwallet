@@ -6,7 +6,6 @@ import PinKeyboard from './PinKeyboard';
 import PrimaryButton from './PrimaryButton';
 import SecondaryButton from './SecondaryButton';
 import Text from './Text';
-import TokenPicker from './TokenPicker';
 
 export {
   GradientBackground,
@@ -17,5 +16,4 @@ export {
   PrimaryButton,
   SecondaryButton,
   Text,
-  TokenPicker,
 };

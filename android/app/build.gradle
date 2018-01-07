@@ -92,6 +92,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-dialogs')
     compile project(':react-native-touch-id')
     compile project(':react-native-sensitive-info')
     compile project(':react-native-sentry')

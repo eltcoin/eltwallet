@@ -8,8 +8,9 @@ import {
   ActionSheetIOS,
 } from 'react-native';
 import { connect } from 'react-redux';
+import DialogAndroid from 'react-native-dialogs';
 import PropTypes from 'prop-types';
-import { Text, TokenPicker } from '../../../../components';
+import { Text } from '../../../../components';
 import { SET_DEFAULT_TOKEN } from '../../../../config/actionTypes';
 import switchIcon from './images/switch.png';
 import settingsIcon from './images/settings.png';
@@ -100,13 +101,21 @@ class BalanceRow extends Component {
     );
   };
 
+  showDialog = () => {
+    const dialog = new DialogAndroid();
+
+    dialog.set({
+      items: this.props.availableTokens
+        .map(token => token.name)
+        .concat(['Add new token']),
+      itemsCallback: this.onTokenChange,
+    });
+
+    dialog.show();
+  };
+
   render() {
-    const {
-      currentBalance,
-      selectedToken,
-      onAddNewToken,
-      onSettingsIconPress,
-    } = this.props;
+    const { currentBalance, selectedToken, onSettingsIconPress } = this.props;
 
     return (
       <View style={styles.container}>
@@ -120,15 +129,12 @@ class BalanceRow extends Component {
         </View>
         <View style={styles.iconsContainer}>
           <TouchableOpacity
-            onPress={Platform.OS === 'ios' ? this.showActionSheet : null}
+            onPress={
+              Platform.OS === 'ios' ? this.showActionSheet : this.showDialog
+            }
+            style={{ borderWidth: 0 }}
           >
             <Image source={switchIcon} style={styles.switchIcon} />
-            {Platform.OS === 'ios' ? null : (
-              <TokenPicker
-                onAddNewToken={onAddNewToken}
-                selectedToken={selectedToken}
-              />
-            )}
           </TouchableOpacity>
           <TouchableOpacity onPress={onSettingsIconPress}>
             <Image source={settingsIcon} style={styles.settingsIcon} />

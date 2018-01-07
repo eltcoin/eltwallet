@@ -10,9 +10,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
+import DialogAndroid from 'react-native-dialogs';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import PropTypes from 'prop-types';
-import { Text, TokenPicker } from '../../../../components';
+import { Text } from '../../../../components';
 import { SET_DEFAULT_TOKEN } from '../../../../config/actionTypes';
 import cameraIcon from './images/camera.png';
 import arrowIcon from './images/arrow.png';
@@ -102,11 +103,23 @@ class Form extends Component {
     );
   };
 
+  showDialog = () => {
+    const dialog = new DialogAndroid();
+
+    dialog.set({
+      items: this.props.availableTokens
+        .map(token => token.name)
+        .concat(['Add new token']),
+      itemsCallback: this.onTokenChange,
+    });
+
+    dialog.show();
+  };
+
   render() {
     const {
       address,
       amount,
-      onAddNewToken,
       onAddressChange,
       onAmountChange,
       onCameraPress,
@@ -167,17 +180,13 @@ class Form extends Component {
               value={amount}
             />
             <TouchableOpacity
-              onPress={Platform.OS === 'ios' ? this.showActionSheet : null}
+              onPress={
+                Platform.OS === 'ios' ? this.showActionSheet : this.showDialog
+              }
               style={styles.tokenPicker}
             >
               <Text style={styles.tokenSymbol}>{selectedToken.symbol}</Text>
               <Image source={arrowIcon} style={styles.arrowIcon} />
-              {Platform.OS === 'ios' ? null : (
-                <TokenPicker
-                  onAddNewToken={onAddNewToken}
-                  selectedToken={selectedToken}
-                />
-              )}
             </TouchableOpacity>
           </View>
         </View>
