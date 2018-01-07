@@ -15,10 +15,12 @@ export default class App {
     registerScreens(store, Provider);
 
     getPersistor(() => {
+      const { walletAddress } = store.getState();
+
       Navigation.startSingleScreenApp({
         screen: {
-          title: 'Home',
-          screen: 'Home',
+          title: walletAddress ? 'PinCode' : 'Home',
+          screen: walletAddress ? 'PinCode' : 'Home',
         },
       });
     });
