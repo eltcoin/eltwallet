@@ -1,8 +1,16 @@
+import { AsyncStorage, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import { Sentry } from 'react-native-sentry';
 import registerScreens from './screens';
 import { getPersistor, store } from './config/store';
+import {
+  SET_WALLET_ADDRESS,
+  ADD_TOKEN,
+  SET_DEFAULT_TOKEN,
+  SET_PIN_CODE,
+  SET_PRIVATE_KEY,
+} from './config/actionTypes';
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.config(
@@ -11,11 +19,74 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export default class App {
+  static async migrateFromAsyncStorage() {
+    const keys = [
+      '@ELTWALLET:address',
+      '@ELTWALLET:availableTokens',
+      '@ELTWALLET:defaultToken',
+      '@ELTWALLET:pinCode',
+      '@ELTWALLET:privateKey',
+    ];
+
+    const [
+      walletAddress,
+      availableTokens,
+      selectedToken,
+      pinCode,
+      privateKey,
+    ] = await AsyncStorage.multiGet(keys);
+
+    if (walletAddress[1]) {
+      store.dispatch({
+        type: SET_WALLET_ADDRESS,
+        walletAddress: walletAddress[1],
+      });
+    }
+
+    if (availableTokens[1]) {
+      JSON.parse(availableTokens[1])
+        .slice(2)
+        .forEach(token => {
+          store.dispatch({
+            type: ADD_TOKEN,
+            token,
+          });
+        });
+    }
+
+    if (selectedToken[1]) {
+      store.dispatch({
+        type: SET_DEFAULT_TOKEN,
+        token: JSON.parse(selectedToken[1]),
+      });
+    }
+
+    if (pinCode[1]) {
+      store.dispatch({
+        type: SET_PIN_CODE,
+        pinCode: pinCode[1],
+      });
+    }
+
+    if (privateKey[1]) {
+      store.dispatch({
+        type: SET_PRIVATE_KEY,
+        privateKey: privateKey[1],
+      });
+    }
+
+    return AsyncStorage.multiRemove(keys);
+  }
+
   static start() {
     registerScreens(store, Provider);
 
-    getPersistor(() => {
+    getPersistor(async () => {
       const { walletAddress } = store.getState();
+
+      if (Platform.OS === 'android' && !walletAddress) {
+        await this.migrateFromAsyncStorage();
+      }
 
       Navigation.startSingleScreenApp({
         screen: {
