@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Clipboard, StyleSheet, View } from 'react-native';
+import { Alert, Clipboard, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import QRCode from 'react-native-qrcode';
@@ -75,6 +75,10 @@ class WalletReceive extends Component {
             <SecondaryButton
               onPress={() => {
                 Clipboard.setString(this.props.walletAddress);
+                Alert.alert(
+                  'Wallet address',
+                  'Your wallet address has been copied to your clipboard!',
+                );
               }}
               text="Copy to clipboard"
             />

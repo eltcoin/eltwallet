@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Clipboard, StyleSheet, View } from 'react-native';
+import { Alert, Clipboard, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -65,6 +65,10 @@ class PrivateKey extends Component {
             <SecondaryButton
               onPress={() => {
                 Clipboard.setString(this.props.privateKey);
+                Alert.alert(
+                  'Private key',
+                  'Your private key has been copied to your clipboard!\nDo not share it or your wallet will be compromised.',
+                );
               }}
               text="Copy to clipboard"
             />
