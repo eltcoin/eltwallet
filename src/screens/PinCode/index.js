@@ -79,7 +79,10 @@ class PinCode extends Component {
                 pinCode: '',
               },
               () => {
-                Alert.alert('Your PIN code is incorrect. Please try again.');
+                Alert.alert(
+                  'PIN Code',
+                  'Your PIN code is incorrect. Please try again.',
+                );
               },
             );
           }

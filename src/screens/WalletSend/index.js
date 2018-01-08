@@ -76,6 +76,7 @@ class WalletSend extends Component {
       );
 
       Alert.alert(
+        `Sending ${this.props.selectedToken.symbol}`,
         `You've successfully sent ${this.state.amount} ${
           this.props.selectedToken.symbol
         } to ${this.state.address}`,
@@ -85,6 +86,7 @@ class WalletSend extends Component {
     } catch (error) {
       // TODO: Parse error message and display better error message
       Alert.alert(
+        `Sending ${this.props.selectedToken.symbol}`,
         `An error happened during the transaction, please try again later`,
       );
     }

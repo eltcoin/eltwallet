@@ -104,7 +104,10 @@ export default class CreateWallet extends Component {
     try {
       WalletUtils.restoreWallet(this.state.privateKey);
     } catch (error) {
-      Alert.alert('Your private key is invalid. Please try again.');
+      Alert.alert(
+        'Private key',
+        'Your private key is invalid. Please try again.',
+      );
       return;
     }
 

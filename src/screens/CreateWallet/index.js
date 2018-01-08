@@ -140,7 +140,10 @@ class CreateWallet extends Component {
               isConfirmation: false,
             },
             () => {
-              Alert.alert("Your PIN code doesn't match. Please try again.");
+              Alert.alert(
+                'PIN Code',
+                "Your PIN code doesn't match. Please try again.",
+              );
             },
           );
         }
