@@ -5,6 +5,7 @@
   "scripts": {
     "lint": "eslint .",
     "precommit": "lint-staged",
+    "postversion": "react-native-version",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
@@ -54,6 +55,7 @@
     "husky": "^0.14.3",
     "lint-staged": "^6.0.0",
     "prettier": "^1.9.2",
+    "react-native-version": "^2.4.1",
     "rn-nodeify": "^8.3.0"
   },
   "rnpm": {
