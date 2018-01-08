@@ -41,11 +41,10 @@ class WalletSend extends Component {
   state = {
     address: '',
     amount: '',
+    isLoading: false,
   };
 
   onBarCodeRead = address => {
-    this.props.navigator.pop();
-
     AnalyticsUtils.trackEvent('Read send address QR code');
 
     this.setState({
@@ -69,25 +68,42 @@ class WalletSend extends Component {
 
   sendTransaction = async () => {
     try {
+      this.setState({
+        isLoading: true,
+      });
+
       await WalletUtils.sendTransaction(
         this.props.selectedToken,
         this.state.address,
         this.state.amount,
       );
 
-      Alert.alert(
-        `Sending ${this.props.selectedToken.symbol}`,
-        `You've successfully sent ${this.state.amount} ${
-          this.props.selectedToken.symbol
-        } to ${this.state.address}`,
+      this.setState(
+        {
+          isLoading: false,
+        },
+        () => {
+          Alert.alert(
+            `Sending ${this.props.selectedToken.symbol}`,
+            `You've successfully sent ${this.state.amount} ${
+              this.props.selectedToken.symbol
+            } to ${this.state.address}`,
+          );
+        },
       );
 
       this.props.navigator.pop();
     } catch (error) {
-      // TODO: Parse error message and display better error message
-      Alert.alert(
-        `Sending ${this.props.selectedToken.symbol}`,
-        `An error happened during the transaction, please try again later`,
+      this.setState(
+        {
+          isLoading: false,
+        },
+        () => {
+          Alert.alert(
+            `Sending ${this.props.selectedToken.symbol}`,
+            `An error happened during the transaction, please try again later`,
+          );
+        },
       );
     }
   };
@@ -113,8 +129,9 @@ class WalletSend extends Component {
           />
           <View style={styles.buttonContainer}>
             <SecondaryButton
-              onPress={this.sendTransaction}
               disabled={!this.addressIsValid() || !this.amountIsValid()}
+              isLoading={this.state.isLoading}
+              onPress={this.sendTransaction}
               text="Send"
             />
           </View>

@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, TouchableHighlight } from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  View,
+  TouchableHighlight,
+} from 'react-native';
 import Text from '../Text';
 
 const styles = StyleSheet.create({
@@ -20,12 +25,14 @@ const styles = StyleSheet.create({
 export default class SecondaryButton extends Component {
   static propTypes = {
     disabled: PropTypes.bool,
+    isLoading: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
     disabled: false,
+    isLoading: false,
   };
 
   render() {
@@ -39,7 +46,11 @@ export default class SecondaryButton extends Component {
         }}
       >
         <View style={styles.container}>
-          <Text style={styles.text}>{this.props.text}</Text>
+          {this.props.isLoading ? (
+            <ActivityIndicator color="#4D00FF" />
+          ) : (
+            <Text style={styles.text}>{this.props.text}</Text>
+          )}
         </View>
       </TouchableHighlight>
     );

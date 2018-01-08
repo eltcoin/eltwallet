@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform, Vibration } from 'react-native';
 import Camera from 'react-native-camera';
 import { Header } from '../../components';
 
@@ -29,8 +29,27 @@ export default class Home extends Component {
     statusBarTextColorScheme: 'light',
   };
 
+  state = {
+    scannedText: '',
+  };
+
   onBarCodeRead = e => {
-    this.props.onBarCodeRead(e.data);
+    if (!this.state.scannedText) {
+      this.setState(
+        {
+          scannedText: e.data,
+        },
+        () => {
+          if (Platform.OS === 'ios') {
+            Vibration.vibrate(500, false);
+          } else {
+            Vibration.vibrate([0, 500], false);
+          }
+          this.props.onBarCodeRead(this.state.scannedText);
+          this.props.navigator.pop();
+        },
+      );
+    }
   };
 
   render() {

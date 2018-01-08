@@ -23,7 +23,7 @@ export default class WalletUtils {
 
     store.dispatch({
       type: SET_PRIVATE_KEY,
-      privateKey: wallet.getPrivateKeyString(),
+      privateKey: wallet.getPrivateKey().toString('hex'),
     });
   }
 

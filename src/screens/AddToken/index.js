@@ -44,8 +44,6 @@ class AddToken extends Component {
   };
 
   onBarCodeRead = contractAddress => {
-    this.props.navigator.pop();
-
     AnalyticsUtils.trackEvent('Read ERC20 contract QR code', {
       contractAddress,
     });

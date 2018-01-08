@@ -81,8 +81,6 @@ export default class CreateWallet extends Component {
   };
 
   onBarCodeRead = privateKey => {
-    this.props.navigator.pop();
-
     AnalyticsUtils.trackEvent('Read private key QR code');
 
     this.setState({
