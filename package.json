@@ -30,7 +30,7 @@
     "react-native-randombytes": "^3.0.0",
     "react-native-sensitive-info": "^5.2.0",
     "react-native-sentry": "^0.32.0",
-    "react-native-touch-id": "https://github.com/naoufal/react-native-touch-id.git",
+    "react-native-touch-id": "https://github.com/eltcoin/react-native-touch-id.git",
     "react-redux": "^5.0.6",
     "readable-stream": "^1.0.33",
     "redux": "^3.7.2",
