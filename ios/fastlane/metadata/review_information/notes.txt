@@ -1,3 +1,0 @@
-You can create a new wallet or import an existing Ethereum wallet on the welcome screen.
-You can try to scan QR codes with ETH address or ERC20 token contract address.
-All the transactions are happening on the Ethereum main network so it will cost you fees if you try to send transactions from the wallet.

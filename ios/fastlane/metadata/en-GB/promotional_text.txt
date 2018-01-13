@@ -1,1 +1,0 @@
-A fast, secure, and feature rich Ethereum Wallet.

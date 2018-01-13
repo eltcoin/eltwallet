@@ -10,6 +10,8 @@
 {
   NSURL *jsCodeLocation;
 
+  [RNSentry installWithBridge:[[RCCManager sharedInstance] getBridge]];
+
 #ifdef DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 #else
