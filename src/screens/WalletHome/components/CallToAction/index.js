@@ -13,9 +13,10 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   crossIconContainer: {
+    padding: 5,
     position: 'absolute',
-    right: 10,
-    top: 10,
+    right: 5,
+    top: 5,
     zIndex: 1,
   },
   crossIcon: {
