@@ -3,7 +3,11 @@ import { Platform, StyleSheet, Text as RNText } from 'react-native';
 import PropTypes from 'prop-types';
 
 function applyLetterSpacing(string, letterSpacing) {
-  if (Platform.OS === 'ios' || letterSpacing === 0) {
+  if (
+    Platform.OS === 'ios' ||
+    (Platform.OS === 'android' && Platform.Version <= 16) ||
+    letterSpacing === 0
+  ) {
     return string;
   }
 

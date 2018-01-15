@@ -9,7 +9,7 @@ if (typeof process === 'undefined') {
       process[p] = bProcess[p];
     }
   }
-  process.version = 1;
+  process.version = 'v8.9.4';
 }
 
 process.browser = false;

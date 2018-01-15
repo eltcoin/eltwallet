@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import PropTypes from 'prop-types';
-import TouchID from 'react-native-touch-id';
+import FingerprintScanner from 'react-native-fingerprint-scanner';
+import DialogAndroid from 'react-native-dialogs';
 import Text from '../../../Text';
 import arrowIcon from './images/arrow.png';
-import faceIdIcon from './images/faceid.png';
 import touchIdIcon from './images/touchid.png';
 
 const styles = StyleSheet.create({
@@ -43,7 +43,6 @@ export default class PinKeyboard extends Component {
   };
 
   state = {
-    isFaceIdSupported: false,
     isTouchIdSupported: false,
   };
 
@@ -55,9 +54,31 @@ export default class PinKeyboard extends Component {
 
   onTouchIdClick = async () => {
     try {
-      await TouchID.authenticate('Wallet access');
+      if (Platform.OS === 'android') {
+        const dialog = new DialogAndroid();
 
-      this.props.onAuthSuccess();
+        dialog.set({
+          title: 'Unlock your wallet',
+          content: 'Confirm fingerprint to continue',
+          negativeText: 'Cancel',
+        });
+
+        dialog.show();
+
+        await FingerprintScanner.authenticate({
+          description: 'Wallet access',
+        });
+
+        this.props.onAuthSuccess();
+
+        dialog.dismiss();
+      } else {
+        await FingerprintScanner.authenticate({
+          description: 'Wallet access',
+        });
+
+        this.props.onAuthSuccess();
+      }
     } catch (error) {
       // An error happened during biometric auth
     }
@@ -65,21 +86,17 @@ export default class PinKeyboard extends Component {
 
   checkTouchIdSupport = async () => {
     try {
-      const biometryType = await TouchID.isSupported();
+      const isSensorAvailable = await FingerprintScanner.isSensorAvailable();
 
-      if (biometryType === 'FaceID') {
-        this.setState({
-          isFaceIdSupported: true,
-        });
-      } else {
+      if (isSensorAvailable) {
         this.setState({
           isTouchIdSupported: true,
         });
-      }
 
-      this.onTouchIdClick();
+        this.onTouchIdClick();
+      }
     } catch (error) {
-      // Biometric auth is not supported
+      // An error happened during biometric detection
     }
   };
 
@@ -88,31 +105,16 @@ export default class PinKeyboard extends Component {
       return (
         <TouchableOpacity
           style={[styles.keyboardKey, styles.arrowKey]}
-          onPress={() => {
-            this.props.onBackPress();
-          }}
+          onPress={this.props.onBackPress}
         >
           <Image source={arrowIcon} style={styles.arrowIcon} />
-        </TouchableOpacity>
-      );
-    } else if (this.state.isFaceIdSupported) {
-      return (
-        <TouchableOpacity
-          style={[styles.keyboardKey, styles.arrowKey]}
-          onPress={() => {
-            this.onTouchIdClick();
-          }}
-        >
-          <Image source={faceIdIcon} style={styles.touchIdIcon} />
         </TouchableOpacity>
       );
     } else if (this.state.isTouchIdSupported) {
       return (
         <TouchableOpacity
           style={[styles.keyboardKey, styles.arrowKey]}
-          onPress={() => {
-            this.onTouchIdClick();
-          }}
+          onPress={this.onTouchIdClick}
         >
           <Image source={touchIdIcon} style={styles.touchIdIcon} />
         </TouchableOpacity>
@@ -121,7 +123,7 @@ export default class PinKeyboard extends Component {
 
     return (
       <TouchableOpacity style={styles.keyboardKey}>
-        <Text style={styles.textPlaceholder}>0</Text>
+        <Text style={styles.textPlaceholder}> 0 </Text>
       </TouchableOpacity>
     );
   }

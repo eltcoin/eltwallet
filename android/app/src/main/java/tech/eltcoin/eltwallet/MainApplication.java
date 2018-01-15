@@ -5,8 +5,8 @@ import com.BV.LinearGradient.LinearGradientPackage;
 import com.bitgo.randombytes.RandomBytesPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import br.com.classapp.RNSensitiveInfo.RNSensitiveInfoPackage;
-import com.rnfingerprint.FingerprintAuthPackage;
 import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
+import com.hieuvp.fingerprint.ReactNativeFingerprintScannerPackage;
 import com.facebook.react.ReactPackage;
 
 import java.util.Arrays;
@@ -25,8 +25,8 @@ public class MainApplication extends NavigationApplication {
       new RandomBytesPackage(),
       new RCTCameraPackage(),
       new RNSensitiveInfoPackage(),
-      new FingerprintAuthPackage(),
-      new ReactNativeDialogsPackage()
+      new ReactNativeDialogsPackage(),
+      new ReactNativeFingerprintScannerPackage()
     );
   }
 
