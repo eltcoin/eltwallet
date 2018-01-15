@@ -53,20 +53,26 @@ export default class PinKeyboard extends Component {
   }
 
   onTouchIdClick = async () => {
+    let dialog;
+
     try {
       if (Platform.OS === 'android') {
-        const dialog = new DialogAndroid();
+        dialog = new DialogAndroid();
 
         dialog.set({
-          title: 'Unlock your wallet',
-          content: 'Confirm fingerprint to continue',
+          title: 'Authentication Required',
+          content: 'Touch fingerprint sensor to unlock your wallet',
+          negativeColor: '#4D00FF',
           negativeText: 'Cancel',
+          onNegative: () => {
+            FingerprintScanner.release();
+          },
         });
 
         dialog.show();
 
         await FingerprintScanner.authenticate({
-          description: 'Wallet access',
+          onAttempt: () => {},
         });
 
         this.props.onAuthSuccess();
@@ -80,7 +86,9 @@ export default class PinKeyboard extends Component {
         this.props.onAuthSuccess();
       }
     } catch (error) {
-      // An error happened during biometric auth
+      if (dialog) {
+        dialog.dismiss();
+      }
     }
   };
 
