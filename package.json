@@ -25,7 +25,7 @@
     "react-native-fingerprint-scanner": "^2.2.1",
     "react-native-keyboard-aware-scrollview": "^2.0.0",
     "react-native-linear-gradient": "^2.4.0",
-    "react-native-navigation": "https://github.com/APSL/react-native-navigation.git",
+    "react-native-navigation": "https://github.com/APSL/react-native-navigation.git#rn52_android",
     "react-native-qrcode": "^0.2.6",
     "react-native-randombytes": "^3.0.0",
     "react-native-sensitive-info": "^5.2.0",

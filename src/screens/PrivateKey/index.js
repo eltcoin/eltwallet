@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Clipboard, StyleSheet, View } from 'react-native';
+import { Share, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -64,13 +64,12 @@ class PrivateKey extends Component {
           <View style={styles.buttonContainer}>
             <SecondaryButton
               onPress={() => {
-                Clipboard.setString(this.props.privateKey);
-                Alert.alert(
-                  'Private key',
-                  'Your private key has been copied to your clipboard!\nDo not share it or your wallet will be compromised.',
-                );
+                Share.share({
+                  message: this.props.privateKey,
+                  title: 'My Eltwallet private key',
+                });
               }}
-              text="Copy to clipboard"
+              text="Export"
             />
           </View>
         </View>

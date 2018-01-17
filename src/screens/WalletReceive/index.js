@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Clipboard, StyleSheet, View } from 'react-native';
+import { Share, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import QRCode from 'react-native-qrcode';
@@ -74,13 +74,12 @@ class WalletReceive extends Component {
           <View style={styles.buttonContainer}>
             <SecondaryButton
               onPress={() => {
-                Clipboard.setString(this.props.walletAddress);
-                Alert.alert(
-                  'Wallet address',
-                  'Your wallet address has been copied to your clipboard!',
-                );
+                Share.share({
+                  message: this.props.walletAddress,
+                  title: 'My Eltwallet address',
+                });
               }}
-              text="Copy to clipboard"
+              text="Share"
             />
           </View>
         </View>
