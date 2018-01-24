@@ -54,7 +54,7 @@
     "lint-staged": "6.0.1",
     "prettier": "1.10.2",
     "react-native-version": "2.4.1",
-    "rn-nodeify": "8.3.0"
+    "rn-nodeify": "9.0.0"
   },
   "rnpm": {
     "assets": [
