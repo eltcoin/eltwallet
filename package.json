@@ -39,7 +39,7 @@
     "redux-persist-sensitive-storage": "1.0.0",
     "stream-browserify": "2.0.1",
     "vm-browserify": "0.0.4",
-    "web3": "0.19.1",
+    "web3": "0.20.4",
     "web3-provider-engine": "13.6.0"
   },
   "devDependencies": {
