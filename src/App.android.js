@@ -1,8 +1,7 @@
-import { AsyncStorage, Platform } from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import { Sentry } from 'react-native-sentry';
-import UserDefaults from 'react-native-userdefaults-ios';
 import registerScreens from './screens';
 import { getPersistor, store } from './config/store';
 import {
@@ -79,75 +78,20 @@ export default class App {
     return AsyncStorage.multiRemove(keys);
   }
 
-  static async migrateFromUserDefaults() {
-    const wallet = await UserDefaults.stringForKey('wallet').then(JSON.parse);
-
-    if (wallet) {
-      store.dispatch({
-        type: SET_WALLET_ADDRESS,
-        walletAddress: wallet.address,
-      });
-
-      store.dispatch({
-        type: SET_PRIVATE_KEY,
-        privateKey: wallet.privKey,
-      });
-
-      const pinCode = await UserDefaults.stringForKey('PIN');
-
-      if (pinCode) {
-        store.dispatch({
-          type: SET_PIN_CODE,
-          pinCode,
-        });
-      }
-    }
-
-    return UserDefaults.removeItemForKey('PIN').then(
-      UserDefaults.removeItemForKey('wallet'),
-    );
-  }
-
   static start() {
     registerScreens(store, Provider);
 
     getPersistor(async () => {
-      let { walletAddress } = store.getState();
+      const { walletAddress } = store.getState();
 
-      if (Platform.OS === 'android' && !walletAddress) {
+      if (!walletAddress) {
         await this.migrateFromAsyncStorage();
-      } else if (Platform.OS === 'ios' && !walletAddress) {
-        await this.migrateFromUserDefaults();
-      }
-
-      let pinCode;
-
-      // eslint-disable-next-line prefer-const
-      ({ pinCode, walletAddress } = store.getState());
-
-      let screen = {};
-
-      if (pinCode && walletAddress) {
-        screen = {
-          title: 'PinCode',
-          screen: 'PinCode',
-        };
-      } else if (walletAddress) {
-        screen = {
-          screen: 'CreateWallet',
-          title: 'CreateWallet',
-        };
-      } else {
-        screen = {
-          screen: 'Home',
-          title: 'Home',
-        };
       }
 
       Navigation.startSingleScreenApp({
-        screen,
-        passProps: {
-          migrationMode: screen.screen === 'CreateWallet',
+        screen: {
+          title: walletAddress ? 'PinCode' : 'Home',
+          screen: walletAddress ? 'PinCode' : 'Home',
         },
       });
     });
