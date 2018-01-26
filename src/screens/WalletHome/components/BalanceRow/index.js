@@ -1,17 +1,9 @@
 import React, { Component } from 'react';
-import {
-  Image,
-  Platform,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ActionSheetIOS,
-} from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
-import DialogAndroid from 'react-native-dialogs';
 import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
-import { SET_DEFAULT_TOKEN } from '../../../../config/actionTypes';
+
 import switchIcon from './images/switch.png';
 import settingsIcon from './images/settings.png';
 
@@ -63,59 +55,22 @@ const styles = StyleSheet.create({
 
 class BalanceRow extends Component {
   static propTypes = {
-    availableTokens: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        symbol: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
     currentBalance: PropTypes.number.isRequired,
     selectedToken: PropTypes.shape({
       name: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
     }).isRequired,
-    onAddNewToken: PropTypes.func.isRequired,
-    onTokenChange: PropTypes.func.isRequired,
+    onTokenChangeIconPress: PropTypes.func.isRequired,
     onSettingsIconPress: PropTypes.func.isRequired,
   };
 
-  onTokenChange = index => {
-    if (index === this.props.availableTokens.length) {
-      this.props.onAddNewToken();
-      return;
-    }
-
-    const selectedToken = this.props.availableTokens[index];
-
-    this.props.onTokenChange(selectedToken);
-  };
-
-  showActionSheet = () => {
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: this.props.availableTokens
-          .map(token => token.name)
-          .concat(['Add new token']),
-      },
-      this.onTokenChange,
-    );
-  };
-
-  showDialog = () => {
-    const dialog = new DialogAndroid();
-
-    dialog.set({
-      items: this.props.availableTokens
-        .map(token => token.name)
-        .concat(['Add new token']),
-      itemsCallback: this.onTokenChange,
-    });
-
-    dialog.show();
-  };
-
   render() {
-    const { currentBalance, selectedToken, onSettingsIconPress } = this.props;
+    const {
+      currentBalance,
+      selectedToken,
+      onTokenChangeIconPress,
+      onSettingsIconPress,
+    } = this.props;
 
     return (
       <View style={styles.container}>
@@ -128,12 +83,7 @@ class BalanceRow extends Component {
           </Text>
         </View>
         <View style={styles.iconsContainer}>
-          <TouchableOpacity
-            onPress={
-              Platform.OS === 'ios' ? this.showActionSheet : this.showDialog
-            }
-            style={{ borderWidth: 0 }}
-          >
+          <TouchableOpacity onPress={onTokenChangeIconPress}>
             <Image source={switchIcon} style={styles.switchIcon} />
           </TouchableOpacity>
           <TouchableOpacity onPress={onSettingsIconPress}>
@@ -146,12 +96,7 @@ class BalanceRow extends Component {
 }
 
 const mapStateToProps = state => ({
-  availableTokens: state.availableTokens,
   selectedToken: state.selectedToken,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onTokenChange: token => dispatch({ type: SET_DEFAULT_TOKEN, token }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(BalanceRow);
+export default connect(mapStateToProps)(BalanceRow);

@@ -8,6 +8,7 @@ import PinCode from './PinCode';
 import PrivateKey from './PrivateKey';
 import RecoverWallet from './RecoverWallet';
 import Settings from './Settings';
+import TokenPicker from './TokenPicker';
 import WalletHome from './WalletHome';
 import WalletReceive from './WalletReceive';
 import WalletSend from './WalletSend';
@@ -31,6 +32,12 @@ export default (store, Provider) => {
     Provider,
   );
   Navigation.registerComponent('Settings', () => Settings, store, Provider);
+  Navigation.registerComponent(
+    'TokenPicker',
+    () => TokenPicker,
+    store,
+    Provider,
+  );
   Navigation.registerComponent('WalletHome', () => WalletHome, store, Provider);
   Navigation.registerComponent(
     'WalletReceive',

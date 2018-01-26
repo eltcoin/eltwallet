@@ -1,4 +1,5 @@
 export const ADD_TOKEN = 'ADD_TOKEN';
+export const DELETE_TOKEN = 'DELETE_TOKEN';
 export const LOGOUT = 'LOGOUT';
 export const SET_CALL_TO_ACTION_DISMISSED = 'SET_CALL_TO_ACTION_DISMISSED';
 export const SET_DEFAULT_TOKEN = 'SET_DEFAULT_TOKEN';

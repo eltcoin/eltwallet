@@ -116,15 +116,15 @@ class WalletSend extends Component {
           <Form
             address={this.state.address}
             amount={this.state.amount}
-            onAddNewToken={() =>
-              this.props.navigator.push({
-                screen: 'AddToken',
-                animationType: 'slide-horizontal',
-              })
-            }
             onAddressChange={address => this.setState({ address })}
             onAmountChange={amount => this.setState({ amount })}
             onCameraPress={this.onCameraPress}
+            onTokenChangeIconPress={() =>
+              this.props.navigator.push({
+                screen: 'TokenPicker',
+                animationType: 'slide-horizontal',
+              })
+            }
             selectedToken={this.props.selectedToken}
           />
           <View style={styles.buttonContainer}>

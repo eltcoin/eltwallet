@@ -1,12 +1,16 @@
+import uuid from 'react-native-uuid';
+
 const defaultTokens = [
   {
     contractAddress: '0x44197a4c44d6a059297caf6be4f7e172bd56caaf',
     decimals: 8,
+    id: uuid.v4(),
     name: 'ELTCOIN',
     symbol: 'ELT',
   },
   {
     name: 'Ethereum',
+    id: uuid.v4(),
     symbol: 'ETH',
   },
 ];

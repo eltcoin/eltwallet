@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  ActionSheetIOS,
   Image,
   Platform,
   ScrollView,
@@ -10,7 +9,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
-import DialogAndroid from 'react-native-dialogs';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
@@ -65,55 +63,14 @@ class Form extends Component {
   static propTypes = {
     address: PropTypes.string.isRequired,
     amount: PropTypes.string.isRequired,
-    availableTokens: PropTypes.arrayOf(
-      PropTypes.shape({
-        symbol: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
-    onAddNewToken: PropTypes.func.isRequired,
     onAddressChange: PropTypes.func.isRequired,
     onAmountChange: PropTypes.func.isRequired,
     onCameraPress: PropTypes.func.isRequired,
-    onTokenChange: PropTypes.func.isRequired,
+    onTokenChangeIconPress: PropTypes.func.isRequired,
     selectedToken: PropTypes.shape({
       name: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
     }).isRequired,
-  };
-
-  onTokenChange = index => {
-    if (index === this.props.availableTokens.length) {
-      this.props.onAddNewToken();
-      return;
-    }
-
-    const selectedToken = this.props.availableTokens[index];
-
-    this.props.onTokenChange(selectedToken);
-  };
-
-  showActionSheet = () => {
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: this.props.availableTokens
-          .map(token => token.name)
-          .concat(['Add new token']),
-      },
-      this.onTokenChange,
-    );
-  };
-
-  showDialog = () => {
-    const dialog = new DialogAndroid();
-
-    dialog.set({
-      items: this.props.availableTokens
-        .map(token => token.name)
-        .concat(['Add new token']),
-      itemsCallback: this.onTokenChange,
-    });
-
-    dialog.show();
   };
 
   render() {
@@ -123,6 +80,7 @@ class Form extends Component {
       onAddressChange,
       onAmountChange,
       onCameraPress,
+      onTokenChangeIconPress,
       selectedToken,
     } = this.props;
 
@@ -180,9 +138,7 @@ class Form extends Component {
               value={amount}
             />
             <TouchableOpacity
-              onPress={
-                Platform.OS === 'ios' ? this.showActionSheet : this.showDialog
-              }
+              onPress={onTokenChangeIconPress}
               style={styles.tokenPicker}
             >
               <Text style={styles.tokenSymbol}>{selectedToken.symbol}</Text>
@@ -196,12 +152,7 @@ class Form extends Component {
 }
 
 const mapStateToProps = state => ({
-  availableTokens: state.availableTokens,
   selectedToken: state.selectedToken,
 });
 
-const mapDispatchToProps = dispatch => ({
-  onTokenChange: token => dispatch({ type: SET_DEFAULT_TOKEN, token }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default connect(mapStateToProps)(Form);

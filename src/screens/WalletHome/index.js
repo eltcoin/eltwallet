@@ -187,9 +187,9 @@ class WalletHome extends Component {
             </Text>
             <BalanceRow
               currentBalance={this.state.currentBalance}
-              onAddNewToken={() =>
+              onTokenChangeIconPress={() =>
                 this.props.navigator.push({
-                  screen: 'AddToken',
+                  screen: 'TokenPicker',
                   animationType: 'slide-horizontal',
                 })
               }

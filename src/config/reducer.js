@@ -1,5 +1,7 @@
+import uuid from 'react-native-uuid';
 import {
   ADD_TOKEN,
+  DELETE_TOKEN,
   LOGOUT,
   SET_CALL_TO_ACTION_DISMISSED,
   SET_DEFAULT_TOKEN,
@@ -28,8 +30,18 @@ const appReducer = (state = defaultState, action) => {
 
       return {
         ...state,
-        availableTokens: state.availableTokens.concat([action.token]),
+        availableTokens: state.availableTokens.concat([
+          Object.assign(action.token, { id: uuid.v4() }),
+        ]),
         selectedToken: action.token,
+      };
+    case DELETE_TOKEN:
+      return {
+        ...state,
+        availableTokens: state.availableTokens.filter(
+          token => token.id !== action.token.id,
+        ),
+        selectedToken: state.availableTokens[0],
       };
     case SET_CALL_TO_ACTION_DISMISSED:
       return {

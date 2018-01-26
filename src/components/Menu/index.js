@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import Swipeout from 'react-native-swipeout';
 import Text from '../Text';
 import arrow from './images/arrow.png';
 
@@ -36,21 +43,52 @@ export default class Menu extends Component {
       PropTypes.shape({
         title: PropTypes.string.isRequired,
         onPress: PropTypes.func.isRequired,
+        swipeToDelete: PropTypes.bool,
+        onDeletePress: PropTypes.func,
       }),
     ).isRequired,
+  };
+
+  renderOption = (option, index) => {
+    if (option.swipeToDelete) {
+      const swipeoutButtons = [
+        {
+          onPress: option.onDeletePress,
+          text: 'Delete',
+          type: 'delete',
+        },
+      ];
+
+      return (
+        <Swipeout
+          backgroundColor="transparent"
+          right={swipeoutButtons}
+          key={index}
+        >
+          <TouchableWithoutFeedback onPress={option.onPress}>
+            <View style={styles.rowContainer}>
+              <Text style={styles.rowText}>{option.title}</Text>
+              <Image source={arrow} style={styles.rowIcon} />
+            </View>
+          </TouchableWithoutFeedback>
+        </Swipeout>
+      );
+    }
+
+    return (
+      <TouchableOpacity onPress={option.onPress} key={index}>
+        <View style={styles.rowContainer}>
+          <Text style={styles.rowText}>{option.title}</Text>
+          <Image source={arrow} style={styles.rowIcon} />
+        </View>
+      </TouchableOpacity>
+    );
   };
 
   render() {
     return (
       <View style={styles.listContainer}>
-        {this.props.options.map((option, index) => (
-          <TouchableOpacity onPress={option.onPress} key={index}>
-            <View style={styles.rowContainer}>
-              <Text style={styles.rowText}>{option.title}</Text>
-              <Image source={arrow} style={styles.rowIcon} />
-            </View>
-          </TouchableOpacity>
-        ))}
+        {this.props.options.map(this.renderOption)}
       </View>
     );
   }
