@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
 class CreateWallet extends Component {
   static propTypes = {
     editMode: PropTypes.bool,
+    migrationMode: PropTypes.bool,
     navigator: PropTypes.shape({
       pop: PropTypes.func.isRequired,
       push: PropTypes.func.isRequired,
@@ -56,6 +57,7 @@ class CreateWallet extends Component {
 
   static defaultProps = {
     editMode: false,
+    migrationMode: false,
     recoverMode: false,
   };
 
@@ -125,7 +127,7 @@ class CreateWallet extends Component {
               animationType: 'slide-horizontal',
             });
             return;
-          } else if (!this.props.editMode) {
+          } else if (!this.props.editMode && !this.props.migrationMode) {
             WalletUtils.generateWallet();
           }
 
@@ -162,7 +164,9 @@ class CreateWallet extends Component {
       <GradientBackground>
         <View style={styles.container}>
           <Header
-            onBackPress={() => this.props.navigator.pop()}
+            onBackPress={
+              this.props.migrationMode ? null : () => this.props.navigator.pop()
+            }
             title={this.state.isConfirmation ? 'Repeat PIN' : originalTitle}
           />
           <View style={styles.explanatoryTextContainer}>
