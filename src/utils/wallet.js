@@ -4,7 +4,11 @@ import ProviderEngine from 'web3-provider-engine';
 import WalletSubprovider from 'web3-provider-engine/subproviders/wallet';
 import Web3Subprovider from 'web3-provider-engine/subproviders/web3';
 import { store } from '../config/store';
-import { SET_WALLET_ADDRESS, SET_PRIVATE_KEY } from '../config/actionTypes';
+import {
+  ADD_TOKEN,
+  SET_WALLET_ADDRESS,
+  SET_PRIVATE_KEY,
+} from '../config/actionTypes';
 import AnalyticsUtils from './analytics';
 import { erc20Abi } from './constants';
 
@@ -88,6 +92,44 @@ export default class WalletUtils {
     web3.eth.defaultAccount = wallet.getAddressString();
 
     return web3;
+  }
+
+  /**
+   * Load the tokens the user owns
+   */
+  static loadTokensList() {
+    const { availableTokens, walletAddress } = store.getState();
+
+    const availableTokensAddresses = availableTokens
+      .filter(token => token.symbol !== 'ETH')
+      .map(token => token.contractAddress);
+
+    fetch(
+      `https://api.ethplorer.io/getAddressInfo/${walletAddress}?apiKey=freekey`,
+    )
+      .then(response => response.json())
+      .then(data => {
+        if (!data.tokens) {
+          return;
+        }
+
+        data.tokens
+          .filter(
+            token =>
+              !availableTokensAddresses.includes(token.tokenInfo.address),
+          )
+          .forEach(token => {
+            store.dispatch({
+              type: ADD_TOKEN,
+              token: {
+                contractAddress: token.tokenInfo.address,
+                decimals: parseInt(token.tokenInfo.decimals, 10),
+                name: token.tokenInfo.name,
+                symbol: token.tokenInfo.symbol,
+              },
+            });
+          });
+      });
   }
 
   /**

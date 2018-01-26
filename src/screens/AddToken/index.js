@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Header, SecondaryButton } from '../../components';
 import Form from './components/Form';
-import { ADD_TOKEN } from '../../config/actionTypes';
+import { ADD_TOKEN, SET_DEFAULT_TOKEN } from '../../config/actionTypes';
 import AnalyticsUtils from '../../utils/analytics';
 
 const styles = StyleSheet.create({
@@ -22,11 +22,12 @@ const styles = StyleSheet.create({
 
 class AddToken extends Component {
   static propTypes = {
+    addToken: PropTypes.func.isRequired,
     navigator: PropTypes.shape({
       pop: PropTypes.func.isRequired,
       push: PropTypes.func.isRequired,
     }).isRequired,
-    addToken: PropTypes.func.isRequired,
+    setDefaultToken: PropTypes.func.isRequired,
   };
 
   static navigatorStyle = {
@@ -82,13 +83,15 @@ class AddToken extends Component {
     /^0x([A-Fa-f0-9]{40})$/.test(this.state.contractAddress);
 
   addToken = () => {
-    this.props.addToken({
+    const token = {
       contractAddress: this.state.contractAddress,
       decimals: parseInt(this.state.decimals, 10),
       name: this.state.name,
       symbol: this.state.symbol,
-    });
+    };
 
+    this.props.addToken(token);
+    this.props.setDefaultToken(token);
     this.props.navigator.pop();
   };
 
@@ -133,6 +136,7 @@ class AddToken extends Component {
 
 const mapDispatchToProps = dispatch => ({
   addToken: token => dispatch({ type: ADD_TOKEN, token }),
+  setDefaultToken: token => dispatch({ type: SET_DEFAULT_TOKEN, token }),
 });
 
 export default connect(null, mapDispatchToProps)(AddToken);

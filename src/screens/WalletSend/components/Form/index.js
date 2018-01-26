@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview';
 import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
-import { SET_DEFAULT_TOKEN } from '../../../../config/actionTypes';
 import cameraIcon from './images/camera.png';
 import arrowIcon from './images/arrow.png';
 

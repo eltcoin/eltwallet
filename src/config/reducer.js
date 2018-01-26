@@ -33,7 +33,6 @@ const appReducer = (state = defaultState, action) => {
         availableTokens: state.availableTokens.concat([
           Object.assign(action.token, { id: uuid.v4() }),
         ]),
-        selectedToken: action.token,
       };
     case DELETE_TOKEN:
       return {

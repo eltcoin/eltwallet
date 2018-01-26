@@ -76,6 +76,7 @@ class WalletHome extends Component {
   componentDidMount() {
     this.addEventListeners();
     this.onRefresh();
+    this.loadTokensList();
   }
 
   componentWillReceiveProps(newProps) {
@@ -175,6 +176,10 @@ class WalletHome extends Component {
       refreshingTransactions: false,
       transactions,
     });
+  };
+
+  loadTokensList = () => {
+    WalletUtils.loadTokensList();
   };
 
   render() {
