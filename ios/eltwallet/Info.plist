@@ -29,7 +29,7 @@
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
-			<string></string>
+			<string/>
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
@@ -37,7 +37,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>We allow access to your wallet using Face ID</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Varela Round.otf</string>
