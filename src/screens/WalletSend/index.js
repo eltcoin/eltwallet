@@ -88,11 +88,11 @@ class WalletSend extends Component {
             `You've successfully sent ${this.state.amount} ${
               this.props.selectedToken.symbol
             } to ${this.state.address}`,
+            [{ text: 'OK', onPress: () => this.props.navigator.pop() }],
+            { cancelable: false },
           );
         },
       );
-
-      this.props.navigator.pop();
     } catch (error) {
       this.setState(
         {
