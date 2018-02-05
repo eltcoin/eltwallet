@@ -48,7 +48,7 @@ class TokenPicker extends Component {
           this.props.onTokenChange(token);
           this.props.navigator.pop();
         },
-        swipeToDelete: !['ELT', 'ETH'].includes(token.symbol),
+        swipeToDelete: !['ETH'].includes(token.symbol),
         title: token.name,
       })),
       {
