@@ -37,7 +37,7 @@
     "readable-stream": "2.3.4",
     "redux": "3.7.2",
     "redux-logger": "3.0.6",
-    "redux-persist": "5.7.0",
+    "redux-persist": "5.7.1",
     "redux-persist-sensitive-storage": "1.0.0",
     "stream-browserify": "2.0.1",
     "vm-browserify": "0.0.4",
