@@ -42,7 +42,7 @@
     "stream-browserify": "2.0.1",
     "vm-browserify": "0.0.4",
     "web3": "0.19.1",
-    "web3-provider-engine": "13.6.4"
+    "web3-provider-engine": "13.6.5"
   },
   "devDependencies": {
     "babel-eslint": "8.2.1",
