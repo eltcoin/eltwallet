@@ -52,7 +52,7 @@
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-jsx-a11y": "6.0.3",
-    "eslint-plugin-react": "7.6.1",
+    "eslint-plugin-react": "7.7.0",
     "husky": "0.14.3",
     "lint-staged": "6.1.1",
     "prettier": "1.10.2",
