@@ -65,7 +65,12 @@ class WalletReceive extends Component {
             title="Receive"
           />
           <View style={styles.qrcodeContainer}>
-            <QRCode value={this.props.walletAddress} size={150} />
+            <QRCode
+              bgColor="#fff"
+              fgColor="#090909"
+              value={this.props.walletAddress}
+              size={150}
+            />
           </View>
           <View>
             <Text style={styles.addressTitle}>Address</Text>
