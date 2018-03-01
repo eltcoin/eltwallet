@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Platform, Vibration } from 'react-native';
-import Camera from 'react-native-camera';
+import { RNCamera } from 'react-native-camera';
 import { Header } from '../../components';
 
 const styles = StyleSheet.create({
@@ -59,7 +59,7 @@ export default class Home extends Component {
           title="Scan QR code"
           onBackPress={() => this.props.navigator.pop()}
         />
-        <Camera onBarCodeRead={this.onBarCodeRead} style={styles.preview} />
+        <RNCamera onBarCodeRead={this.onBarCodeRead} style={styles.preview} />
       </View>
     );
   }

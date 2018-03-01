@@ -35,9 +35,6 @@ Make sure you have `react-native-cli` installed.
 # Install dependencies
 $ npm install
 
-# Hack for NodeJS dependencies
-$ ./node_modules/.bin/rn-nodeify --hack --install "assert, crypto, stream, events, vm"
-
 # Run project on connected iPhone or iOS simulator
 $ react-native run-ios
 

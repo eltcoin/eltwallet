@@ -3,7 +3,7 @@ package tech.eltcoin.eltwallet;
 import com.reactnativenavigation.NavigationApplication;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.bitgo.randombytes.RandomBytesPackage;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import org.reactnative.camera.RNCameraPackage;
 import br.com.classapp.RNSensitiveInfo.RNSensitiveInfoPackage;
 import com.aakashns.reactnativedialogs.ReactNativeDialogsPackage;
 import com.hieuvp.fingerprint.ReactNativeFingerprintScannerPackage;
@@ -23,7 +23,7 @@ public class MainApplication extends NavigationApplication {
     return Arrays.<ReactPackage>asList(
       new LinearGradientPackage(),
       new RandomBytesPackage(),
-      new RCTCameraPackage(),
+      new RNCameraPackage(),
       new RNSensitiveInfoPackage(),
       new ReactNativeDialogsPackage(),
       new ReactNativeFingerprintScannerPackage()
