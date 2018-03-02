@@ -18,9 +18,12 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   qrcodeContainer: {
-    paddingHorizontal: 15,
     alignItems: 'center',
-    width: '100%',
+    alignSelf: 'center',
+    borderRadius: 8,
+    backgroundColor: '#fff',
+    paddingVertical: 5,
+    width: 160,
   },
   addressTitle: {
     paddingHorizontal: 15,
@@ -66,8 +69,7 @@ class WalletReceive extends Component {
           />
           <View style={styles.qrcodeContainer}>
             <QRCode
-              bgColor="#fff"
-              fgColor="#090909"
+              bgColor="#090909"
               value={this.props.walletAddress}
               size={150}
             />
