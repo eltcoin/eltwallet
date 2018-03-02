@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
+  ScrollView,
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -87,9 +88,9 @@ export default class Menu extends Component {
 
   render() {
     return (
-      <View style={styles.listContainer}>
+      <ScrollView style={styles.listContainer}>
         {this.props.options.map(this.renderOption)}
-      </View>
+      </ScrollView>
     );
   }
 }
