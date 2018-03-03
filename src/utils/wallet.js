@@ -174,18 +174,25 @@ export default class WalletUtils {
     const { walletAddress } = store.getState();
 
     return fetch(
-      `https://api.ethplorer.io/getAddressHistory/${walletAddress}?token=${contractAddress}&apiKey=freekey`,
+      `https://api.ethplorer.io/getAddressHistory/${walletAddress}?apiKey=freekey`,
     )
       .then(response => response.json())
-      .then(data =>
-        (data.operations || []).map(t => ({
-          from: t.from,
-          timestamp: t.timestamp,
-          transactionHash: t.transactionHash,
-          value: (
-            parseInt(t.value, 10) / Math.pow(10, t.tokenInfo.decimals)
-          ).toFixed(2),
-        })),
+      .then(data => data.operations || [])
+      .then(operations =>
+        operations
+          .filter(
+            t =>
+              t.tokenInfo.address.toLowerCase() ===
+              contractAddress.toLowerCase(),
+          )
+          .map(t => ({
+            from: t.from,
+            timestamp: t.timestamp,
+            transactionHash: t.transactionHash,
+            value: (
+              parseInt(t.value, 10) / Math.pow(10, t.tokenInfo.decimals)
+            ).toFixed(2),
+          })),
       );
   }
 
