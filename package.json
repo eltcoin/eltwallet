@@ -20,7 +20,7 @@
     "prop-types": "15.6.1",
     "react": "16.2.0",
     "react-native": "0.54.0",
-    "react-native-camera": "1.0.1",
+    "react-native-camera": "1.0.2",
     "react-native-crypto": "2.1.2",
     "react-native-dialogs": "0.0.21",
     "react-native-fingerprint-scanner": "2.3.2",
