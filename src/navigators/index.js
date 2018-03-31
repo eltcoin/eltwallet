@@ -2,17 +2,18 @@ import { StackNavigator, SwitchNavigator } from 'react-navigation';
 import {
   AddTokenScreen,
   AppLoadingScreen,
+  CameraScreen,
   CreateWalletScreen,
   HomeScreen,
+  NetworkPickerScreen,
   PinCodeScreen,
+  PrivateKeyScreen,
   RecoverWalletScreen,
-  CameraScreen,
-  WalletHomeScreen,
   SettingsScreen,
   TokenPickerScreen,
+  WalletHomeScreen,
   WalletReceiveScreen,
   WalletSendScreen,
-  PrivateKeyScreen,
 } from '../screens';
 
 const WelcomeNavigator = StackNavigator(
@@ -52,6 +53,9 @@ const WalletMainNavigator = StackNavigator(
     },
     WalletHome: {
       screen: WalletHomeScreen,
+    },
+    NetworkPicker: {
+      screen: NetworkPickerScreen,
     },
     PrivateKey: {
       screen: PrivateKeyScreen,

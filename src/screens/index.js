@@ -3,6 +3,7 @@ import AppLoadingScreen from './AppLoading';
 import CameraScreen from './Camera';
 import CreateWalletScreen from './CreateWallet';
 import HomeScreen from './Home';
+import NetworkPickerScreen from './NetworkPicker';
 import PinCodeScreen from './PinCode';
 import PrivateKeyScreen from './PrivateKey';
 import RecoverWalletScreen from './RecoverWallet';
@@ -18,6 +19,7 @@ export {
   CameraScreen,
   CreateWalletScreen,
   HomeScreen,
+  NetworkPickerScreen,
   PinCodeScreen,
   PrivateKeyScreen,
   RecoverWalletScreen,

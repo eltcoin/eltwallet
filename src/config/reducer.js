@@ -3,8 +3,10 @@ import {
   ADD_TOKEN,
   DELETE_TOKEN,
   LOGOUT,
+  RESET_TOKENS,
   SET_CALL_TO_ACTION_DISMISSED,
   SET_DEFAULT_TOKEN,
+  SET_NETWORK,
   SET_PIN_CODE,
   SET_PRIVATE_KEY,
   SET_WALLET_ADDRESS,
@@ -16,6 +18,7 @@ const defaultState = {
   availableTokens: defaultTokens,
   callToActionDismissed: false,
   selectedToken: defaultTokens[0],
+  network: 'mainnet',
 };
 
 const appReducer = (state = defaultState, action) => {
@@ -31,7 +34,15 @@ const appReducer = (state = defaultState, action) => {
       return {
         ...state,
         availableTokens: state.availableTokens.concat([
-          Object.assign(action.token, { id: uuid.v4() }),
+          Object.assign(
+            action.token,
+            { id: uuid.v4() },
+            action.token.name === 'ELTCOIN'
+              ? {
+                  symbol: 'ELT',
+                }
+              : {},
+          ),
         ]),
       };
     case DELETE_TOKEN:
@@ -42,6 +53,16 @@ const appReducer = (state = defaultState, action) => {
         ),
         selectedToken: state.availableTokens[0],
       };
+    case RESET_TOKENS:
+      return {
+        ...state,
+        availableTokens: state.availableTokens.filter(
+          token => token.name === 'Ethereum',
+        ),
+        selectedToken: state.availableTokens.filter(
+          token => token.name === 'Ethereum',
+        )[0],
+      };
     case SET_CALL_TO_ACTION_DISMISSED:
       return {
         ...state,
@@ -51,6 +72,15 @@ const appReducer = (state = defaultState, action) => {
       return {
         ...state,
         selectedToken: action.token,
+      };
+    case SET_NETWORK:
+      AnalyticsUtils.trackEvent('Set network', {
+        network: action.network,
+      });
+
+      return {
+        ...state,
+        network: action.network,
       };
     case SET_PIN_CODE:
       return {

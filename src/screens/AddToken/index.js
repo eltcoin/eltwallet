@@ -27,6 +27,7 @@ class AddToken extends Component {
       goBack: PropTypes.func.isRequired,
       navigate: PropTypes.func.isRequired,
     }).isRequired,
+    network: PropTypes.string.isRequired,
     setDefaultToken: PropTypes.func.isRequired,
   };
 
@@ -47,6 +48,8 @@ class AddToken extends Component {
         contractAddress,
       },
       () => {
+        if (this.props.network !== 'mainnet') return;
+
         fetch(
           `https://api.ethplorer.io/getTokenInfo/${contractAddress}?apiKey=freekey`,
         )
@@ -123,9 +126,13 @@ class AddToken extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  network: state.network,
+});
+
 const mapDispatchToProps = dispatch => ({
   addToken: token => dispatch({ type: ADD_TOKEN, token }),
   setDefaultToken: token => dispatch({ type: SET_DEFAULT_TOKEN, token }),
 });
 
-export default connect(null, mapDispatchToProps)(AddToken);
+export default connect(mapStateToProps, mapDispatchToProps)(AddToken);

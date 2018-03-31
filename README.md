@@ -35,6 +35,9 @@ Make sure you have `react-native-cli` installed.
 # Install dependencies
 $ npm install
 
+# Set environment variables (fill the .envrc with your own API keys)
+$ cp .envrc.example .envrc
+
 # Run project on connected iPhone or iOS simulator
 $ react-native run-ios
 

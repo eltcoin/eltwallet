@@ -1,0 +1,4 @@
+export ETHERSCAN_API_KEY=secret
+export INFURA_API_KEY=secret
+export SEGMENT_API_KEY=secret
+export SENTRY_API_KEY=secret

@@ -71,7 +71,37 @@ export default class WalletUtils {
   }
 
   static getWeb3HTTPProvider() {
-    return new Web3.providers.HttpProvider('https://api.myetherapi.com/eth');
+    switch (store.getState().network) {
+      case 'ropsten':
+        return new Web3.providers.HttpProvider(
+          `https://ropsten.infura.io/${process.env.INFURA_API_KEY}`,
+        );
+      case 'kovan':
+        return new Web3.providers.HttpProvider(
+          `https://kovan.infura.io/${process.env.INFURA_API_KEY}`,
+        );
+      case 'rinkeby':
+        return new Web3.providers.HttpProvider(
+          `https://rinkeby.infura.io/${process.env.INFURA_API_KEY}`,
+        );
+      default:
+        return new Web3.providers.HttpProvider(
+          `https://mainnet.infura.io/${process.env.INFURA_API_KEY}`,
+        );
+    }
+  }
+
+  static getEtherscanApiSubdomain() {
+    switch (store.getState().network) {
+      case 'ropsten':
+        return 'api-ropsten';
+      case 'kovan':
+        return 'api-kovan';
+      case 'rinkeby':
+        return 'api-rinkeby';
+      default:
+        return 'api';
+    }
   }
 
   /**
@@ -98,7 +128,9 @@ export default class WalletUtils {
    * Load the tokens the user owns
    */
   static loadTokensList() {
-    const { availableTokens, walletAddress } = store.getState();
+    const { availableTokens, network, walletAddress } = store.getState();
+
+    if (network !== 'mainnet') return;
 
     const availableTokensAddresses = availableTokens
       .filter(token => token.symbol !== 'ETH')
@@ -137,12 +169,12 @@ export default class WalletUtils {
    *
    * @param {Object} token
    */
-  static getTransactions({ contractAddress, symbol }) {
+  static getTransactions({ contractAddress, decimals, symbol }) {
     if (symbol === 'ETH') {
       return this.getEthTransactions();
     }
 
-    return this.getERC20Transactions(contractAddress);
+    return this.getERC20Transactions(contractAddress, decimals);
   }
 
   /**
@@ -152,17 +184,23 @@ export default class WalletUtils {
     const { walletAddress } = store.getState();
 
     return fetch(
-      `https://api.ethplorer.io/getAddressTransactions/${walletAddress}?apiKey=freekey`,
+      `https://${this.getEtherscanApiSubdomain()}.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&sort=desc&apikey=${
+        process.env.ETHERSCAN_API_KEY
+      }`,
     )
       .then(response => response.json())
-      .then(transactions =>
-        transactions.map(t => ({
+      .then(data => {
+        if (data.message !== 'OK') {
+          return [];
+        }
+
+        return data.result.map(t => ({
           from: t.from,
-          timestamp: t.timestamp,
+          timestamp: t.timeStamp,
           transactionHash: t.hash,
-          value: t.value.toFixed(2),
-        })),
-      );
+          value: (parseInt(t.value, 10) / 1e18).toFixed(2),
+        }));
+      });
   }
 
   /**
@@ -170,30 +208,52 @@ export default class WalletUtils {
    *
    * @param {String} contractAddress
    */
-  static getERC20Transactions(contractAddress) {
+  static async getERC20Transactions(contractAddress, decimals) {
     const { walletAddress } = store.getState();
 
-    return fetch(
-      `https://api.ethplorer.io/getAddressHistory/${walletAddress}?apiKey=freekey`,
+    const sentTransactions = await fetch(
+      `https://api.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${contractAddress}&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef&topic1=0x000000000000000000000000${walletAddress.replace(
+        '0x',
+        '',
+      )}`,
     )
       .then(response => response.json())
-      .then(data => data.operations || [])
-      .then(operations =>
-        operations
-          .filter(
-            t =>
-              t.tokenInfo.address.toLowerCase() ===
-              contractAddress.toLowerCase(),
-          )
-          .map(t => ({
-            from: t.from,
-            timestamp: t.timestamp,
-            transactionHash: t.transactionHash,
-            value: (
-              parseInt(t.value, 10) / Math.pow(10, t.tokenInfo.decimals)
-            ).toFixed(2),
-          })),
-      );
+      .then(data => {
+        if (data.message !== 'OK') {
+          return [];
+        }
+
+        return data.result.map(t => ({
+          from: t.topics[1],
+          timestamp: t.timeStamp,
+          transactionHash: t.transactionHash,
+          value: (parseInt(t.data, 16) / Math.pow(10, decimals)).toFixed(2),
+        }));
+      });
+
+    const receivedTransactions = await fetch(
+      `https://api.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${contractAddress}&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef&topic2=0x000000000000000000000000${walletAddress.replace(
+        '0x',
+        '',
+      )}`,
+    )
+      .then(response => response.json())
+      .then(data => {
+        if (data.message !== 'OK') {
+          return [];
+        }
+
+        return data.result.map(t => ({
+          from: t.topics[1],
+          timestamp: t.timeStamp,
+          transactionHash: t.transactionHash,
+          value: (parseInt(t.data, 16) / Math.pow(10, decimals)).toFixed(2),
+        }));
+      });
+
+    return [...sentTransactions, ...receivedTransactions].sort(
+      (a, b) => a.timestamp - b.timestamp,
+    );
   }
 
   /**

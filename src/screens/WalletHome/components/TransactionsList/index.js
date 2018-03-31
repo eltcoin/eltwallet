@@ -61,7 +61,7 @@ export default class TransactionsList extends Component {
         transactionHash: PropTypes.string.isRequired,
         from: PropTypes.string.isRequired,
         value: PropTypes.string.isRequired,
-        timestamp: PropTypes.number.isRequired,
+        timestamp: PropTypes.string.isRequired,
       }),
     ).isRequired,
     walletAddress: PropTypes.string.isRequired,

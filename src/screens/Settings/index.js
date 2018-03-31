@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Alert, Linking, SafeAreaView, StyleSheet } from 'react-native';
+import { Alert, Linking, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { GradientBackground, Header, Menu } from '../../components';
+import { GradientBackground, Header, Menu, Text } from '../../components';
 import { LOGOUT } from '../../config/actionTypes';
 import { persistor } from '../../config/store';
 
@@ -13,6 +13,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingBottom: 15,
   },
+  networkNameContainer: {
+    alignItems: 'center',
+  },
+  networkName: {
+    color: '#fff',
+    fontSize: 16,
+  },
 });
 
 class Settings extends Component {
@@ -22,6 +29,20 @@ class Settings extends Component {
       goBack: PropTypes.func.isRequired,
       navigate: PropTypes.func.isRequired,
     }).isRequired,
+    network: PropTypes.string.isRequired,
+  };
+
+  getNetworkName = () => {
+    switch (this.props.network) {
+      case 'ropsten':
+        return 'ETH Ropsten';
+      case 'kovan':
+        return 'ETH Kovan';
+      case 'rinkeby':
+        return 'ETH Rinkeby';
+      default:
+        return 'ETH Mainnet';
+    }
   };
 
   menuOptions = [
@@ -31,6 +52,12 @@ class Settings extends Component {
         this.props.navigation.navigate('CreateWallet', {
           editMode: true,
         });
+      },
+    },
+    {
+      title: 'Change network',
+      onPress: () => {
+        this.props.navigation.navigate('NetworkPicker');
       },
     },
     {
@@ -81,11 +108,20 @@ class Settings extends Component {
             title="Settings"
           />
           <Menu options={this.menuOptions} />
+          <View style={styles.networkNameContainer}>
+            <Text style={styles.networkName}>
+              Connected to {this.getNetworkName()}
+            </Text>
+          </View>
         </SafeAreaView>
       </GradientBackground>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  network: state.network,
+});
 
 const mapDispatchToProps = dispatch => ({
   logout: async () => {
@@ -94,4 +130,4 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

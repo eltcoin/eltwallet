@@ -1,8 +1,10 @@
 export const ADD_TOKEN = 'ADD_TOKEN';
 export const DELETE_TOKEN = 'DELETE_TOKEN';
 export const LOGOUT = 'LOGOUT';
+export const RESET_TOKENS = 'RESET_TOKENS';
 export const SET_CALL_TO_ACTION_DISMISSED = 'SET_CALL_TO_ACTION_DISMISSED';
 export const SET_DEFAULT_TOKEN = 'SET_DEFAULT_TOKEN';
+export const SET_NETWORK = 'SET_NETWORK';
 export const SET_PIN_CODE = 'SET_PIN_CODE';
 export const SET_PRIVATE_KEY = 'SET_PRIVATE_KEY';
 export const SET_WALLET_ADDRESS = 'SET_WALLET_ADDRESS';
