@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import WalletUtils from '../../utils/wallet';
@@ -44,28 +44,12 @@ const styles = StyleSheet.create({
 
 class CreateWallet extends Component {
   static propTypes = {
-    editMode: PropTypes.bool,
-    migrationMode: PropTypes.bool,
-    navigator: PropTypes.shape({
-      pop: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      resetTo: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      getParam: PropTypes.func.isRequired,
+      goBack: PropTypes.func.isRequired,
+      navigate: PropTypes.func.isRequired,
     }).isRequired,
-    recoverMode: PropTypes.bool,
     setPinCode: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    editMode: false,
-    migrationMode: false,
-    recoverMode: false,
-  };
-
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: '#181724',
-    statusBarColor: 'transparent',
-    statusBarTextColorScheme: 'light',
   };
 
   state = {
@@ -121,18 +105,18 @@ class CreateWallet extends Component {
         ) {
           this.props.setPinCode(this.state.pinCode);
 
-          if (this.props.recoverMode) {
-            this.props.navigator.push({
-              screen: 'RecoverWallet',
-              animationType: 'slide-horizontal',
-            });
+          if (this.props.navigation.getParam('recoverMode', false)) {
+            this.props.navigation.navigate('RecoverWallet');
             return;
-          } else if (!this.props.editMode && !this.props.migrationMode) {
+          } else if (
+            !this.props.navigation.getParam('editMode', false) &&
+            !this.props.navigation.getParam('migrationMode', false)
+          ) {
             WalletUtils.generateWallet();
           }
 
-          this.props.navigator.resetTo({
-            screen: 'WalletHome',
+          setTimeout(() => {
+            this.props.navigation.navigate('Wallet');
           });
         } else if (this.state.confirmationPinCode.length === 4) {
           this.setState(
@@ -158,14 +142,18 @@ class CreateWallet extends Component {
       ? this.state.confirmationPinCode
       : this.state.pinCode;
 
-    const originalTitle = this.props.editMode ? 'Change PIN' : 'Create PIN';
+    const originalTitle = this.props.navigation.getParam('editMode', false)
+      ? 'Change PIN'
+      : 'Create PIN';
 
     return (
       <GradientBackground>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <Header
             onBackPress={
-              this.props.migrationMode ? null : () => this.props.navigator.pop()
+              this.props.navigation.getParam('migrationMode', false)
+                ? null
+                : () => this.props.navigation.goBack()
             }
             title={this.state.isConfirmation ? 'Repeat PIN' : originalTitle}
           />
@@ -183,7 +171,7 @@ class CreateWallet extends Component {
             onKeyPress={this.onKeyPress}
             showBackButton={pinCode.length > 0}
           />
-        </View>
+        </SafeAreaView>
       </GradientBackground>
     );
   }

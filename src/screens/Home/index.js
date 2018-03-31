@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -32,63 +32,33 @@ const styles = StyleSheet.create({
 
 class Home extends Component {
   static propTypes = {
-    navigator: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-      resetTo: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
     }).isRequired,
-    walletAddress: PropTypes.string,
   };
-
-  static defaultProps = {
-    walletAddress: '',
-  };
-
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: '#181724',
-    statusBarColor: 'transparent',
-    statusBarTextColorScheme: 'light',
-  };
-
-  componentDidMount() {
-    if (this.props.walletAddress) {
-      this.props.navigator.resetTo({
-        screen: 'PinCode',
-      });
-    }
-  }
 
   render() {
     return (
       <GradientBackground>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <View style={styles.logoContainer}>
             <Image source={logo} style={styles.logo} resizeMode="contain" />
           </View>
           <View style={styles.buttonsContainer}>
             <PrimaryButton
-              onPress={() =>
-                this.props.navigator.push({
-                  screen: 'CreateWallet',
-                  animationType: 'slide-horizontal',
-                })
-              }
+              onPress={() => this.props.navigation.navigate('CreateWallet')}
               text="Create wallet"
             />
             <SecondaryButton
               onPress={() =>
-                this.props.navigator.push({
-                  screen: 'CreateWallet',
-                  animationType: 'slide-horizontal',
-                  passProps: {
-                    recoverMode: true,
-                  },
+                this.props.navigation.navigate('CreateWallet', {
+                  recoverMode: true,
                 })
               }
               text="Recover wallet"
             />
           </View>
-        </View>
+        </SafeAreaView>
       </GradientBackground>
     );
   }

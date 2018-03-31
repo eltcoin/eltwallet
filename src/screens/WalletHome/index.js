@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppState, Alert, StyleSheet, View } from 'react-native';
+import { AppState, Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Text } from '../../components';
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     letterSpacing: 3,
+    paddingVertical: 5,
     textAlign: 'center',
   },
   bannerContainer: {
@@ -45,9 +46,8 @@ class WalletHome extends Component {
   static propTypes = {
     callToActionDismissed: PropTypes.bool.isRequired,
     dismissCallToAction: PropTypes.func.isRequired,
-    navigator: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-      resetTo: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
     }).isRequired,
     selectedToken: PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -57,13 +57,6 @@ class WalletHome extends Component {
 
   static defaultProps = {
     walletAddress: '',
-  };
-
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: '#181724',
-    statusBarColor: 'transparent',
-    statusBarTextColorScheme: 'light',
   };
 
   state = {
@@ -101,15 +94,8 @@ class WalletHome extends Component {
   }
 
   onCallToActionPress = () => {
-    this.props.navigator.push({
-      animationType: 'slide-horizontal',
-      screen: 'Settings',
-    });
-
-    this.props.navigator.push({
-      animationType: 'slide-horizontal',
-      screen: 'PrivateKey',
-    });
+    this.props.navigation.navigate('Settings');
+    this.props.navigation.navigate('PrivateKey');
   };
 
   onCallToActionDismiss = () => {
@@ -139,9 +125,7 @@ class WalletHome extends Component {
     this.setState({ appState: nextAppState });
 
     if (currentState === 'background' && nextAppState === 'active') {
-      this.props.navigator.resetTo({
-        screen: 'PinCode',
-      });
+      this.props.navigation.navigate('PinCode');
     }
   };
 
@@ -185,7 +169,7 @@ class WalletHome extends Component {
   render() {
     return (
       <GradientBackground>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <View style={styles.topContainer}>
             <Text style={styles.coinName} letterSpacing={2}>
               {this.props.selectedToken.name}
@@ -193,16 +177,10 @@ class WalletHome extends Component {
             <BalanceRow
               currentBalance={this.state.currentBalance}
               onTokenChangeIconPress={() =>
-                this.props.navigator.push({
-                  screen: 'TokenPicker',
-                  animationType: 'slide-horizontal',
-                })
+                this.props.navigation.navigate('TokenPicker')
               }
               onSettingsIconPress={() =>
-                this.props.navigator.push({
-                  screen: 'Settings',
-                  animationType: 'slide-horizontal',
-                })
+                this.props.navigation.navigate('Settings')
               }
             />
             {!this.props.callToActionDismissed && (
@@ -229,23 +207,14 @@ class WalletHome extends Component {
             </View>
           </View>
           <Footer
-            onReceivePress={() =>
-              this.props.navigator.push({
-                screen: 'WalletReceive',
-                animationType: 'slide-horizontal',
-              })
-            }
+            onReceivePress={() => this.props.navigation.navigate('Receive')}
             onSendPress={() =>
-              this.props.navigator.push({
-                screen: 'WalletSend',
-                animationType: 'slide-horizontal',
-                passProps: {
-                  onTokenChange: this.onTokenChange,
-                },
+              this.props.navigation.navigate('Send', {
+                onTokenChange: this.onTokenChange,
               })
             }
           />
-        </View>
+        </SafeAreaView>
       </GradientBackground>
     );
   }

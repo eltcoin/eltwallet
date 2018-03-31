@@ -1,25 +1,41 @@
+import { Component } from 'react';
 import { AsyncStorage } from 'react-native';
-import { Navigation } from 'react-native-navigation';
-import { Provider } from 'react-redux';
-import { Sentry } from 'react-native-sentry';
-import registerScreens from './screens';
-import { getPersistor, store } from './config/store';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   ADD_TOKEN,
   SET_DEFAULT_TOKEN,
   SET_PIN_CODE,
   SET_PRIVATE_KEY,
   SET_WALLET_ADDRESS,
-} from './config/actionTypes';
+} from '../../config/actionTypes';
 
-if (process.env.NODE_ENV === 'production') {
-  Sentry.config(
-    'https://0c7d72d067e34a6bb432bdc9a91c58a5:f84ff22cb0224a428aaee5937f7c435b@sentry.io/265240',
-  ).install();
-}
+class AppLoading extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+    walletAddress: PropTypes.string,
+  };
 
-export default class App {
-  static async migrateFromAsyncStorage() {
+  static defaultProps = {
+    walletAddress: null,
+  };
+
+  async componentDidMount() {
+    if (!this.props.walletAddress) {
+      await this.migrateFromAsyncStorage();
+    }
+
+    if (this.props.walletAddress) {
+      return this.props.navigation.navigate('PinCode');
+    }
+
+    return this.props.navigation.navigate('Welcome');
+  }
+
+  migrateFromAsyncStorage = async () => {
     const keys = [
       '@ELTWALLET:address',
       '@ELTWALLET:availableTokens',
@@ -37,7 +53,7 @@ export default class App {
     ] = await AsyncStorage.multiGet(keys);
 
     if (walletAddress[1]) {
-      store.dispatch({
+      this.props.dispatch({
         type: SET_WALLET_ADDRESS,
         walletAddress: walletAddress[1],
       });
@@ -47,7 +63,7 @@ export default class App {
       JSON.parse(availableTokens[1])
         .slice(2)
         .forEach(token => {
-          store.dispatch({
+          this.props.dispatch({
             type: ADD_TOKEN,
             token,
           });
@@ -55,45 +71,37 @@ export default class App {
     }
 
     if (selectedToken[1]) {
-      store.dispatch({
+      this.props.dispatch({
         type: SET_DEFAULT_TOKEN,
         token: JSON.parse(selectedToken[1]),
       });
     }
 
     if (pinCode[1]) {
-      store.dispatch({
+      this.props.dispatch({
         type: SET_PIN_CODE,
         pinCode: pinCode[1],
       });
     }
 
     if (privateKey[1]) {
-      store.dispatch({
+      this.props.dispatch({
         type: SET_PRIVATE_KEY,
         privateKey: privateKey[1],
       });
     }
 
     return AsyncStorage.multiRemove(keys);
-  }
+  };
 
-  static start() {
-    registerScreens(store, Provider);
-
-    getPersistor(async () => {
-      const { walletAddress } = store.getState();
-
-      if (!walletAddress) {
-        await this.migrateFromAsyncStorage();
-      }
-
-      Navigation.startSingleScreenApp({
-        screen: {
-          title: walletAddress ? 'PinCode' : 'Home',
-          screen: walletAddress ? 'PinCode' : 'Home',
-        },
-      });
-    });
+  render() {
+    return null;
   }
 }
+
+const mapStateToProps = state => ({
+  pinCode: state.pinCode,
+  walletAddress: state.walletAddress,
+});
+
+export default connect(mapStateToProps)(AppLoading);

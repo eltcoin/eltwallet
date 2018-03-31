@@ -21,7 +21,7 @@ const storage = createSensitiveStorage({
   sharedPreferencesName: 'eltwallet',
 });
 
-const config = {
+const persistConfig = {
   key: 'eltwallet',
   version: 1,
   storage,
@@ -29,13 +29,13 @@ const config = {
 };
 
 const store = createStore(
-  persistReducer(config, rootReducer),
+  persistReducer(persistConfig, rootReducer),
   defaultState,
   process.env.NODE_ENV === 'production'
     ? undefined
     : applyMiddleware(createLogger()),
 );
 
-const getPersistor = cb => persistStore(store, null, cb);
+const persistor = persistStore(store);
 
-export { getPersistor, store };
+export { persistor, store };

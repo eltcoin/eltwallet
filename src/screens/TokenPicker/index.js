@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Header, Menu } from '../../components';
@@ -22,20 +22,12 @@ class TokenPicker extends Component {
         symbol: PropTypes.string.isRequired,
       }),
     ).isRequired,
-    navigator: PropTypes.shape({
-      pop: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      resetTo: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      goBack: PropTypes.func.isRequired,
+      navigate: PropTypes.func.isRequired,
     }).isRequired,
     onDeleteToken: PropTypes.func.isRequired,
     onTokenChange: PropTypes.func.isRequired,
-  };
-
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: '#181724',
-    statusBarColor: 'transparent',
-    statusBarTextColorScheme: 'light',
   };
 
   render() {
@@ -46,17 +38,14 @@ class TokenPicker extends Component {
         },
         onPress: () => {
           this.props.onTokenChange(token);
-          this.props.navigator.pop();
+          this.props.navigation.goBack();
         },
         swipeToDelete: !['ELT', 'ETH'].includes(token.symbol),
         title: token.name,
       })),
       {
         onPress: () => {
-          this.props.navigator.push({
-            screen: 'AddToken',
-            animationType: 'slide-horizontal',
-          });
+          this.props.navigation.navigate('AddToken');
         },
         title: 'Add new token',
       },
@@ -64,13 +53,13 @@ class TokenPicker extends Component {
 
     return (
       <GradientBackground>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <Header
-            onBackPress={() => this.props.navigator.pop()}
+            onBackPress={() => this.props.navigation.goBack()}
             title="Select coin"
           />
           <Menu options={menuOptions} />
-        </View>
+        </SafeAreaView>
       </GradientBackground>
     );
   }

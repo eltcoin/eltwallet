@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { NavigationActions } from 'react-navigation';
 import { GradientBackground, Header, SecondaryButton } from '../../components';
 import Form from './components/Form';
 import AnalyticsUtils from '../../utils/analytics';
@@ -22,20 +23,14 @@ const styles = StyleSheet.create({
 
 class WalletSend extends Component {
   static propTypes = {
-    navigator: PropTypes.shape({
-      pop: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      dispatch: PropTypes.func.isRequired,
+      goBack: PropTypes.func.isRequired,
+      navigate: PropTypes.func.isRequired,
     }).isRequired,
     selectedToken: PropTypes.shape({
       symbol: PropTypes.string.isRequired,
     }).isRequired,
-  };
-
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: '#181724',
-    statusBarTextColorScheme: 'light',
-    statusBarColor: 'transparent',
   };
 
   state = {
@@ -53,13 +48,17 @@ class WalletSend extends Component {
   };
 
   onCameraPress = () => {
-    this.props.navigator.push({
-      animationType: 'slide-horizontal',
-      passProps: {
-        onBarCodeRead: this.onBarCodeRead,
-      },
-      screen: 'Camera',
+    this.props.navigation.navigate('Camera', {
+      onBarCodeRead: this.onBarCodeRead,
     });
+  };
+
+  goBack = () => {
+    const backAction = NavigationActions.back({
+      key: null,
+    });
+
+    this.props.navigation.dispatch(backAction);
   };
 
   addressIsValid = () => /^0x([A-Fa-f0-9]{40})$/.test(this.state.address);
@@ -88,7 +87,7 @@ class WalletSend extends Component {
             `You've successfully sent ${this.state.amount} ${
               this.props.selectedToken.symbol
             } to ${this.state.address}`,
-            [{ text: 'OK', onPress: () => this.props.navigator.pop() }],
+            [{ text: 'OK', onPress: () => this.goBack() }],
             { cancelable: false },
           );
         },
@@ -111,8 +110,8 @@ class WalletSend extends Component {
   render() {
     return (
       <GradientBackground>
-        <View style={styles.container}>
-          <Header onBackPress={() => this.props.navigator.pop()} title="Send" />
+        <SafeAreaView style={styles.container}>
+          <Header onBackPress={() => this.goBack()} title="Send" />
           <Form
             address={this.state.address}
             amount={this.state.amount}
@@ -120,10 +119,7 @@ class WalletSend extends Component {
             onAmountChange={amount => this.setState({ amount })}
             onCameraPress={this.onCameraPress}
             onTokenChangeIconPress={() =>
-              this.props.navigator.push({
-                screen: 'TokenPicker',
-                animationType: 'slide-horizontal',
-              })
+              this.props.navigation.navigate('TokenPicker')
             }
             selectedToken={this.props.selectedToken}
           />
@@ -135,7 +131,7 @@ class WalletSend extends Component {
               text="Send"
             />
           </View>
-        </View>
+        </SafeAreaView>
       </GradientBackground>
     );
   }

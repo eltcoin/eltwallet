@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Alert,
   Image,
   Platform,
+  SafeAreaView,
   StyleSheet,
-  TouchableOpacity,
   TextInput,
+  TouchableOpacity,
   View,
-  Alert,
 } from 'react-native';
 import {
   GradientBackground,
@@ -62,18 +63,10 @@ const styles = StyleSheet.create({
 
 export default class CreateWallet extends Component {
   static propTypes = {
-    navigator: PropTypes.shape({
-      pop: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      resetTo: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      goBack: PropTypes.func.isRequired,
+      navigate: PropTypes.func.isRequired,
     }).isRequired,
-  };
-
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: '#181724',
-    statusBarColor: 'transparent',
-    statusBarTextColorScheme: 'light',
   };
 
   state = {
@@ -89,12 +82,8 @@ export default class CreateWallet extends Component {
   };
 
   onCameraPress = () => {
-    this.props.navigator.push({
-      animationType: 'slide-horizontal',
-      passProps: {
-        onBarCodeRead: this.onBarCodeRead,
-      },
-      screen: 'Camera',
+    this.props.navigation.navigate('Camera', {
+      onBarCodeRead: this.onBarCodeRead,
     });
   };
 
@@ -109,17 +98,15 @@ export default class CreateWallet extends Component {
       return;
     }
 
-    this.props.navigator.resetTo({
-      screen: 'WalletHome',
-    });
+    this.props.navigation.navigate('Wallet');
   };
 
   render() {
     return (
       <GradientBackground>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <Header
-            onBackPress={() => this.props.navigator.pop()}
+            onBackPress={() => this.props.navigation.goBack()}
             title="Recover wallet"
           />
           <View>
@@ -150,7 +137,7 @@ export default class CreateWallet extends Component {
               text="Import wallet"
             />
           </View>
-        </View>
+        </SafeAreaView>
       </GradientBackground>
     );
   }

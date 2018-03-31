@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -31,17 +31,10 @@ const styles = StyleSheet.create({
 
 class PinCode extends Component {
   static propTypes = {
-    navigator: PropTypes.shape({
-      resetTo: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
     }).isRequired,
     pinCode: PropTypes.string.isRequired,
-  };
-
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: '#181724',
-    statusBarColor: 'transparent',
-    statusBarTextColorScheme: 'light',
   };
 
   state = {
@@ -49,9 +42,7 @@ class PinCode extends Component {
   };
 
   onAuthSuccess = () => {
-    this.props.navigator.resetTo({
-      screen: 'WalletHome',
-    });
+    this.props.navigation.navigate('Wallet');
   };
 
   onBackPress = () => {
@@ -72,7 +63,9 @@ class PinCode extends Component {
       () => {
         if (this.state.pinCode.length === 4) {
           if (this.state.pinCode === this.props.pinCode) {
-            this.onAuthSuccess();
+            setTimeout(() => {
+              this.onAuthSuccess();
+            });
           } else {
             this.setState(
               {
@@ -94,7 +87,7 @@ class PinCode extends Component {
   render() {
     return (
       <GradientBackground>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <Header title="Enter Pin" />
           <PinIndicator length={this.state.pinCode.length} />
           <PinKeyboard
@@ -103,7 +96,7 @@ class PinCode extends Component {
             onAuthSuccess={this.onAuthSuccess}
             showBackButton={this.state.pinCode.length > 0}
           />
-        </View>
+        </SafeAreaView>
       </GradientBackground>
     );
   }

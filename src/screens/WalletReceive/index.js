@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Share, StyleSheet, View } from 'react-native';
+import { SafeAreaView, Share, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import QRCode from 'react-native-qrcode';
+import QRCode from 'react-native-qrcode-svg';
 import {
   GradientBackground,
   Header,
@@ -45,31 +45,23 @@ const styles = StyleSheet.create({
 
 class WalletReceive extends Component {
   static propTypes = {
-    navigator: PropTypes.shape({
-      pop: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      goBack: PropTypes.func.isRequired,
     }).isRequired,
     walletAddress: PropTypes.string.isRequired,
-  };
-
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: '#181724',
-    statusBarTextColorScheme: 'light',
-    statusBarColor: 'transparent',
   };
 
   render() {
     return (
       <GradientBackground>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <Header
-            onBackPress={() => this.props.navigator.pop()}
+            onBackPress={() => this.props.navigation.goBack()}
             title="Receive"
           />
           <View style={styles.qrcodeContainer}>
             <QRCode
-              bgColor="#090909"
+              color="#090909"
               value={this.props.walletAddress}
               size={150}
             />
@@ -89,7 +81,7 @@ class WalletReceive extends Component {
               text="Share"
             />
           </View>
-        </View>
+        </SafeAreaView>
       </GradientBackground>
     );
   }

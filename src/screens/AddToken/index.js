@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Header, SecondaryButton } from '../../components';
@@ -23,18 +23,11 @@ const styles = StyleSheet.create({
 class AddToken extends Component {
   static propTypes = {
     addToken: PropTypes.func.isRequired,
-    navigator: PropTypes.shape({
-      pop: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      goBack: PropTypes.func.isRequired,
+      navigate: PropTypes.func.isRequired,
     }).isRequired,
     setDefaultToken: PropTypes.func.isRequired,
-  };
-
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: '#181724',
-    statusBarColor: 'transparent',
-    statusBarTextColorScheme: 'light',
   };
 
   state = {
@@ -70,12 +63,8 @@ class AddToken extends Component {
   };
 
   onCameraPress = () => {
-    this.props.navigator.push({
-      animationType: 'slide-horizontal',
-      passProps: {
-        onBarCodeRead: this.onBarCodeRead,
-      },
-      screen: 'Camera',
+    this.props.navigation.navigate('Camera', {
+      onBarCodeRead: this.onBarCodeRead,
     });
   };
 
@@ -92,15 +81,15 @@ class AddToken extends Component {
 
     this.props.addToken(token);
     this.props.setDefaultToken(token);
-    this.props.navigator.pop();
+    this.props.navigation.goBack();
   };
 
   render() {
     return (
       <GradientBackground>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <Header
-            onBackPress={() => this.props.navigator.pop()}
+            onBackPress={() => this.props.navigation.goBack()}
             title="Add token"
           />
           <Form
@@ -128,7 +117,7 @@ class AddToken extends Component {
               text="Add"
             />
           </View>
-        </View>
+        </SafeAreaView>
       </GradientBackground>
     );
   }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Alert, Linking, StyleSheet, View } from 'react-native';
+import { Alert, Linking, SafeAreaView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Header, Menu } from '../../components';
 import { LOGOUT } from '../../config/actionTypes';
-import { getPersistor } from '../../config/store';
+import { persistor } from '../../config/store';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,40 +18,25 @@ const styles = StyleSheet.create({
 class Settings extends Component {
   static propTypes = {
     logout: PropTypes.func.isRequired,
-    navigator: PropTypes.shape({
-      pop: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      resetTo: PropTypes.func.isRequired,
+    navigation: PropTypes.shape({
+      goBack: PropTypes.func.isRequired,
+      navigate: PropTypes.func.isRequired,
     }).isRequired,
-  };
-
-  static navigatorStyle = {
-    navBarHidden: true,
-    screenBackgroundColor: '#181724',
-    statusBarColor: 'transparent',
-    statusBarTextColorScheme: 'light',
   };
 
   menuOptions = [
     {
       title: 'Change PIN',
       onPress: () => {
-        this.props.navigator.push({
-          screen: 'CreateWallet',
-          animationType: 'slide-horizontal',
-          passProps: {
-            editMode: true,
-          },
+        this.props.navigation.navigate('CreateWallet', {
+          editMode: true,
         });
       },
     },
     {
       title: 'View private key',
       onPress: () => {
-        this.props.navigator.push({
-          screen: 'PrivateKey',
-          animationType: 'slide-horizontal',
-        });
+        this.props.navigation.navigate('PrivateKey');
       },
     },
     {
@@ -77,9 +62,7 @@ class Settings extends Component {
               onPress: async () => {
                 await this.props.logout();
 
-                this.props.navigator.resetTo({
-                  screen: 'Home',
-                });
+                this.props.navigation.navigate('Welcome');
               },
             },
           ],
@@ -92,13 +75,13 @@ class Settings extends Component {
   render() {
     return (
       <GradientBackground>
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
           <Header
-            onBackPress={() => this.props.navigator.pop()}
+            onBackPress={() => this.props.navigation.goBack()}
             title="Settings"
           />
           <Menu options={this.menuOptions} />
-        </View>
+        </SafeAreaView>
       </GradientBackground>
     );
   }
@@ -107,7 +90,7 @@ class Settings extends Component {
 const mapDispatchToProps = dispatch => ({
   logout: async () => {
     dispatch({ type: LOGOUT });
-    await getPersistor(null).flush();
+    await persistor.flush();
   },
 });
 
