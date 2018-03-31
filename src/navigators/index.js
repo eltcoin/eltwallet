@@ -50,7 +50,7 @@ const WalletMainNavigator = StackNavigator(
     CreateWallet: {
       screen: CreateWalletScreen,
     },
-    Home: {
+    WalletHome: {
       screen: WalletHomeScreen,
     },
     PrivateKey: {
@@ -68,7 +68,7 @@ const WalletMainNavigator = StackNavigator(
       backgroundColor: '#181724',
     },
     headerMode: 'none',
-    initialRouteName: 'Home',
+    initialRouteName: 'WalletHome',
   },
 );
 
@@ -77,7 +77,7 @@ const SendNavigator = StackNavigator(
     Camera: {
       screen: CameraScreen,
     },
-    Main: {
+    SendMain: {
       screen: WalletSendScreen,
     },
     TokenPicker: {
@@ -89,7 +89,7 @@ const SendNavigator = StackNavigator(
       backgroundColor: '#181724',
     },
     headerMode: 'none',
-    initialRouteName: 'Main',
+    initialRouteName: 'SendMain',
   },
 );
 
@@ -98,7 +98,7 @@ const WalletNavigator = StackNavigator(
     Camera: {
       screen: CameraScreen,
     },
-    Main: {
+    WalletMain: {
       screen: WalletMainNavigator,
     },
     Receive: {
@@ -113,7 +113,7 @@ const WalletNavigator = StackNavigator(
       backgroundColor: '#181724',
     },
     headerMode: 'none',
-    initialRouteName: 'Main',
+    initialRouteName: 'WalletMain',
     mode: 'modal',
   },
 );

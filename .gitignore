@@ -36,6 +36,9 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
+# env variables
+.envrc
+
 # BUCK
 buck-out/
 \.buckd/
