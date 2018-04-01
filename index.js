@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppRegistry, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
+import Config from 'react-native-config';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Sentry } from 'react-native-sentry';
 import './shim';
@@ -9,7 +10,7 @@ import { persistor, store } from './src/config/store';
 import AnalyticsUtils from './src/utils/analytics';
 
 if (process.env.NODE_ENV === 'production') {
-  Sentry.config(process.env.SENTRY_API_KEY).install();
+  Sentry.config(Config.SENTRY_API_KEY).install();
 }
 
 const getCurrentRouteName = navigationState => {

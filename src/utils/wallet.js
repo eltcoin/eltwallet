@@ -1,3 +1,4 @@
+import Config from 'react-native-config';
 import EthereumJsWallet from 'ethereumjs-wallet';
 import Web3 from 'web3';
 import ProviderEngine from 'web3-provider-engine';
@@ -74,19 +75,19 @@ export default class WalletUtils {
     switch (store.getState().network) {
       case 'ropsten':
         return new Web3.providers.HttpProvider(
-          `https://ropsten.infura.io/${process.env.INFURA_API_KEY}`,
+          `https://ropsten.infura.io/${Config.INFURA_API_KEY}`,
         );
       case 'kovan':
         return new Web3.providers.HttpProvider(
-          `https://kovan.infura.io/${process.env.INFURA_API_KEY}`,
+          `https://kovan.infura.io/${Config.INFURA_API_KEY}`,
         );
       case 'rinkeby':
         return new Web3.providers.HttpProvider(
-          `https://rinkeby.infura.io/${process.env.INFURA_API_KEY}`,
+          `https://rinkeby.infura.io/${Config.INFURA_API_KEY}`,
         );
       default:
         return new Web3.providers.HttpProvider(
-          `https://mainnet.infura.io/${process.env.INFURA_API_KEY}`,
+          `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
         );
     }
   }
@@ -130,22 +131,22 @@ export default class WalletUtils {
   static loadTokensList() {
     const { availableTokens, network, walletAddress } = store.getState();
 
-    if (network !== 'mainnet') return;
+    if (network !== 'mainnet') return Promise.resolve();
 
     const availableTokensAddresses = availableTokens
       .filter(token => token.symbol !== 'ETH')
       .map(token => token.contractAddress);
 
-    fetch(
+    return fetch(
       `https://api.ethplorer.io/getAddressInfo/${walletAddress}?apiKey=freekey`,
     )
       .then(response => response.json())
       .then(data => {
         if (!data.tokens) {
-          return;
+          return Promise.resolve();
         }
 
-        data.tokens
+        return data.tokens
           .filter(
             token =>
               !availableTokensAddresses.includes(token.tokenInfo.address),
@@ -185,7 +186,7 @@ export default class WalletUtils {
 
     return fetch(
       `https://${this.getEtherscanApiSubdomain()}.etherscan.io/api?module=account&action=txlist&address=${walletAddress}&sort=desc&apikey=${
-        process.env.ETHERSCAN_API_KEY
+        Config.ETHERSCAN_API_KEY
       }`,
     )
       .then(response => response.json())
@@ -212,7 +213,7 @@ export default class WalletUtils {
     const { walletAddress } = store.getState();
 
     const sentTransactions = await fetch(
-      `https://api.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${contractAddress}&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef&topic1=0x000000000000000000000000${walletAddress.replace(
+      `https://${this.getEtherscanApiSubdomain()}.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${contractAddress}&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef&topic1=0x000000000000000000000000${walletAddress.replace(
         '0x',
         '',
       )}`,

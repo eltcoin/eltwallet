@@ -1,8 +1,9 @@
 import { AsyncStorage } from 'react-native';
+import Config from 'react-native-config';
 import Analytics from 'analytics-react-native';
 import { store } from '../config/store';
 
-const analytics = new Analytics(process.env.SEGMENT_API_KEY);
+const analytics = new Analytics(Config.SEGMENT_API_KEY);
 
 function guid() {
   function s4() {
