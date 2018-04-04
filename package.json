@@ -38,7 +38,7 @@
     "react-native-uuid": "1.4.9",
     "react-navigation": "1.5.9",
     "react-redux": "5.0.7",
-    "readable-stream": "2.3.5",
+    "readable-stream": "2.3.6",
     "redux": "3.7.2",
     "redux-logger": "3.0.6",
     "redux-persist": "5.9.1",
