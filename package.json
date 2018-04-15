@@ -17,7 +17,7 @@
     "ethereumjs-wallet": "0.6.0",
     "events": "2.0.0",
     "lodash": "4.17.5",
-    "moment": "2.22.0",
+    "moment": "2.22.1",
     "prop-types": "15.6.1",
     "react": "16.3.1",
     "react-native": "0.55.2",
