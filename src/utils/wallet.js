@@ -3,7 +3,7 @@ import EthereumJsWallet from 'ethereumjs-wallet';
 import Web3 from 'web3';
 import ProviderEngine from 'web3-provider-engine';
 import WalletSubprovider from 'web3-provider-engine/subproviders/wallet';
-import Web3Subprovider from 'web3-provider-engine/subproviders/web3';
+import ProviderSubprovider from 'web3-provider-engine/subproviders/provider';
 import { store } from '../config/store';
 import {
   ADD_TOKEN,
@@ -114,7 +114,7 @@ export default class WalletUtils {
     const engine = new ProviderEngine();
 
     engine.addProvider(new WalletSubprovider(wallet, {}));
-    engine.addProvider(new Web3Subprovider(this.getWeb3HTTPProvider()));
+    engine.addProvider(new ProviderSubprovider(this.getWeb3HTTPProvider()));
 
     engine.start();
 

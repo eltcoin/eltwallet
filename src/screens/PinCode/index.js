@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
