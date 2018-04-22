@@ -60,7 +60,7 @@
     "husky": "0.14.3",
     "lint-staged": "7.0.4",
     "prettier": "1.12.1",
-    "react-native-version": "2.4.2",
+    "react-native-version": "2.5.0",
     "rn-nodeify": "10.0.0"
   },
   "rnpm": {
