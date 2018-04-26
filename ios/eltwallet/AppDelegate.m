@@ -2,7 +2,6 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import <React/RNSentry.h>
 
 @implementation AppDelegate
 
@@ -15,8 +14,6 @@
                                                       moduleName:@"Eltwallet"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
-
-  [RNSentry installWithRootView:rootView];
 
   rootView.backgroundColor = [UIColor blackColor];
 
