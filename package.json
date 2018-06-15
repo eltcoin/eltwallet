@@ -44,7 +44,7 @@
     "redux-persist": "5.10.0",
     "redux-persist-sensitive-storage": "1.0.0",
     "stream-browserify": "2.0.1",
-    "vm-browserify": "1.0.1",
+    "vm-browserify": "1.1.0",
     "web3": "0.19.1",
     "web3-provider-engine": "14.0.6"
   },
