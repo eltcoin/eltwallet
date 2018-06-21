@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Alert, SafeAreaView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { GradientBackground, Header, Menu } from '../../components';
 import { RESET_TOKENS, SET_NETWORK } from '../../config/actionTypes';
 
@@ -41,7 +41,7 @@ class NetworkPicker extends Component {
             this.props.resetTokens();
             this.props.onNetworkChange(network);
 
-            const resetAction = NavigationActions.reset({
+            const resetAction = StackActions.reset({
               index: 0,
               actions: [
                 NavigationActions.navigate({ routeName: 'WalletHome' }),
