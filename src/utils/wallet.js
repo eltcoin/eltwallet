@@ -195,7 +195,7 @@ export default class WalletUtils {
           return [];
         }
 
-        return data.result.map(t => ({
+        return data.result.filter(t => t.value !== '0').map(t => ({
           from: t.from,
           timestamp: t.timeStamp,
           transactionHash: t.hash,
@@ -212,11 +212,10 @@ export default class WalletUtils {
   static async getERC20Transactions(contractAddress, decimals) {
     const { walletAddress } = store.getState();
 
-    const sentTransactions = await fetch(
-      `https://${this.getEtherscanApiSubdomain()}.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${contractAddress}&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef&topic1=0x000000000000000000000000${walletAddress.replace(
-        '0x',
-        '',
-      )}`,
+    return fetch(
+      `https://${this.getEtherscanApiSubdomain()}.etherscan.io/api?module=account&action=tokentx&contractaddress=${contractAddress}&address=${walletAddress}&sort=desc&apikey=${
+        Config.ETHERSCAN_API_KEY
+      }`,
     )
       .then(response => response.json())
       .then(data => {
@@ -225,36 +224,12 @@ export default class WalletUtils {
         }
 
         return data.result.map(t => ({
-          from: t.topics[1],
+          from: t.from,
           timestamp: t.timeStamp,
-          transactionHash: t.transactionHash,
-          value: (parseInt(t.data, 16) / Math.pow(10, decimals)).toFixed(2),
+          transactionHash: t.hash,
+          value: (parseInt(t.value, 10) / Math.pow(10, decimals)).toFixed(2),
         }));
       });
-
-    const receivedTransactions = await fetch(
-      `https://api.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${contractAddress}&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef&topic2=0x000000000000000000000000${walletAddress.replace(
-        '0x',
-        '',
-      )}`,
-    )
-      .then(response => response.json())
-      .then(data => {
-        if (data.message !== 'OK') {
-          return [];
-        }
-
-        return data.result.map(t => ({
-          from: t.topics[1],
-          timestamp: t.timeStamp,
-          transactionHash: t.transactionHash,
-          value: (parseInt(t.data, 16) / Math.pow(10, decimals)).toFixed(2),
-        }));
-      });
-
-    return [...sentTransactions, ...receivedTransactions].sort(
-      (a, b) => a.timestamp - b.timestamp,
-    );
   }
 
   /**
