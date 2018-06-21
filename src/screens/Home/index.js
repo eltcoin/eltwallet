@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flex: 1,
     paddingBottom: 20,
-    paddingHorizontal: 15,
   },
   logoContainer: {
     alignItems: 'center',

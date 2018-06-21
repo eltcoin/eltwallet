@@ -161,7 +161,7 @@ class CreateWallet extends Component {
             <Text style={styles.explanatoryText}>
               {this.state.isConfirmation
                 ? "Just to make sure it's correct"
-                : "This PIN will be used to access your ELTWALLET. If you forget it, you won't be able to access your ELT."}
+                : "This PIN will be used to access your ELTWALLET. If you forget it, you won't be able to access your ETH."}
             </Text>
           </View>
 
@@ -181,4 +181,7 @@ const mapDispatchToProps = dispatch => ({
   setPinCode: pinCode => dispatch({ type: SET_PIN_CODE, pinCode }),
 });
 
-export default connect(null, mapDispatchToProps)(CreateWallet);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(CreateWallet);

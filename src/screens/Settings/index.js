@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Linking, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GradientBackground, Header, Menu, Text } from '../../components';
@@ -67,12 +67,6 @@ class Settings extends Component {
       },
     },
     {
-      title: 'ELTCOIN Website',
-      onPress: () => {
-        Linking.openURL('https://www.eltcoin.tech');
-      },
-    },
-    {
       title: 'Logout',
       onPress: () => {
         Alert.alert(
@@ -130,4 +124,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Settings);

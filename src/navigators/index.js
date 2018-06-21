@@ -1,4 +1,4 @@
-import { StackNavigator, SwitchNavigator } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import {
   AddTokenScreen,
   AppLoadingScreen,
@@ -16,7 +16,7 @@ import {
   WalletSendScreen,
 } from '../screens';
 
-const WelcomeNavigator = StackNavigator(
+const WelcomeNavigator = createStackNavigator(
   {
     Camera: {
       screen: CameraScreen,
@@ -40,7 +40,7 @@ const WelcomeNavigator = StackNavigator(
   },
 );
 
-const WalletMainNavigator = StackNavigator(
+const WalletMainNavigator = createStackNavigator(
   {
     AddToken: {
       screen: AddTokenScreen,
@@ -76,7 +76,7 @@ const WalletMainNavigator = StackNavigator(
   },
 );
 
-const SendNavigator = StackNavigator(
+const SendNavigator = createStackNavigator(
   {
     Camera: {
       screen: CameraScreen,
@@ -97,7 +97,7 @@ const SendNavigator = StackNavigator(
   },
 );
 
-const WalletNavigator = StackNavigator(
+const WalletNavigator = createStackNavigator(
   {
     Camera: {
       screen: CameraScreen,
@@ -122,7 +122,7 @@ const WalletNavigator = StackNavigator(
   },
 );
 
-export default SwitchNavigator(
+export default createSwitchNavigator(
   {
     AppLoading: AppLoadingScreen,
     PinCode: PinCodeScreen,

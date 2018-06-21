@@ -95,4 +95,7 @@ const mapDispatchToProps = dispatch => ({
   resetTokens: () => dispatch({ type: RESET_TOKENS }),
 });
 
-export default connect(null, mapDispatchToProps)(NetworkPicker);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(NetworkPicker);

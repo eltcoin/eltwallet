@@ -113,7 +113,7 @@ export default class Form extends Component {
               onSubmitEditing={() => {
                 this.symbolInput.focus();
               }}
-              placeholder="ELTCOIN"
+              placeholder="My token"
               placeholderTextColor="#9d9d9d"
               ref={input => {
                 this.nameInput = input;

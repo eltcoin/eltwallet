@@ -230,4 +230,7 @@ const mapDispatchToProps = dispatch => ({
   dismissCallToAction: () => dispatch({ type: SET_CALL_TO_ACTION_DISMISSED }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletHome);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(WalletHome);

@@ -74,4 +74,7 @@ const mapDispatchToProps = dispatch => ({
   onTokenChange: token => dispatch({ type: SET_DEFAULT_TOKEN, token }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TokenPicker);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TokenPicker);
