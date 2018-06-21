@@ -37,11 +37,11 @@ def getPassword(String currentUser, String keyChain) {
     stdout.toString().trim()
 }
 
-def pass = getPassword("vfaramond","android_keystore")
+def pass = getPassword("vfaramond","eltwallet_keystore")
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
         applicationId "tech.eltcoin.eltwallet"
@@ -93,22 +93,22 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-config')
-    compile project(':react-native-svg')
-    compile project(':react-native-sensitive-info')
-    compile project(':react-native-randombytes')
-    compile project(':react-native-linear-gradient')
-    compile project(':react-native-fingerprint-scanner')
-    compile project(':react-native-dialogs')
-    compile (project(':react-native-camera')) {
+    implementation project(':react-native-config')
+    implementation project(':react-native-svg')
+    implementation project(':react-native-sensitive-info')
+    implementation project(':react-native-randombytes')
+    implementation project(':react-native-linear-gradient')
+    implementation project(':react-native-fingerprint-scanner')
+    implementation project(':react-native-dialogs')
+    implementation (project(':react-native-camera')) {
         exclude group: "com.google.android.gms"
     }
-    compile ("com.google.android.gms:play-services-vision:10.2.0") {
+    implementation ("com.google.android.gms:play-services-vision:10.2.0") {
         force = true;
     }
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:+"  // From node_modules
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.android.support:appcompat-v7:26.0.1"
+    implementation "com.facebook.react:react-native:+"  // From node_modules
 }
 
 // Run this once to be able to run the application with BUCK
