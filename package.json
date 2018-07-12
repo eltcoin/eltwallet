@@ -48,7 +48,7 @@
     "web3-provider-engine": "14.0.6"
   },
   "devDependencies": {
-    "babel-eslint": "8.2.5",
+    "babel-eslint": "8.2.6",
     "babel-preset-react-native": "4.0.0",
     "eslint": "5.0.1",
     "eslint-config-airbnb": "17.0.0",
