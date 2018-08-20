@@ -46,9 +46,9 @@ class PinCode extends Component {
   };
 
   onBackPress = () => {
-    this.setState({
-      pinCode: this.state.pinCode.slice(0, -1),
-    });
+    this.setState(prevState => ({
+      pinCode: prevState.pinCode.slice(0, -1),
+    }));
   };
 
   onKeyPress = n => {
@@ -57,9 +57,9 @@ class PinCode extends Component {
 
   updatePinCode = n => {
     this.setState(
-      {
-        pinCode: `${this.state.pinCode}${n}`,
-      },
+      prevState => ({
+        pinCode: `${prevState.pinCode}${n}`,
+      }),
       () => {
         if (this.state.pinCode.length === 4) {
           if (this.state.pinCode === this.props.pinCode) {

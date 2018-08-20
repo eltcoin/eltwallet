@@ -24,8 +24,7 @@ export default class Text extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     letterSpacing: PropTypes.number,
-    // eslint-disable-next-line react/forbid-prop-types
-    style: PropTypes.number.isRequired,
+    style: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
   };
 
   static defaultProps = {

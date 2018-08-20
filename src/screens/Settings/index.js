@@ -32,19 +32,6 @@ class Settings extends Component {
     network: PropTypes.string.isRequired,
   };
 
-  getNetworkName = () => {
-    switch (this.props.network) {
-      case 'ropsten':
-        return 'ETH Ropsten';
-      case 'kovan':
-        return 'ETH Kovan';
-      case 'rinkeby':
-        return 'ETH Rinkeby';
-      default:
-        return 'ETH Mainnet';
-    }
-  };
-
   menuOptions = [
     {
       title: 'Change PIN',
@@ -92,6 +79,19 @@ class Settings extends Component {
       },
     },
   ];
+
+  getNetworkName = () => {
+    switch (this.props.network) {
+      case 'ropsten':
+        return 'ETH Ropsten';
+      case 'kovan':
+        return 'ETH Kovan';
+      case 'rinkeby':
+        return 'ETH Rinkeby';
+      default:
+        return 'ETH Mainnet';
+    }
+  };
 
   render() {
     return (

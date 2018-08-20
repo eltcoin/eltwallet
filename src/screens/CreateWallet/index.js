@@ -60,13 +60,13 @@ class CreateWallet extends Component {
 
   onBackPress = () => {
     if (!this.state.isConfirmation) {
-      this.setState({
-        pinCode: this.state.pinCode.slice(0, -1),
-      });
+      this.setState(prevState => ({
+        pinCode: prevState.pinCode.slice(0, -1),
+      }));
     } else {
-      this.setState({
-        confirmationPinCode: this.state.confirmationPinCode.slice(0, -1),
-      });
+      this.setState(prevState => ({
+        confirmationPinCode: prevState.confirmationPinCode.slice(0, -1),
+      }));
     }
   };
 
@@ -80,9 +80,9 @@ class CreateWallet extends Component {
 
   updatePinCode = n => {
     this.setState(
-      {
-        pinCode: `${this.state.pinCode}${n}`,
-      },
+      prevState => ({
+        pinCode: `${prevState.pinCode}${n}`,
+      }),
       () => {
         if (this.state.pinCode.length === 4) {
           this.setState({
@@ -95,9 +95,9 @@ class CreateWallet extends Component {
 
   updateConfirmationPinCode = n => {
     this.setState(
-      {
-        confirmationPinCode: `${this.state.confirmationPinCode}${n}`,
-      },
+      prevState => ({
+        confirmationPinCode: `${prevState.confirmationPinCode}${n}`,
+      }),
       async () => {
         if (
           this.state.confirmationPinCode.length === 4 &&
@@ -108,7 +108,9 @@ class CreateWallet extends Component {
           if (this.props.navigation.getParam('recoverMode', false)) {
             this.props.navigation.navigate('RecoverWallet');
             return;
-          } else if (
+          }
+
+          if (
             !this.props.navigation.getParam('editMode', false) &&
             !this.props.navigation.getParam('migrationMode', false)
           ) {
