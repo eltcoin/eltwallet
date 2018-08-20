@@ -47,8 +47,8 @@ android {
         applicationId "tech.eltcoin.eltwallet"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "2.1.0"
+        versionCode 10
+        versionName "2.2.0"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
