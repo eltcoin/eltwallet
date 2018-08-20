@@ -118,7 +118,9 @@ export default class PinKeyboard extends Component {
           <Image source={arrowIcon} style={styles.arrowIcon} />
         </TouchableOpacity>
       );
-    } else if (this.state.isTouchIdSupported) {
+    }
+
+    if (this.state.isTouchIdSupported) {
       return (
         <TouchableOpacity
           style={[styles.keyboardKey, styles.arrowKey]}

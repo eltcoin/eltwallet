@@ -25,6 +25,25 @@ class NetworkPicker extends Component {
     resetTokens: PropTypes.func.isRequired,
   };
 
+  menuOptions = [
+    {
+      title: 'ETH Mainnet',
+      onPress: () => this.setNetwork('mainnet'),
+    },
+    {
+      title: 'ETH Ropsten',
+      onPress: () => this.setNetwork('ropsten'),
+    },
+    {
+      title: 'ETH Kovan',
+      onPress: () => this.setNetwork('kovan'),
+    },
+    {
+      title: 'ETH Rinkeby',
+      onPress: () => this.setNetwork('rinkeby'),
+    },
+  ];
+
   setNetwork = network => {
     Alert.alert(
       'Change network',
@@ -55,25 +74,6 @@ class NetworkPicker extends Component {
       { cancelable: false },
     );
   };
-
-  menuOptions = [
-    {
-      title: 'ETH Mainnet',
-      onPress: () => this.setNetwork('mainnet'),
-    },
-    {
-      title: 'ETH Ropsten',
-      onPress: () => this.setNetwork('ropsten'),
-    },
-    {
-      title: 'ETH Kovan',
-      onPress: () => this.setNetwork('kovan'),
-    },
-    {
-      title: 'ETH Rinkeby',
-      onPress: () => this.setNetwork('rinkeby'),
-    },
-  ];
 
   render() {
     return (

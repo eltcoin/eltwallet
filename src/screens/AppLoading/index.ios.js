@@ -32,7 +32,9 @@ class AppLoading extends Component {
 
     if (pinCode && walletAddress) {
       return this.props.navigation.navigate('PinCode');
-    } else if (walletAddress) {
+    }
+
+    if (walletAddress) {
       return this.props.navigation.navigate('Welcome', {
         migrationMode: true,
       });

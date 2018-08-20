@@ -81,7 +81,9 @@ export default class TransactionsList extends Component {
         data={transactions}
         keyExtractor={item => item.transactionHash}
         ListEmptyComponent={
-          <Text style={styles.emptyListText}>No transactions to show</Text>
+          <View>
+            <Text style={styles.emptyListText}>No transactions to show</Text>
+          </View>
         }
         onRefresh={onRefresh}
         refreshing={refreshing}

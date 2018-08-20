@@ -1,7 +1,6 @@
 import React from 'react';
 import { AppRegistry, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
-import Config from 'react-native-config';
 import { PersistGate } from 'redux-persist/integration/react';
 import './shim';
 import Navigator from './src/navigators';
