@@ -49,3 +49,7 @@ $ react-native run-android
 ```
 
 Have fun!
+
+## Want to contribute?
+
+We're discussing about the project roadmap [here](https://github.com/eltcoin/eltwallet/issues/217), feel free to share your ideas and your feedback. 😀
