@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Text } from '../../../../components';
 import sendIcon from './images/send.png';
 import qrcodeIcon from './images/qrcode.png';
+import signIcon from './images/sign.png';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#3C3749',
     paddingVertical: 15,
-    width: '50%',
+    width: '33%',
   },
   sendButton: {
     borderRightWidth: 1,
@@ -33,16 +34,20 @@ const styles = StyleSheet.create({
   receiveButton: {
     borderLeftWidth: 1,
   },
+  signButton: {
+    backgroundColor: 'rgba(0,0,0,0.33)',
+  },
 });
 
 export default class Footer extends Component {
   static propTypes = {
     onReceivePress: PropTypes.func.isRequired,
     onSendPress: PropTypes.func.isRequired,
+    onSignPress: PropTypes.func.isRequired,
   };
 
   render() {
-    const { onReceivePress, onSendPress } = this.props;
+    const { onReceivePress, onSendPress, onSignPress } = this.props;
 
     return (
       <View style={styles.container}>
@@ -53,6 +58,14 @@ export default class Footer extends Component {
           <Image style={styles.buttonIcon} source={sendIcon} />
           <Text style={styles.buttonText}>Send</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onSignPress}
+          style={[styles.button, styles.signButton]}
+        >
+          <Image style={styles.buttonIcon} source={signIcon} />
+          <Text style={styles.buttonText}>Authenticate</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity
           onPress={onReceivePress}
           style={[styles.button, styles.receiveButton]}

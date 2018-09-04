@@ -14,6 +14,7 @@ import {
   WalletHomeScreen,
   WalletReceiveScreen,
   WalletSendScreen,
+  WalletSignScreen,
 } from '../screens';
 
 const WelcomeNavigator = createStackNavigator(
@@ -97,6 +98,27 @@ const SendNavigator = createStackNavigator(
   },
 );
 
+const SignNavigator = createStackNavigator(
+  {
+    Camera: {
+      screen: CameraScreen,
+    },
+    SignMain: {
+      screen: WalletSignScreen,
+    },
+    TokenPicker: {
+      screen: TokenPickerScreen,
+    },
+  },
+  {
+    cardStyle: {
+      backgroundColor: '#181724',
+    },
+    headerMode: 'none',
+    initialRouteName: 'SignMain',
+  },
+);
+
 const WalletNavigator = createStackNavigator(
   {
     Camera: {
@@ -110,6 +132,9 @@ const WalletNavigator = createStackNavigator(
     },
     Send: {
       screen: SendNavigator,
+    },
+    Sign: {
+      screen: SignNavigator,
     },
   },
   {

@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class Form extends Component {
+class ApproveTransaction extends Component {
   static propTypes = {
     address: PropTypes.string.isRequired,
     amount: PropTypes.string.isRequired,
@@ -70,10 +70,6 @@ class Form extends Component {
       name: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
     }).isRequired,
-  };
-
-  componentWillUnmount = () => {
-    console.warn('will unmount');
   };
 
   render() {
@@ -158,4 +154,4 @@ const mapStateToProps = state => ({
   selectedToken: state.selectedToken,
 });
 
-export default connect(mapStateToProps)(Form);
+export default connect(mapStateToProps)(ApproveTransaction);

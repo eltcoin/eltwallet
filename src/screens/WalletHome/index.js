@@ -213,6 +213,7 @@ class WalletHome extends Component {
                 onTokenChange: this.onTokenChange,
               })
             }
+            onSignPress={() => this.props.navigation.navigate('Sign')}
           />
         </SafeAreaView>
       </GradientBackground>

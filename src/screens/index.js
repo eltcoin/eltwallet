@@ -12,6 +12,7 @@ import TokenPickerScreen from './TokenPicker';
 import WalletHomeScreen from './WalletHome';
 import WalletReceiveScreen from './WalletReceive';
 import WalletSendScreen from './WalletSend';
+import WalletSignScreen from './WalletSign';
 
 export {
   AddTokenScreen,
@@ -28,4 +29,5 @@ export {
   WalletHomeScreen,
   WalletReceiveScreen,
   WalletSendScreen,
+  WalletSignScreen,
 };

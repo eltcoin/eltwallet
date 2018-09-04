@@ -31,6 +31,10 @@ class NetworkPicker extends Component {
       onPress: () => this.setNetwork('mainnet'),
     },
     {
+      title: 'Ethereum Classic',
+      onPress: () => this.setNetwork('ethereumclassic'),
+    },
+    {
       title: 'ETH Ropsten',
       onPress: () => this.setNetwork('ropsten'),
     },

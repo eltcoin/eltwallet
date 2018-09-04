@@ -84,6 +84,8 @@ class Settings extends Component {
     switch (this.props.network) {
       case 'ropsten':
         return 'ETH Ropsten';
+      case 'ethereumclassic':
+        return 'ETC Classic';
       case 'kovan':
         return 'ETH Kovan';
       case 'rinkeby':

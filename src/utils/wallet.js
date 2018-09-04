@@ -5,13 +5,14 @@ import ProviderEngine from 'web3-provider-engine';
 import WalletSubprovider from 'web3-provider-engine/subproviders/wallet';
 import ProviderSubprovider from 'web3-provider-engine/subproviders/provider';
 import { store } from '../config/store';
+
 import {
   ADD_TOKEN,
   SET_WALLET_ADDRESS,
   SET_PRIVATE_KEY,
 } from '../config/actionTypes';
 import AnalyticsUtils from './analytics';
-import { erc20Abi } from './constants';
+import { erc20Abi, idexAbi } from './constants';
 
 export default class WalletUtils {
   /**
@@ -85,6 +86,8 @@ export default class WalletUtils {
         return new Web3.providers.HttpProvider(
           `https://rinkeby.infura.io/${Config.INFURA_API_KEY}`,
         );
+      case 'ethereumclassic':
+        return new Web3.providers.HttpProvider(`https://etc-geth.0xinfra.com`);
       default:
         return new Web3.providers.HttpProvider(
           `https://mainnet.infura.io/${Config.INFURA_API_KEY}`,
@@ -385,6 +388,43 @@ export default class WalletUtils {
             resolve(transaction);
           },
         );
+    });
+  }
+  static sendIDEXContractTransaction(txObj) {
+    const web3 = this.getWeb3Instance();
+
+    // AnalyticsUtils.trackEvent('Send Contract transaction', {
+    //   contractAddress,
+    //   value: amount,
+    // });
+
+    return new Promise((resolve, reject) => {
+      function callback(error, transaction) {
+        if (error) {
+          reject(error);
+        }
+        resolve(transaction);
+      }
+
+      web3.eth
+        .contract(idexAbi)
+        .at(txObj.to)
+        .deposit({ value: txObj.value }, (err, result) => {
+          console.warn(err);
+          console.warn(result);
+          callback(err, result);
+        });
+      // .at(txObj.to)
+      // .deposit((error, transaction) => {
+      //   if (error) {
+      //     reject(error);
+      //   }
+      //   resolve(transaction);
+      // })
+      // .send({
+      //   value: txObj.value,
+      //   gasPrice: txObj.gas,
+      // })
     });
   }
 }
